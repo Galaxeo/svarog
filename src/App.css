@@ -178,3 +178,6 @@ body,
 .timerButtons button:hover {
   background-color: #e0e0e0;
 }
+.timerClock {
+  font-size: 25vh;
+}
