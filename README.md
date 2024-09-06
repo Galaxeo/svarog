@@ -21,7 +21,11 @@ After finishing session, write down short notes about what learned, next couple 
 - [ ] Amount of questions slowly going away depending on date/accuracy of questions
 - [ ] Possible GPT implementation to create AI generated questions based on notes
 
-### DB
-- [ ] Store information regarding each session (overall studying time, notes, questions)
+### Front-end
+- [ ] Login functionality, send to backend
+- [ ] Tabs for any possible settings and stats
+
+### Backend/DB
+- [ ] Create DB tables: users, sessions, questions, etc.
 - [ ] Answer accuracy for each user related to each session
 - [ ] Login functionality (through google or github?)
