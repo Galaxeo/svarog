@@ -1,5 +1,8 @@
 // import React from "react";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
+import { Toaster } from "sonner";
+import { Button } from "./ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -13,9 +16,8 @@ function Timer({ duration = 25, breakTime = 5 }) {
    * Functions: start, pause, reset
    * Duration is in minutes, will convert to seconds for timer
    * After duration, set break time, then after break time, set duration again
-   * Main function will be to 
+   * Main function will be to
    */
-
 
   // duration in minutes
   const converted = duration * 60;
@@ -66,7 +68,7 @@ function Timer({ duration = 25, breakTime = 5 }) {
     <div>
       <h1>{isBreak ? "Break Time" : "Work Time"}</h1>
       <h1>Completed Sessions:{completedSessions.current}</h1>
-      <h1 className="timerClock">
+      <h1 className="timerClock" onClick={pausePlayTimer}>
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
       </h1>
       <div className="timerButtons">
@@ -80,6 +82,20 @@ function Timer({ duration = 25, breakTime = 5 }) {
             <FontAwesomeIcon icon={faPlay} />
           )}
         </button>
+        <Toaster position="top-right" />
+        <Button
+          variant="outline"
+          onClick={() =>
+            // later we move this to a function that makes a call to the server
+            toast("Completed session", {
+              description: new Date().toLocaleTimeString(),
+              duration: 5000,
+              action: { label: "Undo", onClick: () => console.log("Undo") },
+            })
+          }
+        >
+          Finish
+        </Button>
       </div>
     </div>
   );

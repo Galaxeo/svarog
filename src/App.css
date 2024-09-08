@@ -179,5 +179,12 @@ body,
   background-color: #e0e0e0;
 }
 .timerClock {
-  font-size: 25vh;
+  font-size: min(25vh, 25vw);
+  border: 2px solid transparent;
+}
+.timerClock:hover {
+  cursor: pointer;
+  border: 2px solid grey;
+  /* background-color: ; */
+  border-radius: 10px;
 }
