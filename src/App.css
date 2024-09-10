@@ -198,3 +198,20 @@ body,
   /* background-color: ; */
   border-radius: 10px;
 }
+
+.recallForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.recallForm input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  font-family: "RodinM", sans-serif;
+  border: 1px solid #333;
+  border-radius: 5px;
+}

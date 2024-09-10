@@ -16,7 +16,6 @@ function Timer({ duration = 25, breakTime = 5 }) {
    * Functions: start, pause, reset
    * Duration is in minutes, will convert to seconds for timer
    * After duration, set break time, then after break time, set duration again
-   * Main function will be to
    */
 
   // duration in minutes
@@ -62,12 +61,15 @@ function Timer({ duration = 25, breakTime = 5 }) {
     }
   }
   function finishSession() {
-    // later we move this to a function that makes a call to the server
     toast("Completed session", {
       description: new Date().toLocaleTimeString(),
-      duration: 5000000,
+      duration: 5000,
       action: { label: "Undo", onClick: () => console.log("Undo") },
     });
+    // call to server to save session
+  }
+  function cancelSession() {
+    // undo the save action for the session, will be used onClick of toast undo
   }
 
   const minutes = Math.floor(time / 60);
