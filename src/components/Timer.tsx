@@ -61,6 +61,14 @@ function Timer({ duration = 25, breakTime = 5 }) {
       startTimer();
     }
   }
+  function finishSession() {
+    // later we move this to a function that makes a call to the server
+    toast("Completed session", {
+      description: new Date().toLocaleTimeString(),
+      duration: 5000000,
+      action: { label: "Undo", onClick: () => console.log("Undo") },
+    });
+  }
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
@@ -84,14 +92,9 @@ function Timer({ duration = 25, breakTime = 5 }) {
         </button>
         <Toaster position="top-right" />
         <Button
-          variant="outline"
+          // variant="outline"
           onClick={() =>
-            // later we move this to a function that makes a call to the server
-            toast("Completed session", {
-              description: new Date().toLocaleTimeString(),
-              duration: 5000,
-              action: { label: "Undo", onClick: () => console.log("Undo") },
-            })
+            finishSession()
           }
         >
           Finish
