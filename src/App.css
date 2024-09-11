@@ -160,6 +160,25 @@ body,
   align-items: center;
   height: 100vh;
 }
+
+.blurBackground {
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.timerCont {
+  /* center on screen*/
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
 .timerButtons {
   display: flex;
   justify-content: center;
@@ -200,6 +219,24 @@ body,
 }
 
 .recallForm {
+  position: absolute;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 45rem;
+  width: 30rem;
+  display: flex;
+  border: 3px solid #333;
+  /*make background dark grey with 75% alpha*/
+  background: rgba(99, 93, 104, .5);
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+.recallForm form {
   display: flex;
   justify-content: center;
   align-items: center;

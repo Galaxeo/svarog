@@ -22,6 +22,7 @@ function RecallForm() {
                 // show a toast
                 toast.success("Topics submitted");
                 console.log(data);
+                console.log("1. How does Depth First Search (DFS) explore a matrix in terms of visiting neighboring cells and backtracking?\n2. Can you explain how Breadth First Search (BFS) traverses a matrix and uses a queue data structure for exploration?")
                 setResponseData(data);
             })
             .catch((error) => {
@@ -31,10 +32,10 @@ function RecallForm() {
     };
     return (
         <>
-        <div>
+        <div className="recallForm blurBackground">
             <h1 className="header">Recall Form</h1>
             <h1>Session @ {new Date().toLocaleTimeString()}</h1>
-            <form className="recallForm">
+            <form>
                 {/* this will later fill as input into chatgpt, but temp have spot to ask questions*/}
                 <label htmlFor="subject">What did you learn today?</label>
                 <input type="text" id="subject" name="subject" />

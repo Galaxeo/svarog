@@ -4,7 +4,6 @@ import "./App.css";
 // import { useState } from "react";
 import { ThemeProvider } from "./components/theme-provider";
 import Timer from "./components/Timer";
-import RecallForm from "./components/RecallForm";
 
 function App() {
   // const [date, setDate] = useState<Date[] | undefined>([]);
@@ -15,7 +14,6 @@ function App() {
         <p>不能再犹豫了...</p>
         {/* <Calendar className="" mode="multiple" selected={date} onSelect={setDate} /> */}
         <Timer duration={50} breakTime={10}></Timer>
-        <RecallForm />
       </ThemeProvider>
     </>
   );

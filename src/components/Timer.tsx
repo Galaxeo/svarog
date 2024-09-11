@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Toaster } from "sonner";
 import { Button } from "./ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import RecallForm from "./RecallForm";
 import {
   faPlay,
   faPause,
@@ -75,7 +76,7 @@ function Timer({ duration = 25, breakTime = 5 }) {
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
   return (
-    <div>
+    <div className="timerCont">
       <h1>{isBreak ? "Break Time" : "Work Time"}</h1>
       <h1>Completed Sessions:{completedSessions.current}</h1>
       <h1 className="timerClock" onClick={pausePlayTimer}>
@@ -102,6 +103,7 @@ function Timer({ duration = 25, breakTime = 5 }) {
           Finish
         </Button>
       </div>
+      <RecallForm />
     </div>
   );
 }
