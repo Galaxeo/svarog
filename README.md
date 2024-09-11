@@ -19,7 +19,7 @@ After finishing session, write down short notes about what learned, next couple 
 - [ ] Input after each session is completed
 - [ ] Questions asked the next day before starting each study session
 - [ ] Amount of questions slowly going away depending on date/accuracy of questions
-- [ ] Possible GPT implementation to create AI generated questions based on notes
+- [x] Possible GPT implementation to create AI generated questions based on notes
 
 ### Front-end
 - [ ] Login functionality, send to backend
