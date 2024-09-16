@@ -65,7 +65,7 @@ function Timer({ duration = 25, breakTime = 5 }) {
   function finishSession() {
     toast("Completed session", {
       description: new Date().toLocaleTimeString(),
-      duration: 5000,
+      duration: 50000000,
       action: { label: "Undo", onClick: () => console.log("Undo") },
     });
     setIsFinished(true);
@@ -79,7 +79,8 @@ function Timer({ duration = 25, breakTime = 5 }) {
   const seconds = time % 60;
   return (
     <div className="timerCont">
-      <h1>{isBreak ? "Break Time" : "Work Time"}</h1>
+      <Toaster position="top-right" />
+      <h1 className="header">{isBreak ? "Break Time" : "Work Time"}</h1>
       <h1>Completed Sessions:{completedSessions.current}</h1>
       <h1 className="timerClock" onClick={pausePlayTimer}>
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}

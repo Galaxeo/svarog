@@ -5,18 +5,20 @@ import "./App.css";
 import { ThemeProvider } from "./components/theme-provider";
 import Timer from "./components/Timer";
 import { Toaster } from "./components/ui/sonner";
+// import images from images folder
+import beachStones from "../public/images/beach stones.jpg"; 
+import beachWalkway from "../public/images/beach walkway.jpg";
+import cityDaytime from "../public/images/city daytime.jpg";
+import cityEvening from "../public/images/city evening.jpg";
 
 function App() {
-  // const [date, setDate] = useState<Date[] | undefined>([]);
   return (
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <h1 className="header">Clare</h1>
-        <p>不能再犹豫了...</p>
         {/* <Calendar className="" mode="multiple" selected={date} onSelect={setDate} /> */}
-        <Toaster position="top-right" />
         <Timer duration={50} breakTime={10}></Timer>
       </ThemeProvider>
+      <img className="studyBg" src={cityEvening} alt="beach stones" />
     </>
   );
 }
