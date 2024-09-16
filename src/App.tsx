@@ -4,6 +4,7 @@ import "./App.css";
 // import { useState } from "react";
 import { ThemeProvider } from "./components/theme-provider";
 import Timer from "./components/Timer";
+import { Toaster } from "./components/ui/sonner";
 
 function App() {
   // const [date, setDate] = useState<Date[] | undefined>([]);
@@ -13,6 +14,7 @@ function App() {
         <h1 className="header">Clare</h1>
         <p>不能再犹豫了...</p>
         {/* <Calendar className="" mode="multiple" selected={date} onSelect={setDate} /> */}
+        <Toaster position="top-right" />
         <Timer duration={50} breakTime={10}></Timer>
       </ThemeProvider>
     </>

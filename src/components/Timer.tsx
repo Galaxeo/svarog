@@ -24,6 +24,7 @@ function Timer({ duration = 25, breakTime = 5 }) {
   const [time, setTime] = useState(converted);
   const [isActive, setIsActive] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const completedSessions = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   function startTimer() {
@@ -67,6 +68,7 @@ function Timer({ duration = 25, breakTime = 5 }) {
       duration: 5000,
       action: { label: "Undo", onClick: () => console.log("Undo") },
     });
+    setIsFinished(true);
     // call to server to save session
   }
   function cancelSession() {
@@ -93,7 +95,6 @@ function Timer({ duration = 25, breakTime = 5 }) {
             <FontAwesomeIcon icon={faPlay} />
           )}
         </button>
-        <Toaster position="top-right" />
         <Button
           // variant="outline"
           onClick={() =>
@@ -103,7 +104,7 @@ function Timer({ duration = 25, breakTime = 5 }) {
           Finish
         </Button>
       </div>
-      <RecallForm />
+      {isFinished && <RecallForm setIsFinished={setIsFinished}/>}
     </div>
   );
 }
