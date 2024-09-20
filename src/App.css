@@ -162,9 +162,9 @@ body,
 }
 
 .blurBackground {
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
   background-color: rgba(255, 255, 255, 0.5);
-  -webkit-backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .timerCont {
@@ -254,10 +254,17 @@ body,
   border: 1px solid #333;
   border-radius: 5px;
 }
-/* .group.toaster .group-\[\.toaster\]\:bg-background {
-  background-color: var(--bg-background);
-} */
+/*overriding sonner toast css*/
+:where([data-sonner-toast][data-styled="true"]) {
+  /* background-color: var(--bg-background) !important; */
+  backdrop-filter: blur(5px) !important;
+  border: 1px solid #333 !important;
+  padding: 1rem !important;
+  background-color: rgba(255, 255, 255, 0.0) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+}
 .studyBg {
+  object-fit: cover;
   height: 100vh;
   width: 100vw;
   position: fixed;
