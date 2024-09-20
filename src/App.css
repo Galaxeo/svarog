@@ -272,3 +272,30 @@ body,
   left: 0;
   z-index: -1;
 }
+
+.loginForm {
+  position: absolute;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 45rem;
+  width: 30rem;
+  display: flex;
+  border: 3px solid #333;
+  background: rgba(99, 93, 104, .5);
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+}
+.loginForm Input {
+  width: 50%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  font-family: "RodinM", sans-serif;
+  border: 1px solid #333;
+  border-radius: 5px;
+}

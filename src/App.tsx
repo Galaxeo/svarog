@@ -4,12 +4,12 @@ import "./App.css";
 // import { useState } from "react";
 import { ThemeProvider } from "./components/theme-provider";
 import Timer from "./components/Timer";
-import { Toaster } from "./components/ui/sonner";
+import LoginForm from "./components/LoginForm";
 // import images from images folder
-import beachStones from "../public/images/beach stones.jpg"; 
-import beachWalkway from "../public/images/beach walkway.jpg";
-import cityDaytime from "../public/images/city daytime.jpg";
-import cityEvening from "../public/images/city evening.jpg";
+import beachStones from "/images/beach stones.jpg"; 
+import beachWalkway from "/images/beach walkway.jpg";
+import cityDaytime from "/images/city daytime.jpg";
+import cityEvening from "/images/city evening.jpg";
 
 function App() {
   return (
@@ -17,6 +17,7 @@ function App() {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         {/* <Calendar className="" mode="multiple" selected={date} onSelect={setDate} /> */}
         <Timer duration={50} breakTime={10}></Timer>
+        <LoginForm />
       </ThemeProvider>
       <img className="studyBg" src={cityEvening} alt="beach stones" />
     </>
