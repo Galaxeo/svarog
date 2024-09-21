@@ -193,6 +193,7 @@ body,
   background: rgba(99, 93, 104, .5);
   border-radius: 5px;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   gap: 15px;
 }

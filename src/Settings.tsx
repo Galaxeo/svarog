@@ -1,14 +1,15 @@
 import useState from 'react';
 import LoginForm from './components/LoginForm';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from './components/ui/button';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 function Settings() {
   return (
     <>
       <div className='settings blurBackground'>
         <h1 className='header'>Settings</h1>
-        <input type="Email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <Button>Login</Button>
+        <LoginForm />
+        <FontAwesomeIcon className='closeSettings' icon={faX} />
       </div>
     </>
   )
