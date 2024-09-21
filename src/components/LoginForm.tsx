@@ -17,8 +17,8 @@ function LoginForm() {
     
     return (
         <div className="loginForm blurBackground">
-            <Input type="Email" placeholder="Email"></Input>
-            <Input type="password" placeholder="Password"></Input>
+            <input type="Email" placeholder="Email" />
+            <input type="password" placeholder="Password" />
             <Button>Login</Button>
         </div>
     )

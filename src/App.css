@@ -150,6 +150,8 @@ body,
   text-align: center;
 }
 
+/* Base CSS */
+
 .header {
   font-family: "RodinM", sans-serif;
   font-size: 2rem;
@@ -166,6 +168,46 @@ body,
   background-color: rgba(255, 255, 255, 0.5);
   -webkit-backdrop-filter: blur(5px);
 }
+
+.studyBg {
+  object-fit: cover;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Settings CSS */
+
+.settings {
+  position: absolute;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background: rgba(99, 93, 104, .5);
+  border-radius: 5px;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.settings Input {
+  width: 15rem;
+  height: 3rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  font-family: "RodinM", sans-serif;
+  border: 1px solid #333;
+  border-radius: 5px;
+}
+/* Timer CSS */
 
 .timerCont {
   /* center on screen*/
@@ -221,6 +263,8 @@ body,
   /* border-radius: 10px; */
 }
 
+/* Recall Form */
+
 .recallForm {
   position: absolute;
   z-index: 200;
@@ -254,6 +298,7 @@ body,
   border: 1px solid #333;
   border-radius: 5px;
 }
+
 /*overriding sonner toast css*/
 :where([data-sonner-toast][data-styled="true"]) {
   /* background-color: var(--bg-background) !important; */
@@ -263,16 +308,8 @@ body,
   background-color: rgba(255, 255, 255, 0.0) !important;
   -webkit-backdrop-filter: blur(5px) !important;
 }
-.studyBg {
-  object-fit: cover;
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
 
+/* Login Form */
 .loginForm {
   position: absolute;
   z-index: 200;
