@@ -208,6 +208,11 @@ body,
   border: 1px solid #333;
   border-radius: 5px;
 }
+
+.closeSettings:hover {
+  cursor: pointer;
+}
+
 /* Timer CSS */
 
 .timerCont {

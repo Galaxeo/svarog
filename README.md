@@ -8,14 +8,21 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 
 ## Todo
 
+### Schedule:
+1. [x] Basic login functionality (login through settings)
+2. [ ] Rest of settings page (login/logout, timer duration)
+3. [ ] Adv. login functionality (loading settings)
+...
+
 ### Timer
 - [x] Basic functionality (start, stop, resume)
-- [x] Break implementation (immediately prep short break timer after each session as well as long timer after every X sessions)
-- [ ] Different durations for timers
+- [x] Break implementation (immediately prep short break timer after each phase as well as long timer after every X sessions)
+- [ ] Additional functionality (skip to next phase, restart current phase, ...)
+- [ ] Different durations for timers (future update: help people increase duration of studying by automatically increasing session/total time)
 - [ ] Styling
 
 ### Active recall 
-After finishing session, write down short notes about what learned, next couple of sessions can ask questions depending on how long it has been
+After finishing study session, write down short notes about what learned, next couple of sessions can ask questions depending on how long it has been
 - [ ] Input after each session is completed
 - [ ] Questions asked the next day before starting each study session
 - [ ] Amount of questions slowly going away depending on date/accuracy of questions
@@ -23,9 +30,10 @@ After finishing session, write down short notes about what learned, next couple 
 
 ### Front-end
 - [ ] Login functionality, send to backend
-- [ ] Tabs for any possible settings and stats
+- [ ] Settings tab (login/logout, timer duration, )
+- [ ] Statistics (calendar based, tracking time spent per day, how many sessions, questions/answers, topics learned)
 
 ### Backend/DB
-- [ ] Create DB tables: users, sessions, questions, etc.
+- [x] Create DB tables: users, sessions, questions, etc.
 - [ ] Answer accuracy for each user related to each session
-- [ ] Login functionality (through google or github?)
+- [ ] Login functionality

@@ -1,7 +1,7 @@
 import "./App.css";
 // import { Input } from "@/components/ui/input";
 // import { Calendar } from "@/components/ui/calendar";
-import { useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { Link, Route, Switch } from "wouter";
 import { ThemeProvider } from "./components/theme-provider";
 import { Session, createClient } from "@supabase/supabase-js";
@@ -18,6 +18,8 @@ const supabase = createClient(key.supabaseUrl, key.supabaseKey);
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
+  const [settings, setSettings] = useState(true);
+  // Need to pass supabase to the loginform component in settings
   
   useEffect(() => {
     supabase.auth.getSession().then(({data: {session}}) => {
@@ -37,10 +39,11 @@ function App() {
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         {/* <Calendar className="" mode="multiple" selected={date} onSelect={setDate} /> */}
-        { session ? (
+        { true ? (
           <>
         <Timer duration={50} breakTime={10}></Timer>
-        <Settings></Settings>
+        {settings ? (
+        <Settings setSession={setSession} session={session} setSettings={setSettings}></Settings>) : (<></>) }
           </>
         ): (
           <h1>NO SESSION</h1>
