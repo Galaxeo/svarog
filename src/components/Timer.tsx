@@ -1,5 +1,5 @@
 // import React from "react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "sonner";
 import { Button } from "./ui/button";
@@ -26,13 +26,15 @@ function Timer({ duration = 25, breakTime = 5, setSettings} : {duration: number,
    */
 
   // duration in minutes
-  const converted = duration * 60;
-  const [time, setTime] = useState(converted);
+  const [time, setTime] = useState(duration * 60);
   const [isActive, setIsActive] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const completedSessions = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  useEffect(() => {
+    setTime(duration * 60);
+  }, [duration]);
   function startTimer() {
     if (!isActive) {
       setIsActive(true);
@@ -57,7 +59,7 @@ function Timer({ duration = 25, breakTime = 5, setSettings} : {duration: number,
   }
   function resetTimer() {
     clearInterval(intervalRef.current!);
-    setTime(converted);
+    setTime(duration * 60);
     setIsActive(false);
   }
   function pausePlayTimer() {

@@ -5,7 +5,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { ThemeProvider } from "./components/theme-provider";
 import { Session, createClient } from "@supabase/supabase-js";
 import Timer from "./components/Timer";
-import Settings from "./Settings";
+import Settings from "./components/Settings";
 import key from "./key.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import images from images folder
@@ -20,7 +20,17 @@ const supabase = createClient(key.supabaseUrl, key.supabaseKey);
 function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [settings, setSettings] = useState(false);
-  // Need to pass supabase to the loginform component in settings
+  const [duration, setDuration] = useState(25);
+  const [breakTime, setBreakTime] = useState(5);
+  const settingsProps = {
+    session,
+    setSession,
+    setSettings,
+    duration,
+    setDuration,
+    breakTime,
+    setBreakTime
+  }
   
   useEffect(() => {
     supabase.auth.getSession().then(({data: {session}}) => {
@@ -40,9 +50,9 @@ function App() {
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         {/* <Calendar className="" mode="multiple" selected={date} onSelect={setDate} /> */}
-        <Timer duration={50} breakTime={10} setSettings={setSettings}></Timer>
+        <Timer duration={duration} breakTime={breakTime} setSettings={setSettings}></Timer>
         {settings ? (
-        <Settings setSession={setSession} session={session} setSettings={setSettings}></Settings>
+        <Settings {...settingsProps}></Settings>
         ) : 
         (<></>) 
         }

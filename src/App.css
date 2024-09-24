@@ -216,6 +216,14 @@ body,
   background-color: hsl(0, 42%, 40%);
 }
 
+.loginCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .closeSettings:hover {
   cursor: pointer;
 }
