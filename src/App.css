@@ -209,7 +209,29 @@ body,
   border-radius: 5px;
 }
 
+.settings .signOutButton{
+  background-color: hsl(0, 42%, 45%);
+}
+.settings .signOutButton:hover{
+  background-color: hsl(0, 42%, 40%);
+}
+
 .closeSettings:hover {
+  cursor: pointer;
+}
+
+/* top right of screen */
+.openSettings {
+  z-index: 100;
+  position: absolute;
+  left: 90%;
+  top: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.openSettings:hover {
   cursor: pointer;
 }
 
@@ -250,9 +272,6 @@ body,
   background-color: #f0f0f0;
   color: #333;
   border-radius: 5px;
-}
-.timerButtons button:hover {
-  background-color: #e0e0e0;
 }
 .timerButtons section {
   width: 0px;

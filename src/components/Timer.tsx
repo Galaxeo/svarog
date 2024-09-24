@@ -9,9 +9,15 @@ import {
   faPlay,
   faPause,
   faRotateForward,
+  faEllipsis,
+  faStop,
+  faCheck,
+  faCog,
+  faEdit,
+  faPenSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Timer({ duration = 25, breakTime = 5 }) {
+function Timer({ duration = 25, breakTime = 5, setSettings} : {duration: number, breakTime: number, setSettings: (settings: boolean) => void}) {
   /**
    * Pomodoro Timer Details
    * Functions: start, pause, reset
@@ -86,23 +92,26 @@ function Timer({ duration = 25, breakTime = 5 }) {
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
       </h1>
       <div className="timerButtons">
-        <button onClick={resetTimer}>
+        <Button onClick={resetTimer}>
           <FontAwesomeIcon icon={faRotateForward} />
-        </button>
-        <button onClick={pausePlayTimer}>
+        </Button>
+        <Button onClick={pausePlayTimer}>
           {isActive ? (
             <FontAwesomeIcon icon={faPause} />
           ) : (
             <FontAwesomeIcon icon={faPlay} />
           )}
-        </button>
+        </Button>
         <Button
           // variant="outline"
           onClick={() =>
             finishSession()
           }
         >
-          Finish
+          <FontAwesomeIcon icon={faCheck} />
+        </Button>
+        <Button onClick={() => setSettings(true)}>
+          <FontAwesomeIcon icon={faCog} />
         </Button>
       </div>
       {isFinished && <RecallForm setIsFinished={setIsFinished}/>}

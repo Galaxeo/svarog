@@ -37,14 +37,14 @@ function Settings({setSession , session, setSettings} : {setSession: (session: a
         {session ? (
           <>
             <h2>Logged in as {session.user.email}</h2>
-            <Button onClick={() => {supabase.auth.signOut()}}>Sign Out</Button>
+            <Button className='signOutButton' variant="destructive" onClick={() => {supabase.auth.signOut()}}>Sign Out</Button>
           </>
         ) : (
           <LoginForm setSession={setSession} />
         )}
-        <button onClick={() => {setSettings(false)}}>
-          <FontAwesomeIcon className='closeSettings' icon={faX}/>
-        </button>
+        <Button className="closeSettings" onClick={() => {setSettings(false)}}>
+          <FontAwesomeIcon icon={faX} onClick={() => {setSettings(false)}}/>
+        </Button>
       </div>
     </>
   )
