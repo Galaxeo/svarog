@@ -21,22 +21,25 @@ function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [settings, setSettings] = useState(false);
   const [duration, setDuration] = useState(25);
-  const [breakTime, setBreakTime] = useState(5);
+  const [shortBreak, setShort] = useState(5);
+  const [longBreak, setLong] = useState(20);
   const settingsProps = {
     session,
     setSession,
     setSettings,
     duration,
     setDuration,
-    breakTime,
-    setBreakTime
+    shortBreak,
+    setShort,
+    longBreak,
+    setLong,
   }
-  
+
   useEffect(() => {
-    supabase.auth.getSession().then(({data: {session}}) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     })
-    
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -44,17 +47,17 @@ function App() {
     })
     return () => subscription.unsubscribe();
   }, [])
-    
+
   const images = { beachStones, beachWalkway, cityDaytime, cityEvening }
   return (
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         {/* <Calendar className="" mode="multiple" selected={date} onSelect={setDate} /> */}
-        <Timer duration={duration} breakTime={breakTime} setSettings={setSettings}></Timer>
+        <Timer duration={duration} short={shortBreak} long={longBreak} setSettings={setSettings}></Timer>
         {settings ? (
-        <Settings {...settingsProps}></Settings>
-        ) : 
-        (<></>) 
+          <Settings {...settingsProps}></Settings>
+        ) :
+          (<></>)
         }
       </ThemeProvider>
       <img className="studyBg" src={cityEvening} alt="beach stones" />

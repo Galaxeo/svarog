@@ -17,7 +17,7 @@ import {
   faPenSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Timer({ duration = 25, breakTime = 5, setSettings} : {duration: number, breakTime: number, setSettings: (settings: boolean) => void}) {
+function Timer({ duration = 25, short = 5, long = 30, setSettings }: { duration: number, short: number, long: number, setSettings: (settings: boolean) => void }) {
   /**
    * Pomodoro Timer Details
    * Functions: start, pause, reset
@@ -27,8 +27,7 @@ function Timer({ duration = 25, breakTime = 5, setSettings} : {duration: number,
 
   // duration in minutes
   const [time, setTime] = useState(duration * 60);
-  const [isActive, setIsActive] = useState(false);
-  const [isBreak, setIsBreak] = useState(false);
+  const [isActive, setIsActive] = useState(false); const [isBreak, setIsBreak] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const completedSessions = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -45,11 +44,12 @@ function Timer({ duration = 25, breakTime = 5, setSettings} : {duration: number,
             setIsActive(false);
             console.log("Time's up!");
             // set break time
-            setTime(breakTime * 60);
-            setIsBreak(!isBreak);
+            setTime(short * 60);
             if (!isBreak) {
               completedSessions.current += 1;
             }
+            // need to decide on how to implement long breaks.
+            setIsBreak(!isBreak);
             return duration;
           }
           return prevTime - 1;
@@ -116,7 +116,7 @@ function Timer({ duration = 25, breakTime = 5, setSettings} : {duration: number,
           <FontAwesomeIcon icon={faCog} />
         </Button>
       </div>
-      {isFinished && <RecallForm setIsFinished={setIsFinished}/>}
+      {isFinished && <RecallForm setIsFinished={setIsFinished} />}
     </div>
   );
 }
