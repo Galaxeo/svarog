@@ -10,8 +10,9 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 
 ### Schedule:
 1. [x] Basic login functionality (login through settings)
-2. [ ] Rest of settings page (login/logout, timer duration)
-3. [ ] Adv. login functionality (loading settings)
+2. [x] Rest of settings page (login/logout, timer duration)
+3. [ ] Adv. timer functionality (skip to next phase, restart current phase, stop, save to backend when completed phase)
+4. [ ] Database functionality (loading and saving settings)
 ...
 
 ### Timer

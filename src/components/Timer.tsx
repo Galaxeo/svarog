@@ -84,7 +84,7 @@ function Timer({ duration = 25, short = 5, long = 30, shortToLong = 4, setSettin
   function finishSession() {
     toast("Completed session", {
       description: new Date().toLocaleTimeString(),
-      duration: 50000000,
+      duration: 3000,
       action: { label: "Undo", onClick: () => console.log("Undo") },
     });
     setIsFinished(true);
@@ -97,38 +97,39 @@ function Timer({ duration = 25, short = 5, long = 30, shortToLong = 4, setSettin
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
   return (
-    <div className="timerCont">
+    <>
       <Toaster position="top-right" />
-      <h1 className="header">{isBreak ? "Break Time" : "Work Time"}</h1>
-      <h1>Completed Sessions:{completedSessions.current}</h1>
-      <h1 className="timerClock" onClick={pausePlayTimer}>
-        {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-      </h1>
-      <div className="timerButtons">
-        <Button onClick={resetTimer}>
-          <FontAwesomeIcon icon={faRotateForward} />
-        </Button>
-        <Button onClick={pausePlayTimer}>
-          {isActive ? (
-            <FontAwesomeIcon icon={faPause} />
-          ) : (
-            <FontAwesomeIcon icon={faPlay} />
-          )}
-        </Button>
-        <Button
-          // variant="outline"
-          onClick={() =>
-            finishSession()
-          }
-        >
-          <FontAwesomeIcon icon={faCheck} />
-        </Button>
-        <Button onClick={() => setSettings(true)}>
-          <FontAwesomeIcon icon={faCog} />
-        </Button>
-      </div>
-      {isFinished && <RecallForm setIsFinished={setIsFinished} />}
-    </div>
+      <div className="timerCont">
+        <h1 className="header">{isBreak ? "Break Time" : "Work Time"}</h1>
+        <h1>Completed Sessions:{completedSessions.current}</h1>
+        <h1 className="timerClock" onClick={pausePlayTimer}>
+          {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+        </h1>
+        <div className="timerButtons">
+          <Button onClick={resetTimer}>
+            <FontAwesomeIcon icon={faRotateForward} />
+          </Button>
+          <Button onClick={pausePlayTimer}>
+            {isActive ? (
+              <FontAwesomeIcon icon={faPause} />
+            ) : (
+              <FontAwesomeIcon icon={faPlay} />
+            )}
+          </Button>
+          <Button
+            // variant="outline"
+            onClick={() =>
+              finishSession()
+            }
+          >
+            <FontAwesomeIcon icon={faCheck} />
+          </Button>
+          <Button onClick={() => setSettings(true)}>
+            <FontAwesomeIcon icon={faCog} />
+          </Button>
+        </div>
+        {isFinished && <RecallForm setIsFinished={setIsFinished} />}
+      </div></>
   );
 }
 export default Timer;

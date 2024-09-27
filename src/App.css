@@ -198,9 +198,9 @@ body,
   gap: 15px;
 }
 
-.settings Input {
-  width: 15rem;
-  height: 3rem;
+.settings input {
+  width: 4rem;
+  height: 2rem;
   padding: 0.5rem;
   font-size: 1rem;
   color: #333;
@@ -214,6 +214,14 @@ body,
 }
 .settings .signOutButton:hover{
   background-color: hsl(0, 42%, 40%);
+}
+
+.sliderCont {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 .loginCont {

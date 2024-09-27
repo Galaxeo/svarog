@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from './ui/button';
-import { Input } from './ui/input';
+// import { Input } from './ui/input';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { createClient } from '@supabase/supabase-js';
 import { Slider } from './ui/slider';
@@ -45,16 +46,20 @@ interface SettingsProps {
   shortToLong: number;
   setShortToLong: (shortToLong: number) => void;
 }
-function validate(evt: any) {
-  // if value is not a number, do not update
-}
-function handleShortToLong(value: string) {
-  if (value === '') {
-    return 0;
-  }
-  // if value is not a number, do not update
-}
 function Settings({ session, setSession, setSettings, duration, setDuration, shortBreak, setShort, longBreak, setLong, shortToLong, setShortToLong }: SettingsProps) {
+  function handleShortToLong(e: any) {
+    // TODO: possibly think about limiting the number of breaks, max 6-8, min 1?
+    const re = /^[0-9\b]+$/;
+    if (re.test(e.target.value)) {
+      setShortToLong(parseInt(e.target.value));
+    } else {
+      // leave it as is
+      // TODO: Test this, does this still work when a letter is entered?
+      toast("Please enter a number", {
+        duration: 5000,
+      });
+    }
+  }
   return (
     <>
       <div className='settings blurBackground'>
@@ -69,15 +74,24 @@ function Settings({ session, setSession, setSettings, duration, setDuration, sho
             <LoginForm setSession={setSession} />
           )}
         </div>
+        {/* TODO: Style sliders and headers */}
         <div className='sliderCont'>
-          <h2>Study Duration: {duration}</h2>
-          <Slider min={10} max={60} defaultValue={[duration]} step={5} onValueChange={(value) => setDuration(value[0])} />
-          <h2>Short Break Duration: {shortBreak}</h2>
-          <Slider min={5} max={60} defaultValue={[shortBreak]} step={5} onValueChange={(value) => setShort(value[0])} />
-          <h2>Long Break Duration: {longBreak}</h2>
-          <Slider min={10} max={60} defaultValue={[longBreak]} step={5} onValueChange={(value) => setLong(value[0])} />
-          <h2>How many breaks before long break?</h2>
-          <Input type="number" defaultValue={shortToLong} onKeyDown={validate(evt)} onChange={(e) => setShortToLong(Number(e.target.value))} />
+          <div>
+            <h2>Study Duration: {duration}</h2>
+            <Slider min={10} max={60} defaultValue={[duration]} step={5} onValueChange={(value) => setDuration(value[0])} />
+          </div>
+          <div>
+            <h2>Short Break Duration: {shortBreak}</h2>
+            <Slider min={5} max={60} defaultValue={[shortBreak]} step={5} onValueChange={(value) => setShort(value[0])} />
+          </div>
+          <div>
+            <h2>Long Break Duration: {longBreak}</h2>
+            <Slider min={10} max={60} defaultValue={[longBreak]} step={5} onValueChange={(value) => setLong(value[0])} />
+          </div>
+          <div>
+            <h2>How many breaks before long break?</h2>
+            <input type="number" value={shortToLong} defaultValue={shortToLong} onChange={(e) => handleShortToLong(e)} />
+          </div>
         </div>
         <Button className="closeSettings" onClick={() => { setSettings(false) }}>
           <FontAwesomeIcon icon={faX} onClick={() => { setSettings(false) }} />
