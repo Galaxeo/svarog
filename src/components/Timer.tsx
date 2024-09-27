@@ -17,7 +17,15 @@ import {
   faPenSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Timer({ duration = 25, short = 5, long = 30, setSettings }: { duration: number, short: number, long: number, setSettings: (settings: boolean) => void }) {
+interface TimerProps {
+  duration: number;
+  short: number;
+  long: number;
+  shortToLong: number;
+  setSettings: (settings: boolean) => void;
+}
+
+function Timer({ duration = 25, short = 5, long = 30, shortToLong = 4, setSettings }: TimerProps) {
   /**
    * Pomodoro Timer Details
    * Functions: start, pause, reset
@@ -44,11 +52,14 @@ function Timer({ duration = 25, short = 5, long = 30, setSettings }: { duration:
             setIsActive(false);
             console.log("Time's up!");
             // set break time
-            setTime(short * 60);
             if (!isBreak) {
               completedSessions.current += 1;
             }
-            // need to decide on how to implement long breaks.
+            if (completedSessions.current % shortToLong === 0) {
+              setTime(long * 60);
+            } else {
+              setTime(short * 60);
+            }
             setIsBreak(!isBreak);
             return duration;
           }

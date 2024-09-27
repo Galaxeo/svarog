@@ -23,6 +23,7 @@ function App() {
   const [duration, setDuration] = useState(25);
   const [shortBreak, setShort] = useState(5);
   const [longBreak, setLong] = useState(20);
+  const [shortToLong, setShortToLong] = useState(4)
   const settingsProps = {
     session,
     setSession,
@@ -33,6 +34,8 @@ function App() {
     setShort,
     longBreak,
     setLong,
+    shortToLong,
+    setShortToLong
   }
 
   useEffect(() => {
@@ -53,7 +56,7 @@ function App() {
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         {/* <Calendar className="" mode="multiple" selected={date} onSelect={setDate} /> */}
-        <Timer duration={duration} short={shortBreak} long={longBreak} setSettings={setSettings}></Timer>
+        <Timer duration={duration} short={shortBreak} long={longBreak} shortToLong={shortToLong} setSettings={setSettings}></Timer>
         {settings ? (
           <Settings {...settingsProps}></Settings>
         ) :

@@ -42,8 +42,19 @@ interface SettingsProps {
   setShort: (breakTime: number) => void;
   longBreak: number;
   setLong: (breakTime: number) => void;
+  shortToLong: number;
+  setShortToLong: (shortToLong: number) => void;
 }
-function Settings({ session, setSession, setSettings, duration, setDuration, shortBreak, setShort, longBreak, setLong }: SettingsProps) {
+function validate(evt: any) {
+  // if value is not a number, do not update
+}
+function handleShortToLong(value: string) {
+  if (value === '') {
+    return 0;
+  }
+  // if value is not a number, do not update
+}
+function Settings({ session, setSession, setSettings, duration, setDuration, shortBreak, setShort, longBreak, setLong, shortToLong, setShortToLong }: SettingsProps) {
   return (
     <>
       <div className='settings blurBackground'>
@@ -66,7 +77,7 @@ function Settings({ session, setSession, setSettings, duration, setDuration, sho
           <h2>Long Break Duration: {longBreak}</h2>
           <Slider min={10} max={60} defaultValue={[longBreak]} step={5} onValueChange={(value) => setLong(value[0])} />
           <h2>How many breaks before long break?</h2>
-          <Input />
+          <Input type="number" defaultValue={shortToLong} onKeyDown={validate(evt)} onChange={(e) => setShortToLong(Number(e.target.value))} />
         </div>
         <Button className="closeSettings" onClick={() => { setSettings(false) }}>
           <FontAwesomeIcon icon={faX} onClick={() => { setSettings(false) }} />
