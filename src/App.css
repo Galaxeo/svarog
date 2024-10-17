@@ -198,7 +198,7 @@ body,
   gap: 15px;
 }
 
-.settings input {
+.shortLongInput {
   width: 4rem;
   height: 2rem;
   padding: 0.5rem;
@@ -231,6 +231,16 @@ body,
   flex-direction: column;
   gap: 1rem;
 }
+.loginInput {
+  width: 15rem;
+  height: 2rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  font-family: "RodinM", sans-serif;
+  border: 1px solid #333;
+  border-radius: 5px;
+}
 
 .closeSettings:hover {
   cursor: pointer;
@@ -252,6 +262,7 @@ body,
 }
 
 /* Timer CSS */
+/* TODO: Change sizing to be mobile-friendly, size of buttons and timer */
 
 .timerCont {
   /* center on screen*/

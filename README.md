@@ -1,4 +1,4 @@
-# Dailies App
+# Svarog
 
 Used as a tool to help me study and retain more information
 
@@ -38,3 +38,7 @@ After finishing study session, write down short notes about what learned, next c
 - [x] Create DB tables: users, sessions, questions, etc.
 - [ ] Answer accuracy for each user related to each session
 - [ ] Login functionality
+
+### Design Decisions
+- Consider renaming sessions: is there a better name to not confuse overall study session vs individual pomodoros?
+- How do we want to categorize sessions that last past midnight? Likely categorize on the day that started

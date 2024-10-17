@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function RecallForm({ setIsFinished = (finished: boolean) => { } }) {
+function RecallForm({ setIsFinished }: any) {
   const [responseData, setResponseData] = useState("");
   function postRecall() {
     // get the value of the input

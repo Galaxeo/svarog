@@ -25,7 +25,7 @@ interface TimerProps {
   setSettings: (settings: boolean) => void;
 }
 
-function Timer({ duration = 25, short = 5, long = 30, shortToLong = 4, setSettings }: TimerProps) {
+function Timer({ duration = 5, short = 5, long = 30, shortToLong = 4, setSettings }: TimerProps) {
   /**
    * Pomodoro Timer Details
    * Functions: start, pause, reset
@@ -52,6 +52,8 @@ function Timer({ duration = 25, short = 5, long = 30, shortToLong = 4, setSettin
             setIsActive(false);
             console.log("Time's up!");
             // set break time
+            // TODO: Test what we want to happen when shortToLong is changed
+            // Thinking should just continue as if shortToLong was set like that the whole time
             if (!isBreak) {
               completedSessions.current += 1;
             }
@@ -68,6 +70,7 @@ function Timer({ duration = 25, short = 5, long = 30, shortToLong = 4, setSettin
       }, 1000);
     }
   }
+  // Reset timer as reset current phase or whole session?
   function resetTimer() {
     clearInterval(intervalRef.current!);
     setTime(duration * 60);

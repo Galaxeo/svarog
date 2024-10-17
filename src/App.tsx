@@ -56,7 +56,8 @@ function App() {
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         {/* <Calendar className="" mode="multiple" selected={date} onSelect={setDate} /> */}
-        <Timer duration={duration} short={shortBreak} long={longBreak} shortToLong={shortToLong} setSettings={setSettings}></Timer>
+        {/* <Timer duration={duration} short={shortBreak} long={longBreak} shortToLong={shortToLong} setSettings={setSettings}></Timer> */}
+        <Timer duration={.05} short={.1} long={longBreak} shortToLong={shortToLong} setSettings={setSettings}></Timer>
         {settings ? (
           <Settings {...settingsProps}></Settings>
         ) :
