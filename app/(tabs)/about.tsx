@@ -1,11 +1,11 @@
 import { Text, View, StyleSheet } from 'react-native';
-import {Link, Stack} from 'expo-router';
+import { Link, Stack } from 'expo-router';
 export default function AboutScreen() {
   return (
-  <View style={styles.container}>
-    <Text style={styles.text}>About Screen</Text>
-  </View>
-    );
+    <View style={styles.container}>
+      <Text style={styles.text}>About Screen</Text>
+    </View>
+  );
 }
 const styles = StyleSheet.create({
   container: {

@@ -7,7 +7,7 @@ export default function Index() {
       style={styles.container}
     >
       <Text style={styles.text}>Home screen</Text>
-      <Link href="/about" style={styles.text}>Go to About screen</Link>
+      <Link href="/about" style={styles.button}>Go to About screen</Link>
     </View>
   );
 }
@@ -21,5 +21,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff'
-  }
+  },
+  button: {
+    fontSize: 20,
+    textDecorationLine: 'underline',
+    color: '#fff',
+  },
 })
