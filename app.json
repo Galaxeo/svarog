@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "svarog",
+    "slug": "svarog-umbebyq7glgqpwlc1tx09",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.galaxeo.svarogumbebyq7glgqpwlc1tx09"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.galaxeo.svarogumbebyq7glgqpwlc1tx09"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "268f0628-10c4-4249-91a9-2bbf8ce63c15"
+      }
+    },
+    "owner": "galaxeo",
+    "updates": {
+      "url": "https://u.expo.dev/268f0628-10c4-4249-91a9-2bbf8ce63c15"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  }
+}

@@ -1,44 +1,50 @@
-# Svarog
+# Welcome to your Expo app 👋
 
-Used as a tool to help me study and retain more information
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Purpose
+## Get started
 
-To incorporate two study tactics (Pomodoro and active recall) into one web app, as well as give access to statistics like what topics were learned in the past and how many hours of studying have been done.
+1. Install dependencies
 
-## Todo
+   ```bash
+   npm install
+   ```
 
-### Schedule:
-1. [x] Basic login functionality (login through settings)
-2. [x] Rest of settings page (login/logout, timer duration)
-3. [ ] Adv. timer functionality (skip to next phase, restart current phase, stop, save to backend when completed phase)
-4. [ ] Database functionality (loading and saving settings)
-...
+2. Start the app
 
-### Timer
-- [x] Basic functionality (start, stop, resume)
-- [x] Break implementation (immediately prep short break timer after each phase as well as long timer after every X sessions)
-- [ ] Additional functionality (skip to next phase, restart current phase, ...)
-- [ ] Different durations for timers (future update: help people increase duration of studying by automatically increasing session/total time)
-- [ ] Styling
+   ```bash
+    npx expo start
+   ```
 
-### Active recall 
-After finishing study session, write down short notes about what learned, next couple of sessions can ask questions depending on how long it has been
-- [ ] Input after each session is completed
-- [ ] Questions asked the next day before starting each study session
-- [ ] Amount of questions slowly going away depending on date/accuracy of questions
-- [x] Possible GPT implementation to create AI generated questions based on notes
+In the output, you'll find options to open the app in a
 
-### Front-end
-- [ ] Login functionality, send to backend
-- [ ] Settings tab (login/logout, timer duration, )
-- [ ] Statistics (calendar based, tracking time spent per day, how many sessions, questions/answers, topics learned)
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-### Backend/DB
-- [x] Create DB tables: users, sessions, questions, etc.
-- [ ] Answer accuracy for each user related to each session
-- [ ] Login functionality
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-### Design Decisions
-- Consider renaming sessions: is there a better name to not confuse overall study session vs individual pomodoros?
-- How do we want to categorize sessions that last past midnight? Likely categorize on the day that started
+## Get a fresh project
+
+When you're ready, run:
+
+```bash
+npm run reset-project
+```
+
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+
+## Learn more
+
+To learn more about developing your project with Expo, look at the following resources:
+
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+
+## Join the community
+
+Join our community of developers creating universal apps.
+
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
