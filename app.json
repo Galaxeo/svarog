@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "svarog",
-    "slug": "svarog-umbebyq7glgqpwlc1tx09",
+    "slug": "svarog",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -21,7 +21,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "single",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
@@ -41,7 +41,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": "268f0628-10c4-4249-91a9-2bbf8ce63c15"
+        "projectId": "e102b4a8-f254-4fd5-beaa-9ca3baba65e4"
+      },
+      "router": {
+        "origin": false
       }
     },
     "owner": "galaxeo",

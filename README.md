@@ -1,50 +1,51 @@
-# Welcome to your Expo app 👋
+# Svarog
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Used as a tool to help me study and retain more information
 
-## Get started
+## Purpose
 
-1. Install dependencies
+To incorporate two study tactics (Pomodoro and active recall) into one web app, as well as give access to statistics like what topics were learned in the past and how many hours of studying have been done.
 
-   ```bash
-   npm install
-   ```
+## Todo
 
-2. Start the app
+### Schedule:
 
-   ```bash
-    npx expo start
-   ```
+1. [ ] Basic login functionality (login through settings)
+2. [ ] Rest of settings page (login/logout, timer duration)
+3. [ ] Adv. timer functionality (skip to next phase, restart current phase, stop, save to backend when completed phase)
+4. [ ] Database functionality (loading and saving settings)
+       ...
 
-In the output, you'll find options to open the app in a
+### Timer
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [ ] Basic functionality (start, stop, resume)
+- [ ] Break implementation (immediately prep short break timer after each phase as well as long timer after every X sessions)
+- [ ] Additional functionality (skip to next phase, restart current phase, ...)
+- [ ] Different durations for timers (future update: help people increase duration of studying by automatically increasing session/total time)
+- [ ] Styling
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Active recall
 
-## Get a fresh project
+After finishing study session, write down short notes about what learned, next couple of sessions can ask questions depending on how long it has been
 
-When you're ready, run:
+- [ ] Input after each session is completed
+- [ ] Questions asked the next day before starting each study session
+- [ ] Amount of questions slowly going away depending on date/accuracy of questions
+- [ ] Possible GPT implementation to create AI generated questions based on notes
 
-```bash
-npm run reset-project
-```
+### Front-end
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- [ ] Login functionality, send to backend
+- [ ] Settings tab (login/logout, timer duration, )
+- [ ] Statistics (calendar based, tracking time spent per day, how many sessions, questions/answers, topics learned)
 
-## Learn more
+### Backend/DB
 
-To learn more about developing your project with Expo, look at the following resources:
+- [x] Create DB tables: users, sessions, questions, etc.
+- [ ] Answer accuracy for each user related to each session
+- [ ] Login functionality
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Design Decisions
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Consider renaming sessions: is there a better name to not confuse overall study session vs individual pomodoros?
+- How do we want to categorize sessions that last past midnight? Likely categorize on the day that started
