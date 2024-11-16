@@ -22,7 +22,7 @@ export default function Index() {
       {!session ? (
         <Auth />
       ) : (
-        <Text style={{ color: colors.text }}>Welcome to Project Svarog</Text>
+        <Text style={{ color: colors.text }}>Welcome to Supabase</Text>
       )}
     </View>
   );

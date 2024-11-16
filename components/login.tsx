@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { supabase } from "../supabase";
 import { Button, Input } from "@rneui/themed";
+import { s, colors } from "@/app/styles";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -39,6 +40,7 @@ export default function Auth() {
     <View style={styles.container}>
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Input
+          style={{ color: colors.text }}
           label="Email"
           leftIcon={{ type: "font-awesome", name: "envelope" }}
           onChangeText={(text) => setEmail(text)}
