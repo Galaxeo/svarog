@@ -6,6 +6,7 @@ import { Session } from "@supabase/supabase-js";
 import { s, colors } from "./styles";
 import { supabase } from "../supabase";
 import { Button } from "@rneui/themed";
+import Timer from "./Timer";
 
 export default function Index() {
   const [session, setSession] = useState<Session | null>(null);
@@ -28,6 +29,7 @@ export default function Index() {
         <View>
           <Text style={{ color: colors.text }}>Welcome to Supabase</Text>
           <Button onPress={signOut}>Sign Out</Button>
+          <Timer></Timer>
         </View>
       )}
     </View>
