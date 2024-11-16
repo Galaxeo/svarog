@@ -79,25 +79,66 @@ export default function Timer({
   }
 
   return (
-    <View>
+    <View style={styles.timerCont}>
       {/* BIG TODO: Style this whole section */}
       <Text style={{ color: colors.text }}>
         {isBreak ? "Break" : "Work"} Time
       </Text>
-      <Text style={{ color: colors.text }}>
+      <Text>Compledtion Session:{completedSessions.current}</Text>
+      <Text style={styles.clock} onPress={pausePlayTimer}>
         {Math.floor(time / 60)
           .toString()
           .padStart(2, "0")}
         :{(time % 60).toString().padStart(2, "0")}
       </Text>
-      <Button onPress={startTimer}>Start</Button>
-      <Button onPress={pausePlayTimer}>Pause/Play</Button>
-      <Button onPress={resetTimer}>Reset</Button>
-      <Button onPress={finishSession}>Finish Session</Button>
-      <Button onPress={() => setSettings(true)}>Settings</Button>
+      <Button
+        style={styles.button}
+        color={colors.background}
+        onPress={pausePlayTimer}
+      >
+        Start/Stop
+      </Button>
+      <Button
+        style={styles.button}
+        color={colors.background}
+        onPress={resetTimer}
+      >
+        Reset
+      </Button>
+      <Button
+        style={styles.button}
+        color={colors.background}
+        onPress={finishSession}
+      >
+        Finish Session
+      </Button>
+      <Button
+        style={styles.button}
+        color={colors.background}
+        onPress={() => setSettings(true)}
+      >
+        Settings
+      </Button>
       {isFinished && <Text>Session finished!</Text>}
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  timerCont: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.background,
+    padding: 0,
+  },
+  button: {
+    color: colors.background,
+    padding: 10,
+    borderRadius: 10,
+  },
+  clock: {
+    color: colors.text,
+    fontSize: 90,
+  },
+});

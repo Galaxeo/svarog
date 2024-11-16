@@ -27,8 +27,8 @@ export default function Index() {
       {!session && <Auth />}
       {session && (
         <View>
-          <Text style={{ color: colors.text }}>Welcome to Supabase</Text>
-          <Button onPress={signOut}>Sign Out</Button>
+          {/* <Text style={{ color: colors.text }}>Welcome to Supabase</Text>
+          <Button onPress={signOut}>Sign Out</Button> */}
           <Timer></Timer>
         </View>
       )}
