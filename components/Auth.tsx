@@ -40,24 +40,23 @@ export default function Auth() {
     <View style={styles.container}>
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Input
-          style={{ color: colors.text }}
           label="Email"
-          leftIcon={{ type: "font-awesome", name: "envelope" }}
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder="email@address.com"
           autoCapitalize={"none"}
+          style={{ color: colors.text }}
         />
       </View>
       <View style={styles.verticallySpaced}>
         <Input
           label="Password"
-          leftIcon={{ type: "font-awesome", name: "lock" }}
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={true}
           placeholder="Password"
           autoCapitalize={"none"}
+          style={{ color: colors.text }}
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
@@ -80,7 +79,8 @@ export default function Auth() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    marginTop: 0,
+    width: "80%",
     padding: 12,
   },
   verticallySpaced: {
