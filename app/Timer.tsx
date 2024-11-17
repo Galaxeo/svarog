@@ -5,7 +5,10 @@ import { Session } from "@supabase/supabase-js";
 
 import { s, colors } from "./styles";
 import { supabase } from "../supabase";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Button } from "@rneui/themed";
+import { Pressable } from "react-native-gesture-handler";
+import { finishScreenTransition } from "react-native-reanimated";
 
 interface TimerProps {
   duration: number;
@@ -84,41 +87,42 @@ export default function Timer({
       <Text style={{ color: colors.text }}>
         {isBreak ? "Break" : "Work"} Time
       </Text>
-      <Text>Compledtion Session:{completedSessions.current}</Text>
       <Text style={styles.clock} onPress={pausePlayTimer}>
         {Math.floor(time / 60)
           .toString()
           .padStart(2, "0")}
         :{(time % 60).toString().padStart(2, "0")}
       </Text>
-      <Button
-        style={styles.button}
-        color={colors.background}
-        onPress={pausePlayTimer}
-      >
-        Start/Stop
-      </Button>
-      <Button
-        style={styles.button}
-        color={colors.background}
-        onPress={resetTimer}
-      >
-        Reset
-      </Button>
-      <Button
-        style={styles.button}
-        color={colors.background}
-        onPress={finishSession}
-      >
-        Finish Session
-      </Button>
-      <Button
-        style={styles.button}
-        color={colors.background}
-        onPress={() => setSettings(true)}
-      >
-        Settings
-      </Button>
+      <View style={{ flexDirection: "row" }}>
+        <Pressable onPress={pausePlayTimer}>
+          <MaterialIcons
+            name={isActive ? "pause" : "play-arrow"}
+            size={48}
+            color={colors.text}
+          />
+        </Pressable>
+        <Pressable onPress={resetTimer}>
+          <MaterialIcons
+            name="replay"
+            size={48}
+            color={colors.text}
+          />
+        </Pressable>
+        <Pressable onPress={finishSession}>
+          <MaterialIcons
+            name="stop"
+            size={48}
+            color={colors.text}
+          />
+        </Pressable>
+        <Pressable onPress={() => setSettings(true)}>
+          <MaterialIcons
+            name="settings"
+            size={48}
+            color={colors.text}
+          />
+        </Pressable>
+      </View>
       {isFinished && <Text>Session finished!</Text>}
     </View>
   );
