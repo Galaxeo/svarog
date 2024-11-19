@@ -102,25 +102,13 @@ export default function Timer({
           />
         </Pressable>
         <Pressable onPress={resetTimer}>
-          <MaterialIcons
-            name="replay"
-            size={48}
-            color={colors.text}
-          />
+          <MaterialIcons name="replay" size={48} color={colors.text} />
         </Pressable>
         <Pressable onPress={finishSession}>
-          <MaterialIcons
-            name="stop"
-            size={48}
-            color={colors.text}
-          />
+          <MaterialIcons name="stop" size={48} color={colors.text} />
         </Pressable>
         <Pressable onPress={() => setSettings(true)}>
-          <MaterialIcons
-            name="settings"
-            size={48}
-            color={colors.text}
-          />
+          <MaterialIcons name="settings" size={48} color={colors.text} />
         </Pressable>
       </View>
       {isFinished && <Text>Session finished!</Text>}

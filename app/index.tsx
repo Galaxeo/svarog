@@ -7,6 +7,7 @@ import { s, colors } from "./styles";
 import { supabase } from "../supabase";
 import { Button } from "@rneui/themed";
 import Timer from "./Timer";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Index() {
   const [session, setSession] = useState<Session | null>(null);
@@ -23,15 +24,17 @@ export default function Index() {
     await supabase.auth.signOut();
   }
   return (
-    <View style={s.container}>
-      {!session && <Auth />}
-      {session && (
-        <View>
-          {/* <Text style={{ color: colors.text }}>Welcome to Supabase</Text>
+    <GestureHandlerRootView>
+      <View style={s.container}>
+        {!session && <Auth />}
+        {session && (
+          <View>
+            {/* <Text style={{ color: colors.text }}>Welcome to Supabase</Text>
           <Button onPress={signOut}>Sign Out</Button> */}
-          <Timer></Timer>
-        </View>
-      )}
-    </View>
+            <Timer></Timer>
+          </View>
+        )}
+      </View>
+    </GestureHandlerRootView>
   );
 }
