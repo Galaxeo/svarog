@@ -1,25 +1,26 @@
-import axios from 'axios';
-import key from './key.json';
+import key from "./key.json";
+import OpenAI from "openai";
 
 const apiKey = key.openAIKey;
 
-const openAI = axios.create({
-    baseURL: 'https://api.openai.com/v1',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-    }
-});
+const openai = new OpenAI({ apiKey: apiKey, dangerouslyAllowBrowser: true });
 
-export default generateText = async (prompt) => {
-    try {
-        const response = await openAI.post('/engines/davinci/completions', {
-            prompt: prompt,
-            max_tokens: 150
-        });
-        return response.data.choices[0].text;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
+async function generateText(prompt) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content:
+          "Give 1-2 active recall questions to user based on topics they studied",
+      },
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+  });
+  return String(response.choices[0].message.content);
+}
+
+export default generateText;

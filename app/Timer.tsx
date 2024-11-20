@@ -111,7 +111,7 @@ export default function Timer({
           <MaterialIcons name="settings" size={48} color={colors.text} />
         </Pressable>
       </View>
-      {isFinished && <Text>Session finished!</Text>}
+      {isFinished && <Text style={s.text}>Session finished!</Text>}
     </View>
   );
 }
