@@ -123,6 +123,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.background,
     padding: 0,
+    zIndex: 1,
+    elevation: 1,
   },
   button: {
     color: colors.background,

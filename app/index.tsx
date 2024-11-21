@@ -26,17 +26,15 @@ export default function Index() {
   }
   return (
     <GestureHandlerRootView>
-      <View style={s.container}>
-        {!session && <Auth />}
-        {session && (
-          <View>
-            {/* <Text style={{ color: colors.text }}>Welcome to Supabase</Text>
+      {!session && <Auth />}
+      {session && (
+        <View style={s.container}>
+          {/* <Text style={{ color: colors.text }}>Welcome to Supabase</Text>
           <Button onPress={signOut}>Sign Out</Button> */}
-            <Timer></Timer>
-            <Recall></Recall>
-          </View>
-        )}
-      </View>
+          <Timer></Timer>
+          <Recall></Recall>
+        </View>
+      )}
     </GestureHandlerRootView>
   );
 }

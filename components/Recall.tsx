@@ -25,7 +25,7 @@ export default function Recall() {
   //     }
   //   };
   return (
-    <View style={s.container}>
+    <View style={styles.container}>
       <Text style={{ color: colors.text }}>Recall</Text>
       <Text style={s.text}>Enter a prompt:</Text>
       <TextInput
@@ -46,5 +46,18 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  container: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.backgroundTransparent,
+    zIndex: 2,
+    elevation: 2,
   },
 });
