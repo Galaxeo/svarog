@@ -16,6 +16,7 @@ export default function Auth() {
       password: password,
     });
 
+    // TODO: Change to accomodate custom error messages (to consider)
     if (error) Alert.alert(error.message);
     setLoading(false);
   }

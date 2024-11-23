@@ -1,14 +1,11 @@
 import { Text, View, StyleSheet } from "react-native";
 import { useState, useEffect, useRef } from "react";
-import Auth from "@/components/Auth";
-import { Session } from "@supabase/supabase-js";
 
 import { s, colors } from "./styles";
-import { supabase } from "../supabase";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Button } from "@rneui/themed";
 import { Pressable } from "react-native-gesture-handler";
-import { finishScreenTransition } from "react-native-reanimated";
+import NotesInput from "@/components/NotesInput";
+import Recall from "@/components/Recall";
 
 interface TimerProps {
   duration: number;
@@ -29,6 +26,8 @@ export default function Timer({
   const [isActive, setIsActive] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [isNotesInput, setIsNotesInput] = useState(false);
+  const [isRecall, setIsRecall] = useState(false);
   const completedSessions = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
@@ -84,6 +83,9 @@ export default function Timer({
   return (
     <View style={styles.timerCont}>
       {/* BIG TODO: Style this whole section */}
+      {isNotesInput && <NotesInput />}
+      {/* {isRecall && <Recall />} */}
+      <Recall />
       <Text style={{ color: colors.text }}>
         {isBreak ? "Break" : "Work"} Time
       </Text>
@@ -111,7 +113,7 @@ export default function Timer({
           <MaterialIcons name="settings" size={48} color={colors.text} />
         </Pressable>
       </View>
-      {isFinished && <Text style={s.text}>Session finished!</Text>}
+      {isFinished && <NotesInput />}
     </View>
   );
 }

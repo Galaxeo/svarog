@@ -6,11 +6,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native-gesture-handler";
 import { dummyAnswers, dummyQuestions, dummySessions } from "./dummy";
 
-export default function Recall() {
+export default function Accordion() {
   return (
-    // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers
     <View style={styles.container}>
-      <Text style={s.text}>Recall</Text>
+      <Text style={s.text}>Accordion</Text>
     </View>
   );
 }

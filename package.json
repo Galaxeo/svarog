@@ -48,7 +48,8 @@
     "react-native-screens": "~4.0.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.12.2"
+    "react-native-webview": "13.12.2",
+    "undefined": "@react-native/google-signin/google-signin"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
