@@ -6,10 +6,22 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native-gesture-handler";
 import { dummyAnswers, dummyQuestions, dummySessions } from "./dummy";
 
+function SessionRow({ date, duration, topic }) {
+  return (
+    <View style={styles.sessionRow}>
+      <Text style={s.text}>{date}</Text>
+      <Text style={s.text}>{duration}</Text>
+      <Text style={s.text}>{topic}</Text>
+    </View>
+  );
+}
+
 export default function Accordion() {
   return (
     <View style={styles.container}>
-      <Text style={s.text}>Accordion</Text>
+      {dummySessions.map((session) => (
+        <SessionRow {...session} />
+      ))}
     </View>
   );
 }
@@ -25,5 +37,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundTransparent,
     zIndex: 2,
     elevation: 2,
+  },
+  sessionRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 10,
   },
 });

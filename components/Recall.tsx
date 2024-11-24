@@ -5,11 +5,13 @@ import { s, colors } from "../app/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native-gesture-handler";
 import { dummyAnswers, dummyQuestions, dummySessions } from "./dummy";
+import Accordion from "./Accordion";
 
 export default function Recall() {
   return (
     // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers
     <View style={styles.container}>
+      <Accordion />
       <Text style={s.text}>Recall</Text>
     </View>
   );
