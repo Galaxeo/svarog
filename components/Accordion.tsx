@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "../app/styles";
 
@@ -17,6 +17,7 @@ import Animated, {
   interpolate,
   Extrapolation,
 } from "react-native-reanimated";
+import { PressableEvent } from "react-native-gesture-handler/lib/typescript/components/Pressable/PressableProps";
 
 type sessionType = {
   id: number;
@@ -30,7 +31,6 @@ type questionType = {
   session_id: number;
   user_id: string;
   question: string;
-  answers: answerType[];
 };
 
 type answerType = {
@@ -46,7 +46,7 @@ function SessionRow({
   questions,
 }: {
   session: sessionType;
-  questions: any[];
+  questions: questionType[];
 }) {
   const listRef = useAnimatedRef<Animated.View>();
   const heightVal = useSharedValue(0);
@@ -62,16 +62,23 @@ function SessionRow({
       Extrapolation.CLAMP
     ),
   }));
+  function revealQuestions() {
+    if (heightVal.value === 0) {
+      runOnUI(() => {
+        heightVal.value = withTiming(measure(listRef)!.height);
+      })();
+    }
+    open.value = !open.value;
+  }
+  function selectQuestion(e) {
+    e.stopPropagation();
+  }
   return (
-    <Pressable
+    <TouchableOpacity
       style={styles.sessionRow}
+      activeOpacity={0.6}
       onPress={() => {
-        if (heightVal.value === 0) {
-          runOnUI(() => {
-            heightVal.value = withTiming(measure(listRef)!.height);
-          })();
-        }
-        open.value = !open.value;
+        revealQuestions();
       }}
     >
       <View style={styles.sessionContent}>
@@ -81,55 +88,51 @@ function SessionRow({
       </View>
       <Animated.View style={heightAnimationStyle}>
         <Animated.View ref={listRef} style={styles.questionRow}>
-          {questions.map(({ question, answers }) => (
-            <Text style={s.text}>{(question as any).question}</Text>
+          {questions.map((question) => (
+            <TouchableOpacity
+              key={question.id}
+              onPress={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <Text style={s.text}>{question.question}</Text>
+            </TouchableOpacity>
           ))}
         </Animated.View>
       </Animated.View>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
 export default function Accordion({ sessions, questions, answers }: any) {
-  // need to match up sessions with questions and questions with answers
   function getQuestions(session_id: number) {
     return questions.filter(
       (question: questionType) => question.session_id === session_id
     );
   }
+  // This function probably won't have to use until we want to show previous answers (i.e. in statistics)
   function getAnswers(question_id: number) {
     return answers.filter(
       (answer: answerType) => answer.question_id === question_id
     );
   }
   function createSessionRows(sessions: sessionType[]) {
-    // 1. Create array of sessions with questions and answers
-    // 2. Map out the sessions into SessionRow components
     const sessionsArr = [];
     for (let i in sessions) {
       const session = sessions[i];
-      const questionsArr = [];
-      const questions = getQuestions(session.id);
-      for (let j in questions) {
-        const question = questions[j];
-        const answers = getAnswers(question.id);
-        questionsArr.push({ question, answers });
-      }
-      sessionsArr.push({ session, questions: questionsArr });
-    }
-    for (let i in sessionsArr) {
-      console.log(sessionsArr[i].questions);
+      // const questions = getQuestions(session.id);
+      // for (let j in questions) {
+      //   const question = questions[j];
+      //   const answers = getAnswers(question.id);
+      //   questionsArr.push({ question, answers });
+      // }
+      sessionsArr.push({ session, questions: getQuestions(session.id) });
     }
     return sessionsArr.map(({ session, questions }) => (
       <SessionRow key={session.id} session={session} questions={questions} />
     ));
   }
-  return (
-    <View style={styles.container}>
-      <Text style={s.text}>Sessions</Text>
-      {createSessionRows(sessions)}
-    </View>
-  );
+  return <View>{createSessionRows(sessions)}</View>;
 }
 
 const styles = StyleSheet.create({

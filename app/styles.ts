@@ -17,6 +17,7 @@ export const colors = {
   background: "#202023",
   text: "#e1e1e1",
   backgroundTransparent: "rgba(32, 32, 35, .7)",
+  backgroundTranslucent: "rgba(32, 32, 35, .9)",
 };
 
 export default s;
