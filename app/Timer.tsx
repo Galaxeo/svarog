@@ -125,6 +125,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.background,
     padding: 0,
+    width: "100%",
+    height: "auto",
     zIndex: 1,
     elevation: 1,
   },

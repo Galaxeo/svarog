@@ -11,7 +11,11 @@ export default function Recall() {
   return (
     // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers
     <View style={styles.container}>
-      <Accordion />
+      <Accordion
+        sessions={dummySessions}
+        questions={dummyQuestions}
+        answers={dummyAnswers}
+      />
       <Text style={s.text}>Recall</Text>
     </View>
   );
@@ -20,8 +24,8 @@ export default function Recall() {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    width: "70%",
-    height: "70%",
+    width: "85%",
+    height: "85%",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
