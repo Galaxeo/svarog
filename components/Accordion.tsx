@@ -41,12 +41,51 @@ type answerType = {
   answer: string;
 };
 
+function QuestionRow({
+  question,
+  selection,
+  setSelection,
+}: {
+  question: questionType;
+  selection: any[];
+  setSelection: any;
+}) {
+  const [textColor, setTextColor] = useState("grey");
+  const toggleColor = () => {
+    setTextColor(textColor === "grey" ? "aqua" : "grey");
+  };
+  function handleSetQuestions(questionString: string) {
+    // add question to setSelection array, remove if already in array
+    if (selection.includes(questionString)) {
+      setSelection(selection.filter((q) => q !== questionString));
+    } else {
+      setSelection([...selection, questionString]);
+    }
+  }
+  return (
+    <TouchableOpacity
+      key={question.id}
+      onPress={(e) => {
+        e.stopPropagation();
+        toggleColor();
+        handleSetQuestions(question.question);
+      }}
+    >
+      <Text style={{ color: textColor }}>{question.question}</Text>
+    </TouchableOpacity>
+  );
+}
+
 function SessionRow({
   session,
   questions,
+  selection,
+  setSelection, // is this scuffed to pass setquestions down through 2 million components
 }: {
   session: sessionType;
   questions: questionType[];
+  selection: any[];
+  setSelection: any;
 }) {
   const listRef = useAnimatedRef<Animated.View>();
   const heightVal = useSharedValue(0);
@@ -70,9 +109,6 @@ function SessionRow({
     }
     open.value = !open.value;
   }
-  function selectQuestion(e) {
-    e.stopPropagation();
-  }
   return (
     <TouchableOpacity
       style={styles.sessionRow}
@@ -89,14 +125,12 @@ function SessionRow({
       <Animated.View style={heightAnimationStyle}>
         <Animated.View ref={listRef} style={styles.questionRow}>
           {questions.map((question) => (
-            <TouchableOpacity
+            <QuestionRow
               key={question.id}
-              onPress={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              <Text style={s.text}>{question.question}</Text>
-            </TouchableOpacity>
+              question={question}
+              selection={selection}
+              setSelection={setSelection}
+            />
           ))}
         </Animated.View>
       </Animated.View>
@@ -104,7 +138,13 @@ function SessionRow({
   );
 }
 
-export default function Accordion({ sessions, questions, answers }: any) {
+export default function Accordion({
+  sessions,
+  questions,
+  answers,
+  selection,
+  setSelection,
+}: any) {
   function getQuestions(session_id: number) {
     return questions.filter(
       (question: questionType) => question.session_id === session_id
@@ -129,7 +169,13 @@ export default function Accordion({ sessions, questions, answers }: any) {
       sessionsArr.push({ session, questions: getQuestions(session.id) });
     }
     return sessionsArr.map(({ session, questions }) => (
-      <SessionRow key={session.id} session={session} questions={questions} />
+      <SessionRow
+        setSelection={setSelection}
+        key={session.id}
+        session={session}
+        questions={questions}
+        selection={selection}
+      />
     ));
   }
   return <View>{createSessionRows(sessions)}</View>;

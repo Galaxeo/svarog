@@ -8,6 +8,7 @@ import { dummyAnswers, dummyQuestions, dummySessions } from "./dummy";
 import Accordion from "./Accordion";
 
 export default function Recall() {
+  const [selection, setSelection] = useState([]);
   return (
     // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers
     <View style={styles.container}>
@@ -16,10 +17,17 @@ export default function Recall() {
         sessions={dummySessions}
         questions={dummyQuestions}
         answers={dummyAnswers}
+        selection={selection}
+        setSelection={setSelection}
       />
       <TouchableOpacity activeOpacity={0.5}>
         <MaterialIcons name="arrow-forward" size={24} color={colors.text} />
       </TouchableOpacity>
+      {selection.map((question, i) => (
+        <Text key={i} style={s.text}>
+          {question}
+        </Text>
+      ))}
     </View>
   );
 }

@@ -22,7 +22,7 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 
 ### Timer
 
-- [ ] Basic functionality (start, stop, resume)
+- [x] Basic functionality (start, stop, resume)
 - [ ] Break implementation (immediately prep short break timer after each phase as well as long timer after every X sessions)
 - [ ] Additional functionality (skip to next phase, restart current phase, ...)
 - [ ] Different durations for timers (future update: help people increase duration of studying by automatically increasing session/total time)
