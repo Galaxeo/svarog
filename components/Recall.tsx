@@ -83,7 +83,6 @@ function RecallingScreen({
   fadeIn,
   fadeOut,
   question,
-  index,
 }: {
   fadeIn: any;
   fadeOut: any;
@@ -105,7 +104,7 @@ function RecallingScreen({
 export default function Recall({ setRecall }: { setRecall: any }) {
   const [selection, setSelection] = useState([]);
   const [state, setState] = useState("question");
-  const { width } = useWindowDimensions();
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const fadeInOpacity = useSharedValue(1);
   const fadeIn = () => {
     fadeInOpacity.value = withTiming(1, {
@@ -156,25 +155,36 @@ export default function Recall({ setRecall }: { setRecall: any }) {
                   fadeIn={fadeIn}
                   fadeOut={fadeOut}
                   question={item}
-                  index={i}
                 />
               )}
+              keyExtractor={(item, i) => i.toString()}
             />
           )}
           {Platform.OS === "ios" && (
-            <FlatList
-              data={selection}
-              horizontal
-              pagingEnabled
-              bounces={false}
-              renderItem={({ item }) => (
-                <RecallingScreen
-                  fadeIn={fadeIn}
-                  fadeOut={fadeOut}
-                  question={item}
-                />
-              )}
-            />
+            <View style={styles.container}>
+              <FlatList
+                data={selection}
+                horizontal
+                pagingEnabled
+                bounces={false}
+                renderItem={({ item }) => (
+                  <RecallingScreen
+                    fadeIn={fadeIn}
+                    fadeOut={fadeOut}
+                    question={item}
+                  />
+                )}
+                onViewableItemsChanged={(viewableItems) => {
+                  if (viewableItems.changed[0].index !== null) {
+                    setCurrentQuestion(viewableItems.changed[0].index);
+                  }
+                }}
+                viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
+              />
+              <Text style={[s.text, { fontSize: 16 }]}>
+                {currentQuestion + 1}/{selection.length}
+              </Text>
+            </View>
           )}
           <TouchableOpacity>
             <MaterialIcons
