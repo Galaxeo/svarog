@@ -1,6 +1,9 @@
+import { Divider } from "@rneui/themed";
 import {
+  Platform,
   FlatList,
   Text,
+  TextInput,
   View,
   StyleSheet,
   TouchableOpacity,
@@ -13,16 +16,74 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Pressable } from "react-native-gesture-handler";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "../app/styles";
 import { dummyAnswers, dummyQuestions, dummySessions } from "./dummy";
 import Accordion from "./Accordion";
 
-function RecallingExercise({
+function QuestionScreen({
+  setRecall,
+  animatedStyle,
+  selection,
+  setSelection,
+  handleQuestionSubmit,
+  fadeIn,
+  fadeOut,
+}: {
+  setRecall: any;
+  animatedStyle: any;
+  selection: any;
+  setSelection: any;
+  handleQuestionSubmit: any;
+  fadeIn: any;
+  fadeOut: any;
+}) {
+  useEffect(() => {
+    fadeIn();
+  }, []);
+  return (
+    <Animated.View style={[styles.container, animatedStyle]}>
+      <Text style={s.text}>What are we reviewing today?</Text>
+      {selection.map((question: any, i: any) => (
+        <Text key={i} style={s.text}>
+          {question}
+        </Text>
+      ))}
+      <Accordion
+        sessions={dummySessions}
+        questions={dummyQuestions}
+        answers={dummyAnswers}
+        selection={selection}
+        setSelection={setSelection}
+      />
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        <TouchableOpacity activeOpacity={0.5}>
+          <MaterialIcons
+            name="arrow-forward"
+            onPress={handleQuestionSubmit}
+            size={24}
+            color={colors.text}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5}>
+          <MaterialIcons
+            name="close"
+            onPress={() => {
+              setRecall(false);
+            }}
+            size={24}
+            color={colors.text}
+          />
+        </TouchableOpacity>
+      </View>
+    </Animated.View>
+  );
+}
+function RecallingScreen({
   fadeIn,
   fadeOut,
   question,
+  index,
 }: {
   fadeIn: any;
   fadeOut: any;
@@ -31,9 +92,12 @@ function RecallingExercise({
   useEffect(() => {
     fadeIn();
   }, []);
+  const { width } = useWindowDimensions();
+  //  TODO: Implement page numbers for questions
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width }]}>
       <Text style={s.text}>{question}?</Text>
+      <TextInput style={styles.input} multiline numberOfLines={8} />
     </View>
   );
 }
@@ -45,13 +109,13 @@ export default function Recall({ setRecall }: { setRecall: any }) {
   const fadeInOpacity = useSharedValue(1);
   const fadeIn = () => {
     fadeInOpacity.value = withTiming(1, {
-      duration: 200,
+      duration: 100,
       easing: Easing.linear,
     });
   };
   const fadeOut = () => {
     fadeInOpacity.value = withTiming(0, {
-      duration: 200,
+      duration: 100,
       easing: Easing.linear,
     });
   };
@@ -72,51 +136,57 @@ export default function Recall({ setRecall }: { setRecall: any }) {
     // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers
     <View style={styles.background}>
       {state === "question" ? (
+        <QuestionScreen
+          setRecall={setRecall}
+          animatedStyle={animatedStyle}
+          selection={selection}
+          setSelection={setSelection}
+          handleQuestionSubmit={handleQuestionSubmit}
+          fadeIn={fadeIn}
+          fadeOut={fadeOut}
+        />
+      ) : null}
+      {state === "recalling" ? (
         <Animated.View style={[styles.container, animatedStyle]}>
-          <Text style={s.text}>What are we reviewing today?</Text>
-          <Accordion
-            sessions={dummySessions}
-            questions={dummyQuestions}
-            answers={dummyAnswers}
-            selection={selection}
-            setSelection={setSelection}
-          />
-          <TouchableOpacity activeOpacity={0.5}>
+          {Platform.OS === "web" && (
+            <FlatList
+              data={selection}
+              renderItem={({ item, i }) => (
+                <RecallingScreen
+                  fadeIn={fadeIn}
+                  fadeOut={fadeOut}
+                  question={item}
+                  index={i}
+                />
+              )}
+            />
+          )}
+          {Platform.OS === "ios" && (
+            <FlatList
+              data={selection}
+              horizontal
+              pagingEnabled
+              bounces={false}
+              renderItem={({ item }) => (
+                <RecallingScreen
+                  fadeIn={fadeIn}
+                  fadeOut={fadeOut}
+                  question={item}
+                />
+              )}
+            />
+          )}
+          <TouchableOpacity>
             <MaterialIcons
-              name="arrow-forward"
-              onPress={handleQuestionSubmit}
+              onPress={() => {
+                fadeOut();
+                setTimeout(() => setState("question"), 200);
+              }}
+              name="arrow-back"
               size={24}
               color={colors.text}
             />
           </TouchableOpacity>
-          {selection.map((question, i) => (
-            // TODO: Next screens for answers
-            <Text key={i} style={s.text}>
-              {question}
-            </Text>
-          ))}
-        </Animated.View>
-      ) : null}
-      {state === "recalling" ? (
-        <Animated.View style={[styles.container, animatedStyle]}>
-          <FlatList
-            data={selection}
-            renderItem={({ item }) => (
-              <RecallingExercise
-                fadeIn={fadeIn}
-                fadeOut={fadeOut}
-                question={item}
-              />
-            )}
-          />
-          <Pressable
-            onPress={() => {
-              fadeIn();
-              setState("question");
-            }}
-          >
-            <MaterialIcons name="arrow-back" size={24} color={colors.text} />
-          </Pressable>
         </Animated.View>
       ) : null}
     </View>
@@ -134,10 +204,19 @@ const styles = StyleSheet.create({
   },
   background: {
     position: "absolute",
-    width: "85%",
+    width: "100%",
     height: "85%",
     backgroundColor: colors.backgroundTransparent,
     zIndex: 2,
     elevation: 2,
+  },
+  input: {
+    color: colors.text,
+    height: 80,
+    width: "90%",
+    margin: 12,
+    borderWidth: 1,
+    borderColor: colors.text,
+    padding: 10,
   },
 });
