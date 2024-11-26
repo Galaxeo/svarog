@@ -8,13 +8,18 @@ import { Button } from "@rneui/themed";
 import generateText from "@/openai";
 import { ChatCompletion } from "openai/resources";
 
-export default function NotesInput() {
+export default function NotesInput({
+  setIsNotesInput,
+}: {
+  setIsNotesInput: any;
+}) {
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
   function handleGenerateText() {
     // dummy data to avoid API call limit
     const text = "This is a test";
     setResponse(text);
+    setIsNotesInput(false);
   }
   //   const handleGenerateText = async () => {
   //     try {

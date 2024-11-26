@@ -16,10 +16,10 @@ interface TimerProps {
 }
 
 export default function Timer({
-  duration = 5,
-  short = 5,
+  duration = 0.1,
+  short = 0.2,
   long = 30,
-  shortToLong = 4,
+  shortToLong = 2,
   setSettings,
 }: TimerProps) {
   const [time, setTime] = useState(duration * 60);
@@ -77,17 +77,25 @@ export default function Timer({
   }
   function finishSession() {
     // TODO: need to add an alert here or something
+    setIsNotesInput(true);
     setIsFinished(true);
+    setIsBreak(false);
+    setTime(duration * 60);
+    completedSessions.current = 0;
   }
 
   return (
     <View style={styles.timerCont}>
       {/* BIG TODO: Style this whole section */}
-      {isNotesInput && <NotesInput />}
-      {/* {isRecall && <Recall />} */}
-      <Recall />
+      {isNotesInput && <NotesInput setIsNotesInput={setIsNotesInput} />}
+      {/* <NotesInput handleNotesInput={handleNotesInput} /> */}
+      {isRecall && <Recall setRecall={setIsRecall} />}
+      {/* <Recall /> */}
       <Text style={{ color: colors.text }}>
         {isBreak ? "Break" : "Work"} Time
+      </Text>
+      <Text style={{ color: colors.text }}>
+        {completedSessions.current} completed sessions
       </Text>
       <Text style={styles.clock} onPress={pausePlayTimer}>
         {Math.floor(time / 60)
@@ -112,8 +120,10 @@ export default function Timer({
         <Pressable onPress={() => setSettings(true)}>
           <MaterialIcons name="settings" size={48} color={colors.text} />
         </Pressable>
+        <Pressable onPress={() => setIsRecall(true)}>
+          <MaterialIcons name="assignment" size={48} color={colors.text} />
+        </Pressable>
       </View>
-      {isFinished && <NotesInput />}
     </View>
   );
 }

@@ -7,7 +7,7 @@ import { Pressable } from "react-native-gesture-handler";
 import { dummyAnswers, dummyQuestions, dummySessions } from "./dummy";
 import Accordion from "./Accordion";
 
-export default function Recall() {
+export default function Recall({ setRecall }) {
   const [selection, setSelection] = useState([]);
   return (
     // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers
@@ -21,9 +21,17 @@ export default function Recall() {
         setSelection={setSelection}
       />
       <TouchableOpacity activeOpacity={0.5}>
-        <MaterialIcons name="arrow-forward" size={24} color={colors.text} />
+        <MaterialIcons
+          name="arrow-forward"
+          onPress={() => {
+            setRecall(false);
+          }}
+          size={24}
+          color={colors.text}
+        />
       </TouchableOpacity>
       {selection.map((question, i) => (
+        // TODO: Next screens for answers
         <Text key={i} style={s.text}>
           {question}
         </Text>
