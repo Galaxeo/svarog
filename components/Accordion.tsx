@@ -54,6 +54,14 @@ function QuestionRow({
   const toggleColor = () => {
     setTextColor(textColor === "grey" ? "aqua" : "grey");
   };
+  // "Remembering" selection state
+  useEffect(() => {
+    if (selection.includes(question.question)) {
+      setTextColor("aqua");
+    } else {
+      setTextColor("grey");
+    }
+  }, []);
   function handleSetQuestions(questionString: string) {
     // add question to setSelection array, remove if already in array
     if (selection.includes(questionString)) {
