@@ -83,10 +83,14 @@ function RecallingScreen({
   fadeIn,
   fadeOut,
   question,
+  userAnswers,
+  handleUserAnswers,
 }: {
   fadeIn: any;
   fadeOut: any;
   question: string;
+  userAnswers: any;
+  handleUserAnswers: any;
 }) {
   useEffect(() => {
     fadeIn();
@@ -96,7 +100,13 @@ function RecallingScreen({
   return (
     <View style={[styles.container, { width }]}>
       <Text style={s.text}>{question}?</Text>
-      <TextInput style={styles.input} multiline numberOfLines={8} />
+      <TextInput
+        defaultValue={userAnswers[question]}
+        style={styles.input}
+        onChangeText={(text) => handleUserAnswers(question, text)}
+        multiline
+        numberOfLines={8}
+      />
     </View>
   );
 }
@@ -105,6 +115,7 @@ export default function Recall({ setRecall }: { setRecall: any }) {
   const [selection, setSelection] = useState([]);
   const [state, setState] = useState("question");
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<any>({});
   const fadeInOpacity = useSharedValue(1);
   const fadeIn = () => {
     fadeInOpacity.value = withTiming(1, {
@@ -123,6 +134,12 @@ export default function Recall({ setRecall }: { setRecall: any }) {
       opacity: fadeInOpacity.value,
     };
   });
+  function handleUserAnswers(i, answer) {
+    // change index of userAnswers to answer
+    const temp: any = userAnswers;
+    temp[i] = answer;
+    setUserAnswers(temp);
+  }
   function handleQuestionSubmit() {
     if (selection.length === 0) {
       alert("Please select a question to review.");
@@ -150,11 +167,13 @@ export default function Recall({ setRecall }: { setRecall: any }) {
           {Platform.OS === "web" && (
             <FlatList
               data={selection}
-              renderItem={({ item, i }) => (
+              renderItem={({ item }) => (
                 <RecallingScreen
                   fadeIn={fadeIn}
                   fadeOut={fadeOut}
                   question={item}
+                  userAnswers={userAnswers}
+                  handleUserAnswers={handleUserAnswers}
                 />
               )}
               keyExtractor={(item, i) => i.toString()}
@@ -172,6 +191,8 @@ export default function Recall({ setRecall }: { setRecall: any }) {
                     fadeIn={fadeIn}
                     fadeOut={fadeOut}
                     question={item}
+                    userAnswers={userAnswers}
+                    handleUserAnswers={handleUserAnswers}
                   />
                 )}
                 onViewableItemsChanged={(viewableItems) => {
