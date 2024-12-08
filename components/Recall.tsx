@@ -1,4 +1,4 @@
-import { Divider } from "@rneui/themed";
+import { supabase } from "@/supabase";
 import {
   Platform,
   FlatList,
@@ -134,12 +134,7 @@ export default function Recall({ setRecall }: { setRecall: any }) {
       opacity: fadeInOpacity.value,
     };
   });
-  function handleUserAnswers(i, answer) {
-    // change index of userAnswers to answer
-    const temp: any = userAnswers;
-    temp[i] = answer;
-    setUserAnswers(temp);
-  }
+  // The selection of questions to review
   function handleQuestionSubmit() {
     if (selection.length === 0) {
       alert("Please select a question to review.");
@@ -147,6 +142,27 @@ export default function Recall({ setRecall }: { setRecall: any }) {
       fadeOut();
       setTimeout(() => setState("recalling"), 200);
     }
+  }
+  // Handling the change of user answers
+  function handleUserAnswers(i, answer) {
+    // change index of userAnswers to answer
+    const temp: any = userAnswers;
+    temp[i] = answer;
+    setUserAnswers(temp);
+  }
+  // TODO: Answer submission into the database, need to figure out how to format the userAnswers to insert into the database
+  // Maybe parse through the arrays?
+  async function handleAnswerSubmit() {
+    // const userID = supabase.auth.getUser()?.id;
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const id = user?.id;
+    // Below is untested, try submitting dummy data first
+    // const { data, error } = await supabase
+    //   .from("answers")
+    //   .insert([{ user_id: id, answers: userAnswers }]);
+    setRecall(false);
   }
   return (
     // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers
@@ -214,6 +230,14 @@ export default function Recall({ setRecall }: { setRecall: any }) {
                 setTimeout(() => setState("question"), 200);
               }}
               name="arrow-back"
+              size={24}
+              color={colors.text}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <MaterialIcons
+              onPress={handleAnswerSubmit}
+              name="check"
               size={24}
               color={colors.text}
             />
