@@ -6,6 +6,12 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native-gesture-handler";
 import NotesInput from "@/components/NotesInput";
 import Recall from "@/components/Recall";
+// test data
+import {
+  dummyAnswers,
+  dummyQuestions,
+  dummySessions,
+} from "@/components/dummy";
 
 interface TimerProps {
   duration: number;
@@ -27,7 +33,7 @@ export default function Timer({
   const [isBreak, setIsBreak] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [isNotesInput, setIsNotesInput] = useState(false);
-  const [isRecall, setIsRecall] = useState(false);
+  const [isRecall, setIsRecall] = useState(true); // change to false when done testing
   const completedSessions = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
@@ -89,7 +95,14 @@ export default function Timer({
       {/* BIG TODO: Style this whole section */}
       {isNotesInput && <NotesInput setIsNotesInput={setIsNotesInput} />}
       {/* <NotesInput handleNotesInput={handleNotesInput} /> */}
-      {isRecall && <Recall setRecall={setIsRecall} />}
+      {isRecall && (
+        <Recall
+          sessions={dummySessions}
+          questions={dummyQuestions}
+          answers={dummyAnswers}
+          setRecall={setIsRecall}
+        />
+      )}
       {/* <Recall /> */}
       <Text style={{ color: colors.text }}>
         {isBreak ? "Break" : "Work"} Time

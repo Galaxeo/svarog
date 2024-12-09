@@ -18,10 +18,13 @@ import Animated, {
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "../app/styles";
-import { dummyAnswers, dummyQuestions, dummySessions } from "./dummy";
 import Accordion from "./Accordion";
 
+// Screen for selecting questions to review
 function QuestionScreen({
+  sessions,
+  questions,
+  answers,
   setRecall,
   animatedStyle,
   selection,
@@ -30,6 +33,9 @@ function QuestionScreen({
   fadeIn,
   fadeOut,
 }: {
+  sessions: any;
+  questions: any;
+  answers: any;
   setRecall: any;
   animatedStyle: any;
   selection: any;
@@ -46,13 +52,13 @@ function QuestionScreen({
       <Text style={s.text}>What are we reviewing today?</Text>
       {selection.map((question: any, i: any) => (
         <Text key={i} style={s.text}>
-          {question}
+          {question.question}
         </Text>
       ))}
       <Accordion
-        sessions={dummySessions}
-        questions={dummyQuestions}
-        answers={dummyAnswers}
+        sessions={sessions}
+        questions={questions}
+        answers={answers}
         selection={selection}
         setSelection={setSelection}
       />
@@ -79,6 +85,7 @@ function QuestionScreen({
     </Animated.View>
   );
 }
+// Screen for recalling answers
 function RecallingScreen({
   fadeIn,
   fadeOut,
@@ -96,7 +103,6 @@ function RecallingScreen({
     fadeIn();
   }, []);
   const { width } = useWindowDimensions();
-  //  TODO: Implement page numbers for questions
   return (
     <View style={[styles.container, { width }]}>
       <Text style={s.text}>{question}?</Text>
@@ -111,7 +117,17 @@ function RecallingScreen({
   );
 }
 
-export default function Recall({ setRecall }: { setRecall: any }) {
+export default function Recall({
+  setRecall,
+  sessions,
+  questions,
+  answers,
+}: {
+  setRecall: any;
+  sessions: any;
+  questions: any;
+  answers: any;
+}) {
   const [selection, setSelection] = useState([]);
   const [state, setState] = useState("question");
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -144,20 +160,42 @@ export default function Recall({ setRecall }: { setRecall: any }) {
     }
   }
   // Handling the change of user answers
-  function handleUserAnswers(i, answer) {
+  function handleUserAnswers(i: string, answer: string) {
     // change index of userAnswers to answer
     const temp: any = userAnswers;
     temp[i] = answer;
     setUserAnswers(temp);
+    console.log(userAnswers);
   }
   // TODO: Answer submission into the database, need to figure out how to format the userAnswers to insert into the database
   // Maybe parse through the arrays?
   async function handleAnswerSubmit() {
     // const userID = supabase.auth.getUser()?.id;
+    /*
+     * Answers table schema:
+     * id
+     * question_id
+     * answer
+     * status
+     * user_id
+     */
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
+    console.log(user);
     const id = user?.id;
+    // First need to find ID's of the questions
+    for (let i in userAnswers) {
+      for (let j in questions) {
+        if (questions[j].question === i) {
+          console.log(i, questions[j].id);
+        }
+      }
+      // May be best to consider adding question id to userAnswers when selection questions
+      console.log(i, userAnswers[i]);
+      // const { data, error } = await supabase.from("answers").insert([
+    }
     // Below is untested, try submitting dummy data first
     // const { data, error } = await supabase
     //   .from("answers")
@@ -169,6 +207,10 @@ export default function Recall({ setRecall }: { setRecall: any }) {
     <View style={styles.background}>
       {state === "question" ? (
         <QuestionScreen
+          //  TODO: Replace dummy data with actual data, where to get data from? in the parent component or here
+          sessions={sessions}
+          questions={questions}
+          answers={answers}
           setRecall={setRecall}
           animatedStyle={animatedStyle}
           selection={selection}
@@ -181,19 +223,21 @@ export default function Recall({ setRecall }: { setRecall: any }) {
       {state === "recalling" ? (
         <Animated.View style={[styles.container, animatedStyle]}>
           {Platform.OS === "web" && (
-            <FlatList
-              data={selection}
-              renderItem={({ item }) => (
-                <RecallingScreen
-                  fadeIn={fadeIn}
-                  fadeOut={fadeOut}
-                  question={item}
-                  userAnswers={userAnswers}
-                  handleUserAnswers={handleUserAnswers}
-                />
-              )}
-              keyExtractor={(item, i) => i.toString()}
-            />
+            <View style={styles.container}>
+              <FlatList
+                data={selection}
+                renderItem={({ item }) => (
+                  <RecallingScreen
+                    fadeIn={fadeIn}
+                    fadeOut={fadeOut}
+                    question={item.question}
+                    userAnswers={userAnswers}
+                    handleUserAnswers={handleUserAnswers}
+                  />
+                )}
+                keyExtractor={(item, i) => i.toString()}
+              />
+            </View>
           )}
           {Platform.OS === "ios" && (
             <View style={styles.container}>

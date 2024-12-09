@@ -42,11 +42,11 @@ type answerType = {
 };
 
 function QuestionRow({
-  question,
+  questionObj,
   selection,
   setSelection,
 }: {
-  question: questionType;
+  questionObj: questionType;
   selection: any[];
   setSelection: any;
 }) {
@@ -56,30 +56,33 @@ function QuestionRow({
   };
   // "Remembering" selection state
   useEffect(() => {
-    if (selection.includes(question.question)) {
+    if (selection.includes(questionObj)) {
       setTextColor("aqua");
     } else {
       setTextColor("grey");
     }
   }, []);
-  function handleSetQuestions(questionString: string) {
+  function handleSetQuestions(questionObj: any) {
     // add question to setSelection array, remove if already in array
-    if (selection.includes(questionString)) {
-      setSelection(selection.filter((q) => q !== questionString));
+    if (selection.includes(questionObj)) {
+      setSelection(selection.filter((q) => q !== questionObj));
     } else {
-      setSelection([...selection, questionString]);
+      const temp = selection;
+      temp.push(questionObj);
+      setSelection(temp);
     }
   }
   return (
     <TouchableOpacity
-      key={question.id}
+      key={questionObj.id}
       onPress={(e) => {
         e.stopPropagation();
         toggleColor();
-        handleSetQuestions(question.question);
+        handleSetQuestions(questionObj);
       }}
+      style={{ margin: 5 }}
     >
-      <Text style={{ color: textColor }}>{question.question}</Text>
+      <Text style={{ color: textColor }}>{questionObj.question}</Text>
     </TouchableOpacity>
   );
 }
@@ -135,7 +138,7 @@ function SessionRow({
           {questions.map((question) => (
             <QuestionRow
               key={question.id}
-              question={question}
+              questionObj={question}
               selection={selection}
               setSelection={setSelection}
             />
