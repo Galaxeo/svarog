@@ -67,9 +67,7 @@ function QuestionRow({
     if (selection.includes(questionObj)) {
       setSelection(selection.filter((q) => q !== questionObj));
     } else {
-      const temp = selection;
-      temp.push(questionObj);
-      setSelection(temp);
+      setSelection([...selection, questionObj]);
     }
   }
   return (

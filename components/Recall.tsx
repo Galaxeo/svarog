@@ -89,13 +89,13 @@ function QuestionScreen({
 function RecallingScreen({
   fadeIn,
   fadeOut,
-  question,
+  questionObj,
   userAnswers,
   handleUserAnswers,
 }: {
   fadeIn: any;
   fadeOut: any;
-  question: string;
+  questionObj: any;
   userAnswers: any;
   handleUserAnswers: any;
 }) {
@@ -105,11 +105,11 @@ function RecallingScreen({
   const { width } = useWindowDimensions();
   return (
     <View style={[styles.container, { width }]}>
-      <Text style={s.text}>{question}?</Text>
+      <Text style={s.text}>{questionObj.question}?</Text>
       <TextInput
-        defaultValue={userAnswers[question]}
+        defaultValue={userAnswers[questionObj]}
         style={styles.input}
-        onChangeText={(text) => handleUserAnswers(question, text)}
+        onChangeText={(text) => handleUserAnswers(questionObj, text)}
         multiline
         numberOfLines={8}
       />
@@ -160,12 +160,11 @@ export default function Recall({
     }
   }
   // Handling the change of user answers
-  function handleUserAnswers(i: string, answer: string) {
+  function handleUserAnswers(i: any, answer: string) {
     // change index of userAnswers to answer
     const temp: any = userAnswers;
-    temp[i] = answer;
+    temp[i.id] = answer;
     setUserAnswers(temp);
-    console.log(userAnswers);
   }
   // TODO: Answer submission into the database, need to figure out how to format the userAnswers to insert into the database
   // Maybe parse through the arrays?
@@ -185,18 +184,20 @@ export default function Recall({
     } = await supabase.auth.getUser();
     console.log(user);
     const id = user?.id;
-    // First need to find ID's of the questions
+    console.log(userAnswers);
+    // Now we have the question ID and the answer, we can insert into the database
     for (let i in userAnswers) {
-      for (let j in questions) {
-        if (questions[j].question === i) {
-          console.log(i, questions[j].id);
-        }
-      }
-      // May be best to consider adding question id to userAnswers when selection questions
-      console.log(i, userAnswers[i]);
-      // const { data, error } = await supabase.from("answers").insert([
+      // TODO: Test, this works
+      const { data, error } = await supabase.from("answers").insert([
+        {
+          question_id: i,
+          answer: userAnswers[i],
+          status: "ungraded",
+          user_id: id,
+        },
+      ]);
     }
-    // Below is untested, try submitting dummy data first
+
     // const { data, error } = await supabase
     //   .from("answers")
     //   .insert([{ user_id: id, answers: userAnswers }]);
@@ -230,7 +231,7 @@ export default function Recall({
                   <RecallingScreen
                     fadeIn={fadeIn}
                     fadeOut={fadeOut}
-                    question={item.question}
+                    questionObj={item}
                     userAnswers={userAnswers}
                     handleUserAnswers={handleUserAnswers}
                   />
