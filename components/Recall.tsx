@@ -107,7 +107,7 @@ function RecallingScreen({
     <View style={[styles.container, { width }]}>
       <Text style={s.text}>{questionObj.question}?</Text>
       <TextInput
-        defaultValue={userAnswers[questionObj]}
+        defaultValue={userAnswers[questionObj.id]}
         style={styles.input}
         onChangeText={(text) => handleUserAnswers(questionObj, text)}
         multiline
@@ -182,9 +182,7 @@ export default function Recall({
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    console.log(user);
     const id = user?.id;
-    console.log(userAnswers);
     // Now we have the question ID and the answer, we can insert into the database
     for (let i in userAnswers) {
       // TODO: Test, this works
