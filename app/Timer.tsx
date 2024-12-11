@@ -5,7 +5,7 @@ import { s, colors } from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native-gesture-handler";
 import NotesInput from "@/components/NotesInput";
-import Recall from "@/components/Recall";
+import Recall from "@/components/Recall/Recall";
 // test data
 import {
   dummyAnswers,

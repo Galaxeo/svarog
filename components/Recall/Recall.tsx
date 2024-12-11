@@ -3,11 +3,9 @@ import {
   Platform,
   FlatList,
   Text,
-  TextInput,
   View,
   StyleSheet,
   TouchableOpacity,
-  useWindowDimensions,
 } from "react-native";
 import Animated, {
   useSharedValue,
@@ -16,106 +14,10 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useState, useEffect, useRef } from "react";
-import { s, colors } from "../app/styles";
-import Accordion from "./Accordion";
-
-// Screen for selecting questions to review
-function QuestionScreen({
-  sessions,
-  questions,
-  answers,
-  setRecall,
-  animatedStyle,
-  selection,
-  setSelection,
-  handleQuestionSubmit,
-  fadeIn,
-  fadeOut,
-}: {
-  sessions: any;
-  questions: any;
-  answers: any;
-  setRecall: any;
-  animatedStyle: any;
-  selection: any;
-  setSelection: any;
-  handleQuestionSubmit: any;
-  fadeIn: any;
-  fadeOut: any;
-}) {
-  useEffect(() => {
-    fadeIn();
-  }, []);
-  return (
-    <Animated.View style={[styles.container, animatedStyle]}>
-      <Text style={s.text}>What are we reviewing today?</Text>
-      {selection.map((question: any, i: any) => (
-        <Text key={i} style={s.text}>
-          {question.question}
-        </Text>
-      ))}
-      <Accordion
-        sessions={sessions}
-        questions={questions}
-        answers={answers}
-        selection={selection}
-        setSelection={setSelection}
-      />
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        <TouchableOpacity activeOpacity={0.5}>
-          <MaterialIcons
-            name="arrow-forward"
-            onPress={handleQuestionSubmit}
-            size={24}
-            color={colors.text}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5}>
-          <MaterialIcons
-            name="close"
-            onPress={() => {
-              setRecall(false);
-            }}
-            size={24}
-            color={colors.text}
-          />
-        </TouchableOpacity>
-      </View>
-    </Animated.View>
-  );
-}
-// Screen for recalling answers
-function RecallingScreen({
-  fadeIn,
-  fadeOut,
-  questionObj,
-  userAnswers,
-  handleUserAnswers,
-}: {
-  fadeIn: any;
-  fadeOut: any;
-  questionObj: any;
-  userAnswers: any;
-  handleUserAnswers: any;
-}) {
-  useEffect(() => {
-    fadeIn();
-  }, []);
-  const { width } = useWindowDimensions();
-  return (
-    <View style={[styles.container, { width }]}>
-      <Text style={s.text}>{questionObj.question}?</Text>
-      <TextInput
-        defaultValue={userAnswers[questionObj.id]}
-        style={styles.input}
-        onChangeText={(text) => handleUserAnswers(questionObj, text)}
-        multiline
-        numberOfLines={8}
-      />
-    </View>
-  );
-}
+import { useState } from "react";
+import { s, colors } from "../../app/styles";
+import QuestionScreen from "./QuestionScreen";
+import RecallingScreen from "./RecallingScreen";
 
 export default function Recall({
   setRecall,
@@ -185,7 +87,7 @@ export default function Recall({
     const id = user?.id;
     // Now we have the question ID and the answer, we can insert into the database
     for (let i in userAnswers) {
-      // TODO: Test, this works
+      // TODO: Implement this later on when answer status is implemented
       const { data, error } = await supabase.from("answers").insert([
         {
           question_id: i,
@@ -249,7 +151,7 @@ export default function Recall({
                   <RecallingScreen
                     fadeIn={fadeIn}
                     fadeOut={fadeOut}
-                    question={item}
+                    questionObj={item}
                     userAnswers={userAnswers}
                     handleUserAnswers={handleUserAnswers}
                   />

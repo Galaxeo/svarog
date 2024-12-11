@@ -1,11 +1,7 @@
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useState, useEffect, useRef } from "react";
-import { s, colors } from "../app/styles";
+import { s, colors } from "../../app/styles";
 
-import { MaterialIcons } from "@expo/vector-icons";
-import { Pressable } from "react-native-gesture-handler";
-import { dummyAnswers, dummyQuestions, dummySessions } from "./dummy";
-import { Button } from "@rneui/themed";
 import Animated, {
   useSharedValue,
   useDerivedValue,
@@ -17,7 +13,6 @@ import Animated, {
   interpolate,
   Extrapolation,
 } from "react-native-reanimated";
-import { PressableEvent } from "react-native-gesture-handler/lib/typescript/components/Pressable/PressableProps";
 
 type sessionType = {
   id: number;
@@ -40,6 +35,8 @@ type answerType = {
   status: string;
   answer: string;
 };
+
+// Accordion component for selecting questions to review
 
 function QuestionRow({
   questionObj,
