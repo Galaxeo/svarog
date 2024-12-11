@@ -12,12 +12,10 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 
 ### Current Schedule:
 
-**Currently working on active recall basic functionality: Saving questions and answers into DB**
-Next up: Basic GPT implementation -> implementation with timer
-
-1. [X] Basic login functionality (login through settings)
-2. [X] Timer functionality (start, stop, resume)
-3. [ ] Active recall basic functionality
+**Currently working on Timer menu (Menu for after notes input, showing active recall questions)**
+- [ ] Basic framework for timer menu (display dummy data)
+- [ ] Saving generated questions into DB
+Next up: Implementation with active recall basic functionality
 
 ### Timer
 
