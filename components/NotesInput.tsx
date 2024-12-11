@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Auth from "@/components/Auth";
 import { Session } from "@supabase/supabase-js";
 
-import { s, colors } from "../app/styles";
+import { s, colors } from "@/app/styles";
 import { Button } from "@rneui/themed";
 import generateText from "@/openai";
 import { ChatCompletion } from "openai/resources";

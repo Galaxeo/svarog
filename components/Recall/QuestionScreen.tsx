@@ -2,7 +2,7 @@ import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import Animated from "react-native-reanimated";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect } from "react";
-import { s, colors } from "../../app/styles";
+import { s, colors } from "@/app/styles";
 import Accordion from "./Accordion";
 
 // Screen for selecting questions

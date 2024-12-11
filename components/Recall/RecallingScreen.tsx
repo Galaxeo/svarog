@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
-import { s, colors } from "../../app/styles";
+import { s, colors } from "@/app/styles";
 import Accordion from "./Accordion";
 
 export default function RecallingScreen({

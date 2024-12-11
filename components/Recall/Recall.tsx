@@ -15,7 +15,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
-import { s, colors } from "../../app/styles";
+import { s, colors } from "@/app/styles";
 import QuestionScreen from "./QuestionScreen";
 import RecallingScreen from "./RecallingScreen";
 

@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet } from "react-native";
 import { useState, useEffect, useRef } from "react";
 
-import { s, colors } from "./styles";
+import { s, colors } from "@/app/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native-gesture-handler";
 import NotesInput from "@/components/NotesInput";
