@@ -29,11 +29,12 @@ export default function Timer({
   setSettings,
 }: TimerProps) {
   const [time, setTime] = useState(duration * 60);
+  const [totalTime, setTotalTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
-  const [isNotesInput, setIsNotesInput] = useState(false);
-  const [isRecall, setIsRecall] = useState(true); // change to false when done testing
+  const [isNotesInput, setIsNotesInput] = useState(true); //set to false after testing
+  const [isRecall, setIsRecall] = useState(false);
   const completedSessions = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
@@ -61,6 +62,9 @@ export default function Timer({
             }
             setIsBreak(!isBreak);
             return duration;
+          }
+          if (!isBreak) {
+            setTotalTime((prevTotalTime) => prevTotalTime + 1);
           }
           return prevTime - 1;
         });
@@ -93,9 +97,12 @@ export default function Timer({
   return (
     <View style={styles.timerCont}>
       {/* BIG TODO: Style this whole section */}
-      {isNotesInput && <NotesInput setIsNotesInput={setIsNotesInput} />}
+      {isNotesInput && (
+        <NotesInput totalTime={totalTime} setIsNotesInput={setIsNotesInput} />
+      )}
       {/* <NotesInput handleNotesInput={handleNotesInput} /> */}
       {isRecall && (
+        // TODO: Pass in sessions, questions from database
         <Recall
           sessions={dummySessions}
           questions={dummyQuestions}
