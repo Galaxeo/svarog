@@ -5,6 +5,7 @@ import { Session } from "@supabase/supabase-js";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { supabase } from "@/supabase";
+import { Platform } from "react-native";
 
 import { s, colors } from "@/app/styles";
 import { Button } from "@rneui/themed";
@@ -74,7 +75,7 @@ function DisplayNotes({
   return (
     <>
       <Text style={s.text}>
-        You studied {topic} for {totalTime}! Here are the questions we generated
+        You studied {topic} for {totalTime / 60} minutes! Here are the questions we generated
         for you next time:
       </Text>
       <Text style={s.text}>{response}</Text>
@@ -124,26 +125,54 @@ export default function NotesInput({
     <>
       {page === 0 && (
         <View style={styles.container}>
-          <Text style={s.text}>Topic:</Text>
-          <TextInput
-            multiline
-            editable
-            style={styles.topicInput}
-            value={topicName}
-            placeholder={"Enter topic name"}
-            placeholderTextColor={"gray"}
-            onChangeText={(text) => setTopicName(text)}
-          />
-          <Text style={s.text}>Notes:</Text>
-          <TextInput
-            multiline
-            editable
-            style={styles.input}
-            value={prompt}
-            placeholder={"Copy-paste or enter here"}
-            placeholderTextColor={"gray"}
-            onChangeText={(text) => setPrompt(text)}
-          />
+          {(Platform.OS === "ios" || Platform.OS === "android") && (
+            <>
+              <Text style={s.text}>Topic:</Text>
+              <TextInput
+                multiline
+                editable
+                style={styles.topicInputMobile}
+                value={topicName}
+                placeholder={"Enter topic name"}
+                placeholderTextColor={"gray"}
+                onChangeText={(text) => setTopicName(text)}
+              />
+              <Text style={s.text}>Notes:</Text>
+              <TextInput
+                multiline
+                editable
+                style={styles.inputMobile}
+                value={prompt}
+                placeholder={"Copy-paste or enter here"}
+                placeholderTextColor={"gray"}
+                onChangeText={(text) => setPrompt(text)}
+              />
+            </>
+          )}
+          {
+            Platform.OS === 'web' && <>
+              <Text style={s.text}>Topic:</Text>
+              <TextInput
+                multiline
+                editable
+                style={styles.topicInput}
+                value={topicName}
+                placeholder={"Enter topic name"}
+                placeholderTextColor={"gray"}
+                onChangeText={(text) => setTopicName(text)}
+              />
+              <Text style={s.text}>Notes:</Text>
+              <TextInput
+                multiline
+                editable
+                style={styles.input}
+                value={prompt}
+                placeholder={"Copy-paste or enter here"}
+                placeholderTextColor={"gray"}
+                onChangeText={(text) => setPrompt(text)}
+              />
+            </>
+          }
           <TouchableOpacity>
             <MaterialIcons
               onPress={handleGenerateText}
@@ -188,20 +217,20 @@ const styles = StyleSheet.create({
     borderColor: colors.text,
     padding: 10,
   },
-  topicInputIos: {
+  topicInputMobile: {
     color: colors.text,
     height: 40,
     margin: 12,
-    width: "20%",
+    width: "40%",
     borderWidth: 1,
     borderColor: colors.text,
     padding: 10,
   },
-  inputIos: {
+  inputMobile: {
     color: colors.text,
     height: "30%",
     margin: 12,
-    width: "50%",
+    width: "70%",
     borderWidth: 1,
     borderColor: colors.text,
     padding: 10,
