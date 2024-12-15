@@ -56,7 +56,7 @@ function DisplayNotes({
     if (error) {
       console.error(error);
     } else {
-      console.log("Question submitted");
+      return data;
     }
   }
   async function handleNotesSubmit() {
@@ -68,7 +68,7 @@ function DisplayNotes({
     const id = user?.id;
     const sessionData = await sessionSubmitHelper(id);
     const sessionId = sessionData?.id;
-    await questionSubmitHelper(id, sessionId);
+    const questionData = await questionSubmitHelper(id, sessionId);
     setIsNotesInput(false);
   }
   return (
@@ -180,6 +180,24 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   input: {
+    color: colors.text,
+    height: "30%",
+    margin: 12,
+    width: "50%",
+    borderWidth: 1,
+    borderColor: colors.text,
+    padding: 10,
+  },
+  topicInputIos: {
+    color: colors.text,
+    height: 40,
+    margin: 12,
+    width: "20%",
+    borderWidth: 1,
+    borderColor: colors.text,
+    padding: 10,
+  },
+  inputIos: {
     color: colors.text,
     height: "30%",
     margin: 12,
