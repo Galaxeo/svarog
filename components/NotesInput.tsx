@@ -1,16 +1,13 @@
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { Text, View, StyleSheet, TextInput, ActivityIndicator } from "react-native";
 import { useState, useEffect } from "react";
-import Auth from "@/components/Auth";
-import { Session } from "@supabase/supabase-js";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { supabase } from "@/supabase";
 import { Platform } from "react-native";
 
 import { s, colors } from "@/app/styles";
-import { Button } from "@rneui/themed";
 import generateText from "@/openai";
-import { ChatCompletion } from "openai/resources";
+
 function DisplayNotes({
   topic,
   response,
@@ -62,7 +59,7 @@ function DisplayNotes({
   }
   async function handleNotesSubmit() {
     // save to database
-    // TODO: Perhaps want to think about saving topic w/ question?
+    setIsNotesInput(false);
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -70,15 +67,27 @@ function DisplayNotes({
     const sessionData = await sessionSubmitHelper(id);
     const sessionId = sessionData?.id;
     const questionData = await questionSubmitHelper(id, sessionId);
-    setIsNotesInput(false);
+  }
+  function displayResponse(str: string) {
+    if (str === "") {
+      return (
+        <ActivityIndicator size="large" color={colors.text} />
+      )
+    } else {
+      // Response string has questions separated by comma
+      const questions = Array.from(str.split(","));
+      return questions.map((question) => (
+        <Text style={s.text}>{question}</Text>
+      ))
+    }
   }
   return (
     <>
       <Text style={s.text}>
-        You studied {topic} for {totalTime / 60} minutes! Here are the questions we generated
-        for you next time:
+        You studied {topic} for {totalTime / 60} minutes! Here are the questions we have for you next time:
       </Text>
-      <Text style={s.text}>{response}</Text>
+      {/* <Text style={s.text}>{response}</Text> */}
+      {displayResponse(response)}
       <MaterialIcons
         onPress={() => setPage(0)}
         name="edit"
@@ -106,21 +115,23 @@ export default function NotesInput({
   const [topicName, setTopicName] = useState("");
   const [response, setResponse] = useState("");
   const [page, setPage] = useState(0);
-  function handleGenerateText() {
-    // dummy data to avoid API call limit
-    const text = "This is a test";
-    setResponse(text);
-    // setIsNotesInput(false);
-    setPage(1);
-  }
-  //   const handleGenerateText = async () => {
-  //     try {
-  //       const text = await generateText(prompt);
-  //       setResponse(text);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  // function handleGenerateText() {
+  //   // dummy data to avoid API call limit
+  //   const text = "This is a test";
+  //   setResponse(text);
+  //   // setIsNotesInput(false);
+  //   setPage(1);
+  // }
+  // TODO: Have to figure out how to deal with multiple questions (submission in supabase and formatting the questions themselves)
+  const handleGenerateText = async () => {
+    try {
+      setPage(1);
+      const text = await generateText(prompt);
+      setResponse(text);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       {page === 0 && (
@@ -206,6 +217,7 @@ const styles = StyleSheet.create({
     width: "20%",
     borderWidth: 1,
     borderColor: colors.text,
+    borderRadius: 5,
     padding: 10,
   },
   input: {
@@ -215,6 +227,7 @@ const styles = StyleSheet.create({
     width: "50%",
     borderWidth: 1,
     borderColor: colors.text,
+    borderRadius: 5,
     padding: 10,
   },
   topicInputMobile: {
@@ -224,6 +237,7 @@ const styles = StyleSheet.create({
     width: "40%",
     borderWidth: 1,
     borderColor: colors.text,
+    borderRadius: 5,
     padding: 10,
   },
   inputMobile: {
@@ -233,6 +247,7 @@ const styles = StyleSheet.create({
     width: "70%",
     borderWidth: 1,
     borderColor: colors.text,
+    borderRadius: 5,
     padding: 10,
   },
   container: {
