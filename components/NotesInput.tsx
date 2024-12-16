@@ -90,9 +90,12 @@ function DisplayNotes({
   }
   return (
     <>
-      <Text style={s.text}>
-        You studied {topic} for {totalTime / 60} minutes! Here are the questions we have for you next time:
-      </Text>
+      {/* TODO: Change studied message styling for IOS/Androd*/}
+      <View>
+        <Text style={s.text}>
+          You studied {topic} for {totalTime / 60} minutes! Here are the questions we have for you next time:
+        </Text>
+      </View>
       {/* <Text style={s.text}>{response}</Text> */}
       {/* TODO: BlurView on Android testing */}
       <BlurView intensity={30} tint="systemUltraThinMaterialDark" style={styles.questionContainer}>
@@ -281,6 +284,7 @@ const styles = StyleSheet.create({
     gap: 10,
     padding: 10,
     margin: 10,
+    overflow: 'hidden',
   },
   question: {
   }

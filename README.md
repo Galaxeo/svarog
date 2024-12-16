@@ -12,10 +12,8 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 
 ### Current Schedule:
 
-**Currently working on Timer menu (Menu for after notes input, showing active recall questions)**
-- [ ] Basic framework for timer menu (display dummy data)
-- [ ] Saving generated questions into DB
-Next up: Implementation with active recall basic functionality
+**Currently working on Timer menu (Styling of data for different platforms)**
+Next up: Implementation with active recall basic functionality, pulling questions/session information from DB
 
 ### Timer
 
