@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet, TextInput, ActivityIndicator } from "react-native";
+import { BlurView } from "expo-blur";
 import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
@@ -35,7 +36,9 @@ function DisplayNotes({
       .select()
       .single();
     if (error) {
+      alert("Error submitting sessions, not on our end!");
       console.error(error);
+      return null;
     } else {
       return data;
     }
@@ -52,7 +55,9 @@ function DisplayNotes({
       },
     ]);
     if (error) {
+      alert("Error submitting questions, not on our end!");
       console.error(error);
+      return null;
     } else {
       return data;
     }
@@ -66,7 +71,9 @@ function DisplayNotes({
     const id = user?.id;
     const sessionData = await sessionSubmitHelper(id);
     const sessionId = sessionData?.id;
-    const questionData = await questionSubmitHelper(id, sessionId);
+    if (sessionId != null) {
+      const questionData = await questionSubmitHelper(id, sessionId);
+    }
   }
   function displayResponse(str: string) {
     if (str === "") {
@@ -77,7 +84,7 @@ function DisplayNotes({
       // Response string has questions separated by comma
       const questions = Array.from(str.split(","));
       return questions.map((question) => (
-        <Text style={s.text}>{question}</Text>
+        <Text style={[s.text, styles.question]}>{question}</Text>
       ))
     }
   }
@@ -87,19 +94,24 @@ function DisplayNotes({
         You studied {topic} for {totalTime / 60} minutes! Here are the questions we have for you next time:
       </Text>
       {/* <Text style={s.text}>{response}</Text> */}
-      {displayResponse(response)}
-      <MaterialIcons
-        onPress={() => setPage(0)}
-        name="edit"
-        size={24}
-        color={colors.text}
-      />
-      <MaterialIcons
-        onPress={handleNotesSubmit}
-        name="check"
-        size={24}
-        color={colors.text}
-      />
+      {/* TODO: BlurView on Android testing */}
+      <BlurView intensity={30} tint="systemUltraThinMaterialDark" style={styles.questionContainer}>
+        {displayResponse(response)}
+      </BlurView>
+      <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <MaterialIcons
+          onPress={() => setPage(0)}
+          name="edit"
+          size={24}
+          color={colors.text}
+        />
+        <MaterialIcons
+          onPress={handleNotesSubmit}
+          name="check"
+          size={24}
+          color={colors.text}
+        />
+      </View>
     </>
   );
 }
@@ -261,4 +273,15 @@ const styles = StyleSheet.create({
     zIndex: 2,
     elevation: 2,
   },
+  questionContainer: {
+    display: "flex",
+    borderWidth: 1,
+    borderColor: colors.text,
+    borderRadius: 5,
+    gap: 10,
+    padding: 10,
+    margin: 10,
+  },
+  question: {
+  }
 });
