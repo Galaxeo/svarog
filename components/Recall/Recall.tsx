@@ -71,7 +71,6 @@ export default function Recall({
   // TODO: Answer submission into the database, need to figure out how to format the userAnswers to insert into the database
   // Maybe parse through the arrays?
   async function handleAnswerSubmit() {
-    // const userID = supabase.auth.getUser()?.id;
     /*
      * Answers table schema:
      * id
@@ -85,7 +84,6 @@ export default function Recall({
       data: { user },
     } = await supabase.auth.getUser();
     const id = user?.id;
-    // Now we have the question ID and the answer, we can insert into the database
     for (let i in userAnswers) {
       // TODO: Implement this later on when answer status is implemented
       const { data, error } = await supabase.from("answers").insert([

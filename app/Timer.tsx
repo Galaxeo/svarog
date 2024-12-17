@@ -33,7 +33,7 @@ export default function Timer({
   const [isActive, setIsActive] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
-  const [isNotesInput, setIsNotesInput] = useState(true); //set to false after testing
+  const [isNotesInput, setIsNotesInput] = useState(false);
   const [isRecall, setIsRecall] = useState(false);
   const completedSessions = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -111,7 +111,7 @@ export default function Timer({
         />
       )}
       {/* <Recall /> */}
-      <Text style={{ color: colors.text }}>
+      <Text style={[{ color: colors.text }, styles.header]}>
         {isBreak ? "Break" : "Work"} Time
       </Text>
       <Text style={{ color: colors.text }}>
@@ -169,4 +169,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: 90,
   },
+  header: {
+    fontSize: 35,
+  }
 });

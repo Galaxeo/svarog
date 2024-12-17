@@ -45,13 +45,14 @@ function DisplayNotes({
   }
   async function questionSubmitHelper(
     userId: string | undefined,
-    sessionId: string
+    sessionId: string,
+    question: string,
   ) {
     const { data, error } = await supabase.from("questions").insert([
       {
         session_id: sessionId,
         user_id: userId,
-        question: response,
+        question: question,
       },
     ]);
     if (error) {
@@ -62,7 +63,7 @@ function DisplayNotes({
       return data;
     }
   }
-  async function handleNotesSubmit() {
+  async function handleNotesSubmit(response: string) {
     // save to database
     setIsNotesInput(false);
     const {
@@ -71,14 +72,15 @@ function DisplayNotes({
     const id = user?.id;
     const sessionData = await sessionSubmitHelper(id);
     const sessionId = sessionData?.id;
+    const questions = Array.from(response.split(","));
     if (sessionId != null) {
-      const questionData = await questionSubmitHelper(id, sessionId);
+      questions.forEach(async (question) => (await questionSubmitHelper(id, sessionId, question)));
     }
   }
   function displayResponse(str: string) {
     if (str === "") {
       return (
-        <ActivityIndicator size="large" color={colors.text} />
+        <ActivityIndicator size="small" color={colors.text} />
       )
     } else {
       // Response string has questions separated by comma
@@ -91,7 +93,7 @@ function DisplayNotes({
   return (
     <>
       {/* TODO: Change studied message styling for IOS/Androd*/}
-      <View>
+      <View style={styles.studiedMessage}>
         <Text style={s.text}>
           You studied {topic} for {totalTime / 60} minutes! Here are the questions we have for you next time:
         </Text>
@@ -109,7 +111,7 @@ function DisplayNotes({
           color={colors.text}
         />
         <MaterialIcons
-          onPress={handleNotesSubmit}
+          onPress={() => { handleNotesSubmit(response) }}
           name="check"
           size={24}
           color={colors.text}
@@ -139,6 +141,14 @@ export default function NotesInput({
   // }
   // TODO: Have to figure out how to deal with multiple questions (submission in supabase and formatting the questions themselves)
   const handleGenerateText = async () => {
+    if (topicName === "") {
+      alert("Please enter a topic name!");
+      return;
+    }
+    else if (prompt === "") {
+      alert("Please enter some notes!");
+      return;
+    }
     try {
       setPage(1);
       const text = await generateText(prompt);
@@ -151,62 +161,44 @@ export default function NotesInput({
     <>
       {page === 0 && (
         <View style={styles.container}>
-          {(Platform.OS === "ios" || Platform.OS === "android") && (
-            <>
-              <Text style={s.text}>Topic:</Text>
-              <TextInput
-                multiline
-                editable
-                style={styles.topicInputMobile}
-                value={topicName}
-                placeholder={"Enter topic name"}
-                placeholderTextColor={"gray"}
-                onChangeText={(text) => setTopicName(text)}
+          <Text style={s.text}>Topic:</Text>
+          <TextInput
+            multiline
+            editable
+            style={styles.topicInput}
+            value={topicName}
+            placeholder={"Enter topic name"}
+            placeholderTextColor={"gray"}
+            onChangeText={(text) => setTopicName(text)}
+          />
+          <Text style={s.text}>Notes:</Text>
+          <TextInput
+            multiline
+            editable
+            style={styles.input}
+            value={prompt}
+            placeholder={"Copy-paste or enter here"}
+            placeholderTextColor={"gray"}
+            onChangeText={(text) => setPrompt(text)}
+          />
+          <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <TouchableOpacity>
+              <MaterialIcons
+                onPress={handleGenerateText}
+                name="check"
+                size={24}
+                color={colors.text}
               />
-              <Text style={s.text}>Notes:</Text>
-              <TextInput
-                multiline
-                editable
-                style={styles.inputMobile}
-                value={prompt}
-                placeholder={"Copy-paste or enter here"}
-                placeholderTextColor={"gray"}
-                onChangeText={(text) => setPrompt(text)}
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <MaterialIcons
+                onPress={() => setIsNotesInput(false)}
+                name="close"
+                size={24}
+                color={colors.text}
               />
-            </>
-          )}
-          {
-            Platform.OS === 'web' && <>
-              <Text style={s.text}>Topic:</Text>
-              <TextInput
-                multiline
-                editable
-                style={styles.topicInput}
-                value={topicName}
-                placeholder={"Enter topic name"}
-                placeholderTextColor={"gray"}
-                onChangeText={(text) => setTopicName(text)}
-              />
-              <Text style={s.text}>Notes:</Text>
-              <TextInput
-                multiline
-                editable
-                style={styles.input}
-                value={prompt}
-                placeholder={"Copy-paste or enter here"}
-                placeholderTextColor={"gray"}
-                onChangeText={(text) => setPrompt(text)}
-              />
-            </>
-          }
-          <TouchableOpacity>
-            <MaterialIcons
-              onPress={handleGenerateText}
-              name="check"
-              size={24}
-              color={colors.text}
-            />
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
       {page === 1 && (
@@ -229,7 +221,8 @@ const styles = StyleSheet.create({
     color: colors.text,
     height: 40,
     margin: 12,
-    width: "20%",
+    // Is this best way to do this?
+    width: Platform.OS === "web" ? "20%" : "50%",
     borderWidth: 1,
     borderColor: colors.text,
     borderRadius: 5,
@@ -239,27 +232,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     height: "30%",
     margin: 12,
-    width: "50%",
-    borderWidth: 1,
-    borderColor: colors.text,
-    borderRadius: 5,
-    padding: 10,
-  },
-  topicInputMobile: {
-    color: colors.text,
-    height: 40,
-    margin: 12,
-    width: "40%",
-    borderWidth: 1,
-    borderColor: colors.text,
-    borderRadius: 5,
-    padding: 10,
-  },
-  inputMobile: {
-    color: colors.text,
-    height: "30%",
-    margin: 12,
-    width: "70%",
+    width: Platform.OS === "web" ? "50%" : "70%",
     borderWidth: 1,
     borderColor: colors.text,
     borderRadius: 5,
@@ -281,11 +254,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.text,
     borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: 10,
     padding: 10,
     margin: 10,
     overflow: 'hidden',
   },
   question: {
-  }
+  },
+  studiedMessage: {
+    width: Platform.OS === "web" ? "50%" : "80%",
+  },
 });
