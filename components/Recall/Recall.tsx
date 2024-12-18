@@ -14,24 +14,23 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { s, colors } from "@/app/styles";
 import QuestionScreen from "./QuestionScreen";
 import RecallingScreen from "./RecallingScreen";
 
+import { dummyAnswers, dummyQuestions, dummySessions } from "../dummy";
+
 export default function Recall({
   setRecall,
-  sessions,
-  questions,
-  answers,
 }: {
   setRecall: any;
-  sessions: any;
-  questions: any;
-  answers: any;
 }) {
   const [selection, setSelection] = useState([]);
   const [state, setState] = useState("question");
+  const [sessions, setSessions] = useState(dummySessions);
+  const [questions, setQuestions] = useState(dummyQuestions);
+  const [answers, setAnswers] = useState(dummyAnswers);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState<any>({});
   const fadeInOpacity = useSharedValue(1);
@@ -52,6 +51,16 @@ export default function Recall({
       opacity: fadeInOpacity.value,
     };
   });
+  useEffect(() => {
+    const fetchData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      // TODO: fetch sessions, questions, and answers from supabase
+      const { data } = await supabase.from("sessions").select("*").eq("user_id", user?.id);
+      if (data) setSessions(data);
+    }
+  })
   // The selection of questions to review
   function handleQuestionSubmit() {
     if (selection.length === 0) {

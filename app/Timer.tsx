@@ -104,9 +104,6 @@ export default function Timer({
       {isRecall && (
         // TODO: Pass in sessions, questions from database
         <Recall
-          sessions={dummySessions}
-          questions={dummyQuestions}
-          answers={dummyAnswers}
           setRecall={setIsRecall}
         />
       )}
@@ -170,6 +167,6 @@ const styles = StyleSheet.create({
     fontSize: 90,
   },
   header: {
-    fontSize: 35,
+    fontSize: 30,
   }
 });
