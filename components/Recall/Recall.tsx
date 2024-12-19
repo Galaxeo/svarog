@@ -28,9 +28,9 @@ export default function Recall({
 }) {
   const [selection, setSelection] = useState([]);
   const [state, setState] = useState("question");
-  const [sessions, setSessions] = useState(dummySessions);
-  const [questions, setQuestions] = useState(dummyQuestions);
-  const [answers, setAnswers] = useState(dummyAnswers);
+  const [sessions, setSessions] = useState<any>();
+  const [questions, setQuestions] = useState<any>();
+  const [answers, setAnswers] = useState();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState<any>({});
   const fadeInOpacity = useSharedValue(1);
@@ -56,11 +56,15 @@ export default function Recall({
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      // TODO: fetch sessions, questions, and answers from supabase
-      const { data } = await supabase.from("sessions").select("*").eq("user_id", user?.id);
-      if (data) setSessions(data);
+      const sessions = await supabase.from("sessions").select("*").eq("user_id", user?.id);
+      if (sessions.data) setSessions(sessions.data);
+      const questions = await supabase.from("questions").select("*").eq("user_id", user?.id);
+      if (questions.data) setQuestions(questions.data);
+      // Possible to fetch answers here as well if we want later
     }
-  })
+
+    fetchData().catch(console.error);
+  }, [])
   // The selection of questions to review
   function handleQuestionSubmit() {
     if (selection.length === 0) {

@@ -166,6 +166,7 @@ export default function Accordion({
     const sessionsArr = [];
     for (let i in sessions) {
       const session = sessions[i];
+      // Code if we want to include answers
       // const questions = getQuestions(session.id);
       // for (let j in questions) {
       //   const question = questions[j];
