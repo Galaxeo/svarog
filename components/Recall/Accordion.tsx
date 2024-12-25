@@ -152,6 +152,7 @@ export default function Accordion({
   setSelection,
 }: any) {
   function getQuestions(session_id: number) {
+    if (questions === undefined) { return }
     return questions.filter(
       (question: questionType) => question.session_id === session_id
     );

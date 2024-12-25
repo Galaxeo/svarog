@@ -23,14 +23,18 @@ import { dummyAnswers, dummyQuestions, dummySessions } from "../dummy";
 
 export default function Recall({
   setRecall,
+  sessions,
+  questions,
+  answers
 }: {
   setRecall: any;
+  sessions: any;
+  questions: any;
+  answers: any;
 }) {
   const [selection, setSelection] = useState([]);
   const [state, setState] = useState("question");
-  const [sessions, setSessions] = useState<any>();
-  const [questions, setQuestions] = useState<any>();
-  const [answers, setAnswers] = useState();
+  // Consider moving userdata outside of recall component
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState<any>({});
   const fadeInOpacity = useSharedValue(1);
@@ -51,20 +55,7 @@ export default function Recall({
       opacity: fadeInOpacity.value,
     };
   });
-  useEffect(() => {
-    const fetchData = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      const sessions = await supabase.from("sessions").select("*").eq("user_id", user?.id);
-      if (sessions.data) setSessions(sessions.data);
-      const questions = await supabase.from("questions").select("*").eq("user_id", user?.id);
-      if (questions.data) setQuestions(questions.data);
-      // Possible to fetch answers here as well if we want later
-    }
-
-    fetchData().catch(console.error);
-  }, [])
+  // TODO: Decide on how we want to obtain this? Local storage vs constantly obtaining it from the database
   // The selection of questions to review
   function handleQuestionSubmit() {
     if (selection.length === 0) {
@@ -117,7 +108,7 @@ export default function Recall({
   return (
     // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers
     <View style={styles.background}>
-      {state === "question" ? (
+      {state === "question" && questions != undefined ? (
         <QuestionScreen
           //  TODO: Replace dummy data with actual data, where to get data from? in the parent component or here
           sessions={sessions}

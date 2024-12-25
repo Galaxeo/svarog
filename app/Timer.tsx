@@ -33,6 +33,9 @@ export default function Timer({
   const [isActive, setIsActive] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [sessions, setSessions] = useState<any>();
+  const [questions, setQuestions] = useState<any>();
+  const [answers, setAnswers] = useState();
   const [isNotesInput, setIsNotesInput] = useState(false);
   const [isRecall, setIsRecall] = useState(false);
   const completedSessions = useRef(0);
@@ -40,6 +43,21 @@ export default function Timer({
   useEffect(() => {
     setTime(duration * 60);
   }, [duration]);
+  // Obtain user data on initial render and when finished with session
+  useEffect(() => {
+    const fetchData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const sessions = await supabase.from("sessions").select("*").eq("user_id", user?.id);
+      if (sessions.data) setSessions(sessions.data);
+      const questions = await supabase.from("questions").select("*").eq("user_id", user?.id);
+      if (questions.data) setQuestions(questions.data);
+      // Possible to fetch answers here as well if we want later
+    }
+
+    fetchData().catch(console.error);
+  }, [isFinished])
   function startTimer() {
     if (!isActive) {
       setIsActive(true);
@@ -105,6 +123,9 @@ export default function Timer({
         // TODO: Pass in sessions, questions from database
         <Recall
           setRecall={setIsRecall}
+          sessions={sessions}
+          questions={questions}
+          answers={answers}
         />
       )}
       {/* <Recall /> */}
