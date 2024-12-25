@@ -13,13 +13,13 @@ function DisplayNotes({
   topic,
   response,
   setPage,
-  setIsNotesInput,
+  setNotesInput,
   totalTime,
 }: {
   topic: string;
   response: string;
   setPage: any;
-  setIsNotesInput: any;
+  setNotesInput: any;
   totalTime: number;
 }) {
   async function sessionSubmitHelper(userId: string | undefined) {
@@ -65,7 +65,7 @@ function DisplayNotes({
   }
   async function handleNotesSubmit(response: string) {
     // save to database
-    setIsNotesInput(false);
+    setNotesInput(false);
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -122,10 +122,10 @@ function DisplayNotes({
 }
 
 export default function NotesInput({
-  setIsNotesInput,
+  setNotesInput,
   totalTime,
 }: {
-  setIsNotesInput: any;
+  setNotesInput: any;
   totalTime: number;
 }) {
   const [prompt, setPrompt] = useState("");
@@ -136,7 +136,7 @@ export default function NotesInput({
   //   // dummy data to avoid API call limit
   //   const text = "This is a test";
   //   setResponse(text);
-  //   // setIsNotesInput(false);
+  //   // setNotesInput(false);
   //   setPage(1);
   // }
   // TODO: Have to figure out how to deal with multiple questions (submission in supabase and formatting the questions themselves)
@@ -192,7 +192,7 @@ export default function NotesInput({
             </TouchableOpacity>
             <TouchableOpacity>
               <MaterialIcons
-                onPress={() => setIsNotesInput(false)}
+                onPress={() => setNotesInput(false)}
                 name="close"
                 size={24}
                 color={colors.text}
@@ -207,7 +207,7 @@ export default function NotesInput({
             topic={topicName}
             response={response}
             setPage={setPage}
-            setIsNotesInput={setIsNotesInput}
+            setNotesInput={setNotesInput}
             totalTime={totalTime}
           />
         </View>

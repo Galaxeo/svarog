@@ -6,39 +6,32 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native-gesture-handler";
 import NotesInput from "@/components/NotesInput";
 import Recall from "@/components/Recall/Recall";
+import Settings from "@/components/Settings";
 import { supabase } from "@/supabase";
-import {
-  dummyAnswers,
-  dummyQuestions,
-  dummySessions,
-} from "@/components/dummy";
 
-interface TimerProps {
-  duration: number;
-  short: number;
-  long: number;
-  shortToLong: number;
-  setSettings: (settings: boolean) => void;
-}
-
-export default function Timer({
-  duration = 0.1,
-  short = 0.2,
-  long = 30,
-  shortToLong = 2,
-  setSettings,
-}: TimerProps) {
+export default function Timer() {
+  // Timer props
+  const [duration, setDuration] = useState(0.1);
+  const [short, setShort] = useState(0.2);
+  const [long, setLong] = useState(30);
+  const [shortToLong, setShortToLong] = useState(2);
   const [time, setTime] = useState(duration * 60);
+
+  // Managing pages and timer state
+  const [isActive, setActive] = useState(false);
+  const [isBreak, setBreak] = useState(false);
+  const [isFinished, setFinished] = useState(false);
+  const [isSettings, setSettings] = useState(false);
+  const [isNotesInput, setNotesInput] = useState(false);
+  const [isRecall, setRecall] = useState(false);
+
+  // User Info
   const [totalTime, setTotalTime] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-  const [isBreak, setIsBreak] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
   const [sessions, setSessions] = useState<any>();
   const [questions, setQuestions] = useState<any>();
   const [answers, setAnswers] = useState();
-  const [isNotesInput, setIsNotesInput] = useState(false);
-  const [isRecall, setIsRecall] = useState(false);
   const completedSessions = useRef(0);
+
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
     setTime(duration * 60);
@@ -60,12 +53,12 @@ export default function Timer({
   }, [isFinished])
   function startTimer() {
     if (!isActive) {
-      setIsActive(true);
+      setActive(true);
       intervalRef.current = setInterval(() => {
         setTime((prevTime) => {
           if (prevTime === 0) {
             clearInterval(intervalRef.current!);
-            setIsActive(false);
+            setActive(false);
             console.log("Time's up!");
             // set break time
             // TODO: Test what we want to happen when shortToLong is changed
@@ -78,7 +71,7 @@ export default function Timer({
             } else {
               setTime(short * 60);
             }
-            setIsBreak(!isBreak);
+            setBreak(!isBreak);
             return duration;
           }
           if (!isBreak) {
@@ -93,21 +86,21 @@ export default function Timer({
   function resetTimer() {
     clearInterval(intervalRef.current!);
     setTime(duration * 60);
-    setIsActive(false);
+    setActive(false);
   }
   function pausePlayTimer() {
     if (isActive) {
       clearInterval(intervalRef.current!);
-      setIsActive(false);
+      setActive(false);
     } else {
       startTimer();
     }
   }
   function finishSession() {
     // TODO: need to add an alert here or something
-    setIsNotesInput(true);
-    setIsFinished(true);
-    setIsBreak(false);
+    setNotesInput(true);
+    setFinished(true);
+    setBreak(false);
     setTime(duration * 60);
     completedSessions.current = 0;
   }
@@ -116,17 +109,20 @@ export default function Timer({
     <View style={styles.timerCont}>
       {/* BIG TODO: Style this whole section */}
       {isNotesInput && (
-        <NotesInput totalTime={totalTime} setIsNotesInput={setIsNotesInput} />
+        <NotesInput totalTime={totalTime} setNotesInput={setNotesInput} />
       )}
       {/* <NotesInput handleNotesInput={handleNotesInput} /> */}
       {isRecall && (
         // TODO: Pass in sessions, questions from database
         <Recall
-          setRecall={setIsRecall}
+          setRecall={setRecall}
           sessions={sessions}
           questions={questions}
           answers={answers}
         />
+      )}
+      {isSettings && (
+        <Settings setSettings={setSettings} />
       )}
       {/* <Recall /> */}
       <Text style={[{ color: colors.text }, styles.header]}>
@@ -158,7 +154,7 @@ export default function Timer({
         <Pressable onPress={() => setSettings(true)}>
           <MaterialIcons name="settings" size={48} color={colors.text} />
         </Pressable>
-        <Pressable onPress={() => setIsRecall(true)}>
+        <Pressable onPress={() => setRecall(true)}>
           <MaterialIcons name="assignment" size={48} color={colors.text} />
         </Pressable>
       </View>
