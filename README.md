@@ -12,8 +12,8 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 
 ### Current Schedule:
 
-**Currently working on implementing active recall with timer**
-Next up: Implementation with active recall basic functionality, pulling questions/session information from DB 
+**Working on settings page**
+Next up: Implementing active recall directly with timer, tracking answer functionality
 
 ### Timer
 
