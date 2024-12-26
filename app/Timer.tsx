@@ -21,7 +21,7 @@ export default function Timer() {
   const [isActive, setActive] = useState(false);
   const [isBreak, setBreak] = useState(false);
   const [isFinished, setFinished] = useState(false);
-  const [isSettings, setSettings] = useState(false);
+  const [isSettings, setSettings] = useState(true); // change after testing
   const [isNotesInput, setNotesInput] = useState(false);
   const [isRecall, setRecall] = useState(false);
 
@@ -122,7 +122,17 @@ export default function Timer() {
         />
       )}
       {isSettings && (
-        <Settings setSettings={setSettings} />
+        <Settings
+          duration={duration}
+          setDuration={setDuration}
+          short={short}
+          setShort={setShort}
+          long={long}
+          setLong={setLong}
+          shortToLong={shortToLong}
+          setShortToLong={setShortToLong}
+          setSettings={setSettings}
+        />
       )}
       {/* <Recall /> */}
       <Text style={[{ color: colors.text }, styles.header]}>

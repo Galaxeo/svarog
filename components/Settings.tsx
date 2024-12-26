@@ -1,5 +1,10 @@
-
-import { Text, View, StyleSheet, TextInput, ActivityIndicator } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { BlurView } from "expo-blur";
 import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -10,18 +15,40 @@ import { s, colors } from "@/app/styles";
 import generateText from "@/openai";
 
 export default function Settings({
-  setSettings
+  duration,
+  setDuration,
+  short,
+  setShort,
+  long,
+  setLong,
+  shortToLong,
+  setShortToLong,
+  setSettings,
 }: {
+  duration: string;
+  setDuration: any;
+  short: number;
+  setShort: any;
+  long: number;
+  setLong: any;
+  shortToLong: number;
+  setShortToLong: any;
   setSettings: any;
 }) {
-
   return (
     <>
       <View style={styles.container}>
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <Text style={{ color: colors.text, fontSize: 24 }}>Settings</Text>
+        <TextInput
+          defaultValue={duration.toString()}
+          style={styles.input}
+        />
+        <View style={{ display: "flex", flexDirection: "row" }}>
           <TouchableOpacity>
             <MaterialIcons
-              onPress={() => { setSettings(false) }}
+              onPress={() => {
+                setSettings(false);
+              }}
               name="arrow-back"
               size={24}
               color={colors.text}
@@ -34,9 +61,10 @@ export default function Settings({
 }
 
 const styles = StyleSheet.create({
+  // TODO: Change for settings page
   input: {
     color: colors.text,
-    height: "30%",
+    height: 20,
     margin: 12,
     width: Platform.OS === "web" ? "50%" : "70%",
     borderWidth: 1,
