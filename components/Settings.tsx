@@ -25,7 +25,7 @@ export default function Settings({
   setShortToLong,
   setSettings,
 }: {
-  duration: string;
+  duration: number;
   setDuration: any;
   short: number;
   setShort: any;
@@ -39,10 +39,95 @@ export default function Settings({
     <>
       <View style={styles.container}>
         <Text style={{ color: colors.text, fontSize: 24 }}>Settings</Text>
-        <TextInput
-          defaultValue={duration.toString()}
-          style={styles.input}
-        />
+        <View style={styles.settingRow}>
+          <Text style={{ color: colors.text, fontSize: 12 }}>Duration</Text>
+          <View style={styles.settingInputs}>
+            <TouchableOpacity onPress={() => { setDuration(duration - 5) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { setDuration(duration - 1) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>-1</Text>
+            </TouchableOpacity>
+            {/*TODO: Figure out what to do with inputs, maybe premium option?*/}
+            <TextInput
+              defaultValue={duration.toString()}
+              style={s.text}
+              keyboardType="numeric"
+            />
+            <TouchableOpacity onPress={() => { setDuration(duration + 1) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>+1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { setDuration(duration + 5) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>+5</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.settingRow}>
+          <Text style={{ color: colors.text, fontSize: 12 }}>Short Break Length</Text>
+          <View style={styles.settingInputs}>
+            <TouchableOpacity onPress={() => { setShort(short - 5) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { setShort(short - 1) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>-1</Text>
+            </TouchableOpacity>
+            <TextInput
+              defaultValue={short.toString()}
+              style={s.text}
+              keyboardType="numeric"
+            />
+            <TouchableOpacity onPress={() => { setShort(short + 1) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>+1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { setShort(short + 5) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>+5</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.settingRow}>
+          <Text style={{ color: colors.text, fontSize: 12 }}>Long Break Length</Text>
+          <View style={styles.settingInputs}>
+            <TouchableOpacity onPress={() => { setLong(long - 5) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { setLong(long - 1) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>-1</Text>
+            </TouchableOpacity>
+            <TextInput
+              defaultValue={long.toString()}
+              style={s.text}
+              keyboardType="numeric"
+            />
+            <TouchableOpacity onPress={() => { setLong(long + 1) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>+1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { setLong(long + 5) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>+5</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.settingRow}>
+          <Text style={{ color: colors.text, fontSize: 12 }}> # of short breaks before long</Text>
+          <View style={styles.settingInputs}>
+            <TouchableOpacity onPress={() => { setShortToLong(shortToLong - 5) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { setShortToLong(shortToLong - 1) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>-1</Text>
+            </TouchableOpacity>
+            <TextInput
+              defaultValue={shortToLong.toString()}
+              style={s.text}
+              keyboardType="numeric"
+            />
+            <TouchableOpacity onPress={() => { setShortToLong(shortToLong + 1) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>+1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { setShortToLong(shortToLong + 5) }}>
+              <Text style={{ color: colors.text, fontSize: 18 }}>+5</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
         <View style={{ display: "flex", flexDirection: "row" }}>
           <TouchableOpacity>
             <MaterialIcons
@@ -66,7 +151,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     height: 20,
     margin: 12,
-    width: Platform.OS === "web" ? "50%" : "70%",
+    width: 50,
     borderWidth: 1,
     borderColor: colors.text,
     borderRadius: 5,
@@ -83,4 +168,14 @@ const styles = StyleSheet.create({
     zIndex: 2,
     elevation: 2,
   },
+  settingRow: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  settingInputs: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 10,
+  }
 });

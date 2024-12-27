@@ -11,8 +11,8 @@ import { supabase } from "@/supabase";
 
 export default function Timer() {
   // Timer props
-  const [duration, setDuration] = useState(0.1);
-  const [short, setShort] = useState(0.2);
+  const [duration, setDuration] = useState(50);
+  const [short, setShort] = useState(10);
   const [long, setLong] = useState(30);
   const [shortToLong, setShortToLong] = useState(2);
   const [time, setTime] = useState(duration * 60);
