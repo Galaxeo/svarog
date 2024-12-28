@@ -39,93 +39,28 @@ export default function Settings({
     <>
       <View style={styles.container}>
         <Text style={{ color: colors.text, fontSize: 36 }}>Settings</Text>
+        {/* <MaterialIcons style={{ color: colors.text }} name="settings" size={48} /> */}
         <View style={styles.settingRow}>
           <Text style={styles.settingTitle}>Duration</Text>
           <View style={styles.settingInputs}>
-            {/*TODO: Create style classes for duration buttons*/}
-            <TouchableOpacity onPress={() => { setDuration(duration - 5) }}>
+            {/*TODO: Create style classes for duration buttons ALSO it may be a good idea to just do modals for settings instead of overlay.*/}
+            {/*Problem with centering has to do with size*/}
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(duration - 5) }}>
               <Text style={styles.settingDecrement}>-5</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => { setDuration(duration - 1) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(duration - 1) }}>
               <Text style={styles.settingDecrement}>-1</Text>
             </TouchableOpacity>
-            {/*TODO: Figure out what to do with direct text input, maybe premium option?*/}
             <TextInput
               defaultValue={duration.toString()}
-              style={s.text}
+              style={styles.settingTextInput}
               keyboardType="numeric"
             />
-            <TouchableOpacity onPress={() => { setDuration(duration + 1) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>+1</Text>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(duration + 1) }}>
+              <Text style={styles.settingIncrement}>+1</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => { setDuration(duration + 5) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>+5</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.settingRow}>
-          <Text style={styles.settingTitle}>Short Break Length</Text>
-          <View style={styles.settingInputs}>
-            <TouchableOpacity onPress={() => { setShort(short - 5) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => { setShort(short - 1) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>-1</Text>
-            </TouchableOpacity>
-            <TextInput
-              defaultValue={short.toString()}
-              style={s.text}
-              keyboardType="numeric"
-            />
-            <TouchableOpacity onPress={() => { setShort(short + 1) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>+1</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => { setShort(short + 5) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>+5</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.settingRow}>
-          <Text style={styles.settingTitle}>Long Break Length</Text>
-          <View style={styles.settingInputs}>
-            <TouchableOpacity onPress={() => { setLong(long - 5) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => { setLong(long - 1) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>-1</Text>
-            </TouchableOpacity>
-            <TextInput
-              defaultValue={long.toString()}
-              style={s.text}
-              keyboardType="numeric"
-            />
-            <TouchableOpacity onPress={() => { setLong(long + 1) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>+1</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => { setLong(long + 5) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>+5</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.settingRow}>
-          <Text style={styles.settingTitle}> # of sessions before long break</Text>
-          <View style={styles.settingInputs}>
-            <TouchableOpacity onPress={() => { setShortToLong(shortToLong - 5) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => { setShortToLong(shortToLong - 1) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>-1</Text>
-            </TouchableOpacity>
-            <TextInput
-              defaultValue={shortToLong.toString()}
-              style={s.text}
-              keyboardType="numeric"
-            />
-            <TouchableOpacity onPress={() => { setShortToLong(shortToLong + 1) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>+1</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => { setShortToLong(shortToLong + 5) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>+5</Text>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(duration + 5) }}>
+              <Text style={styles.settingIncrement}>+5</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -172,20 +107,38 @@ const styles = StyleSheet.create({
   settingRow: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     margin: 5,
   },
   settingInputs: {
-    display: 'flex',
+    flex: 5,
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     gap: 10,
+    textAlign: 'center',
+  },
+  settingTextInput: {
+    color: colors.text,
+    textAlign: 'center',
+    fontSize: 36,
+    width: "50%"
   },
   settingTitle: {
     color: colors.text,
+    width: "100%",
     fontSize: 16,
+    textAlign: 'center',
   },
   settingDecrement: {
     color: colors.text,
-    fontSize: 18,
+    fontSize: 36,
+  },
+  settingIncrement: {
+    color: colors.text,
+    fontSize: 36,
+  },
+  settingButton: {
+    width: 50,
   }
 });
