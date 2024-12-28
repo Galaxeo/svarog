@@ -38,17 +38,18 @@ export default function Settings({
   return (
     <>
       <View style={styles.container}>
-        <Text style={{ color: colors.text, fontSize: 24 }}>Settings</Text>
+        <Text style={{ color: colors.text, fontSize: 36 }}>Settings</Text>
         <View style={styles.settingRow}>
-          <Text style={{ color: colors.text, fontSize: 12 }}>Duration</Text>
+          <Text style={styles.settingTitle}>Duration</Text>
           <View style={styles.settingInputs}>
+            {/*TODO: Create style classes for duration buttons*/}
             <TouchableOpacity onPress={() => { setDuration(duration - 5) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
+              <Text style={styles.settingDecrement}>-5</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => { setDuration(duration - 1) }}>
-              <Text style={{ color: colors.text, fontSize: 18 }}>-1</Text>
+              <Text style={styles.settingDecrement}>-1</Text>
             </TouchableOpacity>
-            {/*TODO: Figure out what to do with inputs, maybe premium option?*/}
+            {/*TODO: Figure out what to do with direct text input, maybe premium option?*/}
             <TextInput
               defaultValue={duration.toString()}
               style={s.text}
@@ -63,7 +64,7 @@ export default function Settings({
           </View>
         </View>
         <View style={styles.settingRow}>
-          <Text style={{ color: colors.text, fontSize: 12 }}>Short Break Length</Text>
+          <Text style={styles.settingTitle}>Short Break Length</Text>
           <View style={styles.settingInputs}>
             <TouchableOpacity onPress={() => { setShort(short - 5) }}>
               <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
@@ -85,7 +86,7 @@ export default function Settings({
           </View>
         </View>
         <View style={styles.settingRow}>
-          <Text style={{ color: colors.text, fontSize: 12 }}>Long Break Length</Text>
+          <Text style={styles.settingTitle}>Long Break Length</Text>
           <View style={styles.settingInputs}>
             <TouchableOpacity onPress={() => { setLong(long - 5) }}>
               <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
@@ -107,7 +108,7 @@ export default function Settings({
           </View>
         </View>
         <View style={styles.settingRow}>
-          <Text style={{ color: colors.text, fontSize: 12 }}> # of short breaks before long</Text>
+          <Text style={styles.settingTitle}> # of sessions before long break</Text>
           <View style={styles.settingInputs}>
             <TouchableOpacity onPress={() => { setShortToLong(shortToLong - 5) }}>
               <Text style={{ color: colors.text, fontSize: 18 }}>-5</Text>
@@ -171,11 +172,20 @@ const styles = StyleSheet.create({
   settingRow: {
     display: 'flex',
     alignItems: 'center',
+    margin: 5,
   },
   settingInputs: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     gap: 10,
+  },
+  settingTitle: {
+    color: colors.text,
+    fontSize: 16,
+  },
+  settingDecrement: {
+    color: colors.text,
+    fontSize: 18,
   }
 });
