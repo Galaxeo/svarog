@@ -63,6 +63,76 @@ export default function Settings({
             </TouchableOpacity>
           </View>
         </View>
+
+        <View style={styles.settingRow}>
+          <Text style={styles.settingTitle}>Break Length</Text>
+          <View style={styles.settingInputs}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(short - 5) }}>
+              <Text style={styles.settingDecrement}>-5</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(short - 1) }}>
+              <Text style={styles.settingDecrement}>-1</Text>
+            </TouchableOpacity>
+            <TextInput
+              defaultValue={short.toString()}
+              style={styles.settingTextInput}
+              keyboardType="numeric"
+            />
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setShort(short + 1) }}>
+              <Text style={styles.settingIncrement}>+1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setShort(short + 5) }}>
+              <Text style={styles.settingIncrement}>+5</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.settingRow}>
+          <Text style={styles.settingTitle}>Long Break Length</Text>
+          <View style={styles.settingInputs}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setLong(long - 5) }}>
+              <Text style={styles.settingDecrement}>-5</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setLong(long - 1) }}>
+              <Text style={styles.settingDecrement}>-1</Text>
+            </TouchableOpacity>
+            <TextInput
+              defaultValue={long.toString()}
+              style={styles.settingTextInput}
+              keyboardType="numeric"
+            />
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setLong(long + 1) }}>
+              <Text style={styles.settingIncrement}>+1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setLong(long + 5) }}>
+              <Text style={styles.settingIncrement}>+5</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.settingRow}>
+          <Text style={styles.settingTitle}># of sessions before long break</Text>
+          <View style={styles.settingInputs}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setShortToLong(shortToLong - 5) }}>
+              <Text style={styles.settingDecrement}>-5</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setShortToLong(shortToLong - 1) }}>
+              <Text style={styles.settingDecrement}>-1</Text>
+            </TouchableOpacity>
+            <TextInput
+              defaultValue={shortToLong.toString()}
+              style={styles.settingTextInput}
+              keyboardType="numeric"
+            />
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setShortToLong(shortToLong + 1) }}>
+              <Text style={styles.settingIncrement}>+1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { setShortToLong(shortToLong + 5) }}>
+              <Text style={styles.settingIncrement}>+5</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
         <View style={{ display: "flex", flexDirection: "row" }}>
           <TouchableOpacity>
             <MaterialIcons
@@ -130,7 +200,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   settingDecrement: {
-    color: '#C3C8CD',
+    color: '#FF746C',
     fontSize: 36,
   },
   settingIncrement: {
