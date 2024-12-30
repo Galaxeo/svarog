@@ -1,9 +1,11 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Touchable } from "react-native";
 import { useState, useEffect, useRef } from "react";
 
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { s, colors } from "@/app/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import NotesInput from "@/components/NotesInput";
 import Recall from "@/components/Recall/Recall";
 import Settings from "@/components/Settings";
@@ -21,7 +23,7 @@ export default function Timer() {
   const [isActive, setActive] = useState(false);
   const [isBreak, setBreak] = useState(false);
   const [isFinished, setFinished] = useState(false);
-  const [isSettings, setSettings] = useState(true); // change after testing
+  const [isSettings, setSettings] = useState(false);
   const [isNotesInput, setNotesInput] = useState(false);
   const [isRecall, setRecall] = useState(false);
 
@@ -104,6 +106,10 @@ export default function Timer() {
     setTime(duration * 60);
     completedSessions.current = 0;
   }
+  // Use this to update settings
+  const pan = Gesture.Pan().onUpdate((event) => {
+    console.log(event.translationX, event.translationY);
+  })
 
   return (
     <View style={styles.timerCont}>
@@ -141,12 +147,16 @@ export default function Timer() {
       <Text style={{ color: colors.text }}>
         {completedSessions.current} completed sessions
       </Text>
-      <Text style={styles.clock} onPress={pausePlayTimer}>
-        {Math.floor(time / 60)
-          .toString()
-          .padStart(2, "0")}
-        :{(time % 60).toString().padStart(2, "0")}
-      </Text>
+      <TouchableOpacity style={styles.clockCont}>
+        <GestureDetector gesture={pan}>
+          <Text style={styles.clock} onPress={pausePlayTimer}>
+            {Math.floor(time / 60)
+              .toString()
+              .padStart(2, "0")}
+            :{(time % 60).toString().padStart(2, "0")}
+          </Text>
+        </GestureDetector>
+      </TouchableOpacity>
       <View style={{ flexDirection: "row" }}>
         <Pressable onPress={pausePlayTimer}>
           <MaterialIcons
@@ -189,9 +199,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+  clockCont: {
+    outline: '1rem solid red',
+  },
   clock: {
+    margin: 50,
     color: colors.text,
-    fontSize: 90,
+    fontSize: 100,
   },
   header: {
     fontSize: 30,

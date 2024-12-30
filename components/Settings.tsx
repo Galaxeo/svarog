@@ -44,7 +44,6 @@ export default function Settings({
           <Text style={styles.settingTitle}>Duration</Text>
           <View style={styles.settingInputs}>
             {/*TODO: Create style classes for duration buttons ALSO it may be a good idea to just do modals for settings instead of overlay.*/}
-            {/*Problem with centering has to do with size*/}
             <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(duration - 5) }}>
               <Text style={styles.settingDecrement}>-5</Text>
             </TouchableOpacity>
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   settingInputs: {
-    flex: 5,
+    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     textAlign: 'center',
     fontSize: 36,
-    width: "50%"
+    width: 100,
   },
   settingTitle: {
     color: colors.text,
@@ -131,11 +130,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   settingDecrement: {
-    color: colors.text,
+    color: '#C3C8CD',
     fontSize: 36,
   },
   settingIncrement: {
-    color: colors.text,
+    color: 'aqua',
     fontSize: 36,
   },
   settingButton: {
