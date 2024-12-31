@@ -5,7 +5,7 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { s, colors } from "@/app/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native-gesture-handler";
-import { TouchableOpacity } from "react-native";
+import { Platform, TouchableOpacity } from "react-native";
 import NotesInput from "@/components/NotesInput";
 import Recall from "@/components/Recall/Recall";
 import Settings from "@/components/Settings";

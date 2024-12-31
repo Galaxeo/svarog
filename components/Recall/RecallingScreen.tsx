@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
-import Accordion from "./Accordion";
+import { supabase } from "@/supabase";
 
 export default function RecallingScreen({
   fadeIn,
@@ -22,9 +22,33 @@ export default function RecallingScreen({
   userAnswers: any;
   handleUserAnswers: any;
 }) {
+  const [answers, setAnswers] = useState<any>();
+
   useEffect(() => {
     fadeIn();
   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      // We want to fetch the answers for each question
+      const dbAnswers = await supabase.from("answers").select("*").eq("user_id", user?.id).eq("question_id", questionObj.id);
+      setAnswers(dbAnswers.data);
+    }
+    fetchData().catch(console.error);
+  }, [])
+
+  // Now need a place to show answers
+  function showAnswers() {
+    // TODO: Add button that shows previous answers
+    return answers.map((answer: any, index: number) => (
+      <View key={index}>
+        <Text style={{ color: colors.text }}>{answer.answer}</Text>
+      </View>
+    ));
+  }
+
   const { width } = useWindowDimensions();
   return (
     <View style={[styles.container, { width }]}>
@@ -36,6 +60,7 @@ export default function RecallingScreen({
         multiline
         numberOfLines={8}
       />
+      {answers && showAnswers()}
     </View>
   );
 }
