@@ -73,7 +73,6 @@ export default function Recall({
     setUserAnswers(temp);
   }
   // TODO: Answer submission into the database, need to figure out how to format the userAnswers to insert into the database
-  // Maybe parse through the arrays?
   async function handleAnswerSubmit() {
     /*
      * Answers table schema:
@@ -90,6 +89,7 @@ export default function Recall({
     const id = user?.id;
     for (let i in userAnswers) {
       // TODO: Implement this later on when answer status is implemented
+      // GPT will probably be best used here again for grading of answers and to recieve a X/Y variable to insert for status.
       const { data, error } = await supabase.from("answers").insert([
         {
           question_id: i,

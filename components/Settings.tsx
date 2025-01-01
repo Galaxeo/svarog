@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   settingDecrement: {
-    color: '#FF746C',
+    color: colors.coralRed,
     fontSize: 36,
   },
   settingIncrement: {
