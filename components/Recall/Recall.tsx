@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import { s, colors } from "@/app/styles";
 import QuestionScreen from "./QuestionScreen";
 import RecallingScreen from "./RecallingScreen";
+import { checkAnswer } from "@/openai";
 
 import { dummyAnswers, dummyQuestions, dummySessions } from "../dummy";
 
@@ -69,7 +70,7 @@ export default function Recall({
   function handleUserAnswers(i: any, answer: string) {
     // change index of userAnswers to answer
     const temp: any = userAnswers;
-    temp[i.id] = answer;
+    temp[JSON.stringify(i)] = answer;
     setUserAnswers(temp);
   }
   // TODO: Answer submission into the database, need to figure out how to format the userAnswers to insert into the database
@@ -83,27 +84,36 @@ export default function Recall({
      * user_id
      */
 
+    // Putting this up here makes the UI more responsive
+    setRecall(false);
     const {
       data: { user },
     } = await supabase.auth.getUser();
     const id = user?.id;
     for (let i in userAnswers) {
+      const obj = JSON.parse(i);
+      const prompt = "Question: " + obj.question + ', Answer: ' + userAnswers[i];
+      const correctStatus = await checkAnswer(prompt);
       // TODO: Implement this later on when answer status is implemented
       // GPT will probably be best used here again for grading of answers and to recieve a X/Y variable to insert for status.
-      const { data, error } = await supabase.from("answers").insert([
-        {
-          question_id: i,
-          answer: userAnswers[i],
-          status: "ungraded",
-          user_id: id,
-        },
-      ]);
+
+      if (["X", "Y", "H"].includes(correctStatus)) {
+        const { data, error } = await supabase.from("answers").insert([
+          {
+            question_id: obj.id,
+            answer: userAnswers[i],
+            status: correctStatus,
+            user_id: id,
+          },
+        ]);
+      } else {
+        alert("Error submitting answer");
+      }
     }
 
     // const { data, error } = await supabase
     //   .from("answers")
     //   .insert([{ user_id: id, answers: userAnswers }]);
-    setRecall(false);
   }
   return (
     // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers

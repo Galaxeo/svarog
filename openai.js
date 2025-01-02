@@ -24,4 +24,20 @@ async function generateText(prompt) {
   return String(response.choices[0].message.content);
 }
 
+export async function checkAnswer(qaObj) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini", messages: [
+      {
+        role: "system",
+        content: "Based on the question and answer, determine if the answer is correct, incorrect, or half correct. If the answer is correct, respond with 'C'. If the answer is incorrect, respond with 'I'. If the answer is half correct, respond with 'H'.",
+      },
+      {
+        role: "user",
+        content: qaObj,
+      },
+    ]
+  });
+  return String(response.choices[0].message.content);
+}
+
 export default generateText;

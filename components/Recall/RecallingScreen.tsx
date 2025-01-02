@@ -64,7 +64,10 @@ export default function RecallingScreen({
       </View>
       {showing && answers && answers.length > 0 && answers.map((answer: any, index: number) => (
         <View key={index} style={{ display: 'flex', flexDirection: "row", gap: 5, alignItems: 'center', justifyContent: "center", maxWidth: "90%" }}>
-          {answer.status == "Y" ? <MaterialIcons size={18} color={"aqua"} name={"check"} /> : <MaterialIcons size={18} color={colors.coralRed} name={"close"} />}
+          {/* TODO: Add half-correct icon */}
+          {answer.status == "C" && <MaterialIcons size={18} color={"aqua"} name={"check"} />}
+          {answer.status == "H" && <MaterialIcons size={18} color={"yellow"} name={"question-mark"} />}
+          {answer.status == "I" && <MaterialIcons size={18} color={colors.coralRed} name={"close"} />}
           <Text style={{ color: colors.text }}>{answer.answer}</Text>
         </View>))}
       <TextInput
