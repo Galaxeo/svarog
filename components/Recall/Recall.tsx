@@ -94,10 +94,11 @@ export default function Recall({
       const obj = JSON.parse(i);
       const prompt = "Question: " + obj.question + ', Answer: ' + userAnswers[i];
       const correctStatus = await checkAnswer(prompt);
+      console.log(correctStatus);
       // TODO: Implement this later on when answer status is implemented
       // GPT will probably be best used here again for grading of answers and to recieve a X/Y variable to insert for status.
 
-      if (["X", "Y", "H"].includes(correctStatus)) {
+      if (["C", "I", "H"].includes(correctStatus)) {
         const { data, error } = await supabase.from("answers").insert([
           {
             question_id: obj.id,

@@ -55,7 +55,7 @@ export default function RecallingScreen({
   const { width } = useWindowDimensions();
   return (
     <View style={[styles.container, { width }]}>
-      <View style={{ display: 'flex', flexDirection: "row", gap: 10, alignItems: 'center', justifyContent: "center" }}>
+      <View style={{ display: 'flex', flexDirection: "row", gap: 10, alignItems: 'center', justifyContent: "center", maxWidth: "90%" }}>
         <Text style={s.text}>{questionObj.question}?</Text>
         <TouchableOpacity>
           {/* Consider changing the icons here to something that makes more sense? */}

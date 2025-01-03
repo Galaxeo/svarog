@@ -100,6 +100,11 @@ export default function Timer() {
   }
   function finishSession() {
     // TODO: need to add an alert here or something
+    // Stop timer
+    clearInterval(intervalRef.current!);
+    setActive(false);
+
+
     setNotesInput(true);
     setFinished(true);
     setBreak(false);

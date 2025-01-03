@@ -72,7 +72,7 @@ function DisplayNotes({
     const id = user?.id;
     const sessionData = await sessionSubmitHelper(id);
     const sessionId = sessionData?.id;
-    const questions = Array.from(response.split(","));
+    const questions = Array.from(response.split("|Ð|"));
     if (sessionId != null) {
       questions.forEach(async (question) => (await questionSubmitHelper(id, sessionId, question)));
     }
@@ -84,7 +84,7 @@ function DisplayNotes({
       )
     } else {
       // Response string has questions separated by comma
-      const questions = Array.from(str.split(","));
+      const questions = Array.from(str.split("|Ð|"));
       return questions.map((question) => (
         <Text style={[s.text, styles.question]}>{question}</Text>
       ))

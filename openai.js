@@ -6,14 +6,14 @@ const apiKey = key.openAIKey;
 const openai = new OpenAI({ apiKey: apiKey, dangerouslyAllowBrowser: true });
 
 async function generateText(prompt) {
-  // TODO: Think about using better model specifically for following format. Look at GPT-4o-mini. Msg seeg
+  // TODO: Need to separate by something better than commas, as if we have commas in the question prompts it will separate a single questino into multiple.
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
       {
         role: "system",
         content:
-          "Give 1-2 active recall questions to user based on topics they studied or notes inputted. Do not number the questions, separate the questions by commas, and return all of the questions on one line. For example: 'What did you learn about a random subject?,What are the reasonings behind blank?'",
+          "Give 1-2 active recall questions to user based on topics they studied or notes inputted. Do not number the questions, separate the questions by the string |Ð|, and return all of the questions on one line. For example: 'What did you learn about a random subject?,What are the reasonings behind blank?'",
       },
       {
         role: "user",
