@@ -56,7 +56,6 @@ export default function Recall({
       opacity: fadeInOpacity.value,
     };
   });
-  // TODO: Decide on how we want to obtain this? Local storage vs constantly obtaining it from the database
   // The selection of questions to review
   function handleQuestionSubmit() {
     if (selection.length === 0) {
@@ -73,7 +72,6 @@ export default function Recall({
     temp[JSON.stringify(i)] = answer;
     setUserAnswers(temp);
   }
-  // TODO: Answer submission into the database, need to figure out how to format the userAnswers to insert into the database
   async function handleAnswerSubmit() {
     /*
      * Answers table schema:
@@ -94,7 +92,6 @@ export default function Recall({
       const obj = JSON.parse(i);
       const prompt = "Question: " + obj.question + ', Answer: ' + userAnswers[i];
       const correctStatus = await checkAnswer(prompt);
-      console.log(correctStatus);
       // TODO: Implement this later on when answer status is implemented
       // GPT will probably be best used here again for grading of answers and to recieve a X/Y variable to insert for status.
 
@@ -117,11 +114,9 @@ export default function Recall({
     //   .insert([{ user_id: id, answers: userAnswers }]);
   }
   return (
-    // TODO: Dummy data in here and supabase for topics and questions to pop up, as well as answers
     <View style={styles.background}>
       {state === "question" && questions != undefined ? (
         <QuestionScreen
-          //  TODO: Replace dummy data with actual data, where to get data from? in the parent component or here
           sessions={sessions}
           questions={questions}
           answers={answers}

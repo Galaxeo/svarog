@@ -86,23 +86,25 @@ function DisplayNotes({
       // Response string has questions separated by comma
       const questions = Array.from(str.split("|Ð|"));
       return questions.map((question) => (
-        <Text style={[s.text, styles.question]}>{question}</Text>
+        <Text style={[s.text, styles.question]}>{question.trim()}</Text>
       ))
     }
   }
   return (
     <>
       {/* TODO: Change studied message styling for IOS/Androd*/}
-      <View style={styles.studiedMessage}>
-        <Text style={s.text}>
-          You studied {topic} for {totalTime / 60} minutes! Here are the questions we have for you next time:
+      <View style={styles.studiedMessageCont}>
+        <Text style={[s.text, styles.studiedMessage]}>
+          You studied {topic} for {totalTime / 60} minutes!
+        </Text>
+        <Text style={[s.text, styles.studiedMessage]}>Here are the questions we have for you next time:
         </Text>
       </View>
       {/* <Text style={s.text}>{response}</Text> */}
-      {/* TODO: BlurView on Android testing */}
-      <BlurView intensity={30} tint="systemUltraThinMaterialDark" style={styles.questionContainer}>
+      {/* TODO: BlurView on Android testing, maybe just remove */}
+      <View style={styles.questionContainer}>
         {displayResponse(response)}
-      </BlurView>
+      </View>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         <MaterialIcons
           onPress={() => setPage(0)}
@@ -139,7 +141,6 @@ export default function NotesInput({
   //   // setNotesInput(false);
   //   setPage(1);
   // }
-  // TODO: Have to figure out how to deal with multiple questions (submission in supabase and formatting the questions themselves)
   const handleGenerateText = async () => {
     if (topicName === "") {
       alert("Please enter a topic name!");
@@ -260,10 +261,14 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     overflow: 'hidden',
+    width: Platform.OS === "web" ? "50%" : "80%",
   },
   question: {
   },
-  studiedMessage: {
+  studiedMessageCont: {
     width: Platform.OS === "web" ? "50%" : "80%",
+  },
+  studiedMessage: {
+    textAlign: 'center',
   },
 });

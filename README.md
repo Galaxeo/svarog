@@ -12,7 +12,8 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 
 ### Current Schedule:
 
-**Implementing active recall directly with timer, tracking answer functionality**
+**Test for any bugs**
+**Implementing active recall directly with timer**
 
 ### Timer
 
@@ -32,8 +33,8 @@ After finishing study session, write down short notes about what learned, next c
 
 Basic Functionality:
 - [X] Input after each session is completed
-- [ ] Saving questions and answers into DB 
-- [ ] GPT implementation to generate study questions
+- [X] Saving questions and answers into DB 
+- [X] GPT implementation to generate study questions
 - [ ] Implementation with timer (input form appears after completed sessions, questions asked after new sessions are started based on time/answer correctness)
 
 Extra Features:
@@ -43,7 +44,7 @@ Extra Features:
 ### Backend/DB
 
 - [x] Create DB tables: users, sessions, questions, etc.
-- [ ] Answer accuracy for each user related to each session
+- [X] Answer accuracy for each user related to each session
 - [ ] Login functionality
 
 ### Other Extras 

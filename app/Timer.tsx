@@ -99,11 +99,9 @@ export default function Timer() {
     }
   }
   function finishSession() {
-    // TODO: need to add an alert here or something
     // Stop timer
     clearInterval(intervalRef.current!);
     setActive(false);
-
 
     setNotesInput(true);
     setFinished(true);
@@ -118,13 +116,11 @@ export default function Timer() {
 
   return (
     <View style={styles.timerCont}>
-      {/* BIG TODO: Style this whole section */}
       {isNotesInput && (
         <NotesInput totalTime={totalTime} setNotesInput={setNotesInput} />
       )}
       {/* <NotesInput handleNotesInput={handleNotesInput} /> */}
       {isRecall && (
-        // TODO: Pass in sessions, questions from database
         <Recall
           setRecall={setRecall}
           sessions={sessions}
