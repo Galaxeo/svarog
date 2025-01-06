@@ -56,7 +56,7 @@ export default function RecallingScreen({
   return (
     <View style={[styles.container, { width }]}>
       <View style={{ display: 'flex', flexDirection: "row", gap: 10, alignItems: 'center', justifyContent: "center", maxWidth: "90%" }}>
-        <Text style={s.text}>{questionObj.question}?</Text>
+        <Text style={s.text}>{questionObj.question}</Text>
         <TouchableOpacity>
           {/* Consider changing the icons here to something that makes more sense? */}
           <MaterialIcons name={showing ? "keyboard-double-arrow-up" : "question-answer"} color={colors.text} size={18} onPress={showAnswers}></MaterialIcons>

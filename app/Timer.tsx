@@ -62,6 +62,8 @@ export default function Timer() {
             clearInterval(intervalRef.current!);
             setActive(false);
             console.log("Time's up!");
+            // add a sound here or something to alert
+
             // set break time
             // TODO: Test what we want to happen when shortToLong is changed
             // Thinking should just continue as if shortToLong was set like that the whole time

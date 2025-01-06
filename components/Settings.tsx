@@ -9,10 +9,12 @@ import { BlurView } from "expo-blur";
 import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-import { Platform } from "react-native";
 
 import { s, colors } from "@/app/styles";
-import generateText from "@/openai";
+import { supabase } from "@/supabase";
+
+
+// TODO: Sync settings with user data (supabase)
 
 export default function Settings({
   duration,
@@ -35,6 +37,56 @@ export default function Settings({
   setShortToLong: any;
   setSettings: any;
 }) {
+  // Functions to handle changing settings
+  function durationChange(diff: number) {
+    // maybe warning if duration is too high?
+    if (duration + diff <= 0) {
+      if (duration == 1) {
+        alert("Sessions cannot be shorter than 1 minute!");
+      }
+      setDuration(1);
+      return;
+    } else {
+      setDuration(duration + diff);
+    }
+  }
+  function shortBreakChange(diff: number) {
+    if (short + diff <= 0) {
+      if (short == 1) {
+        alert("Breaks cannot be shorter than 1 minute!")
+      }
+      setShort(1);
+      return;
+    } else {
+      setShort(short + diff);
+    }
+  }
+  function shortToLongChange(diff: number) {
+    if (shortToLong + diff <= 1) {
+      if (shortToLong == 2) {
+        alert("Cannot have less than 2 sessions before long break!")
+      }
+      setShortToLong(2);
+      return;
+    } else {
+      setShortToLong(shortToLong + diff);
+    }
+  }
+  function longBreakChange(diff: number) {
+    if (long + diff <= 0) {
+      if (long == 1) {
+        alert("Breaks cannot be shorter than 1 minute")
+      } setLong(1);
+      return;
+    } else {
+      if ((long + diff) <= short) {
+        alert("Keep your long breaks longer than your short breaks!")
+        return;
+      }
+      setLong(long + diff);
+    }
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -44,10 +96,10 @@ export default function Settings({
           <Text style={styles.settingTitle}>Session Length</Text>
           <View style={styles.settingInputs}>
             {/*TODO: Create style classes for duration buttons ALSO it may be a good idea to just do modals for settings instead of overlay.*/}
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(duration - 5) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { durationChange(-5) }}>
               <Text style={styles.settingDecrement}>-5</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(duration - 1) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { durationChange(-1) }}>
               <Text style={styles.settingDecrement}>-1</Text>
             </TouchableOpacity>
             <TextInput
@@ -55,10 +107,10 @@ export default function Settings({
               style={styles.settingTextInput}
               keyboardType="numeric"
             />
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(duration + 1) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { durationChange(1) }}>
               <Text style={styles.settingIncrement}>+1</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setDuration(duration + 5) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { durationChange(5) }}>
               <Text style={styles.settingIncrement}>+5</Text>
             </TouchableOpacity>
           </View>
@@ -67,10 +119,10 @@ export default function Settings({
         <View style={styles.settingRow}>
           <Text style={styles.settingTitle}>Break Length</Text>
           <View style={styles.settingInputs}>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setShort(short - 5) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { shortBreakChange(-5) }}>
               <Text style={styles.settingDecrement}>-5</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setShort(short - 1) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { shortBreakChange(-1) }}>
               <Text style={styles.settingDecrement}>-1</Text>
             </TouchableOpacity>
             <TextInput
@@ -78,10 +130,10 @@ export default function Settings({
               style={styles.settingTextInput}
               keyboardType="numeric"
             />
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setShort(short + 1) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { shortBreakChange(1) }}>
               <Text style={styles.settingIncrement}>+1</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setShort(short + 5) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { shortBreakChange(5) }}>
               <Text style={styles.settingIncrement}>+5</Text>
             </TouchableOpacity>
           </View>
@@ -90,10 +142,10 @@ export default function Settings({
         <View style={styles.settingRow}>
           <Text style={styles.settingTitle}># of sessions before long break</Text>
           <View style={styles.settingInputs}>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setShortToLong(shortToLong - 5) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { shortToLongChange(-5) }}>
               <Text style={styles.settingDecrement}>-5</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setShortToLong(shortToLong - 1) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { shortToLongChange(-1) }}>
               <Text style={styles.settingDecrement}>-1</Text>
             </TouchableOpacity>
             <TextInput
@@ -101,10 +153,10 @@ export default function Settings({
               style={styles.settingTextInput}
               keyboardType="numeric"
             />
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setShortToLong(shortToLong + 1) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { shortToLongChange(1) }}>
               <Text style={styles.settingIncrement}>+1</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setShortToLong(shortToLong + 5) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { shortToLongChange(5) }}>
               <Text style={styles.settingIncrement}>+5</Text>
             </TouchableOpacity>
           </View>
@@ -113,10 +165,10 @@ export default function Settings({
         <View style={styles.settingRow}>
           <Text style={styles.settingTitle}>Long Break Length</Text>
           <View style={styles.settingInputs}>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setLong(long - 5) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { longBreakChange(-5) }}>
               <Text style={styles.settingDecrement}>-5</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setLong(long - 1) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { longBreakChange(-1) }}>
               <Text style={styles.settingDecrement}>-1</Text>
             </TouchableOpacity>
             <TextInput
@@ -124,10 +176,10 @@ export default function Settings({
               style={styles.settingTextInput}
               keyboardType="numeric"
             />
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setLong(long + 1) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { longBreakChange(1) }}>
               <Text style={styles.settingIncrement}>+1</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settingButton} onPress={() => { setLong(long + 5) }}>
+            <TouchableOpacity style={styles.settingButton} onPress={() => { longBreakChange(5) }}>
               <Text style={styles.settingIncrement}>+5</Text>
             </TouchableOpacity>
           </View>

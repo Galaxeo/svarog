@@ -125,7 +125,7 @@ function SessionRow({
     >
       <View style={styles.sessionContent}>
         <Text style={s.text}>{session.date}</Text>
-        <Text style={s.text}>{String(session.duration)}</Text>
+        <Text style={s.text}>{String((session.duration / 60).toFixed(1))}</Text>
         <Text style={s.text}>{session.topic}</Text>
       </View>
       <Animated.View style={heightAnimationStyle}>
