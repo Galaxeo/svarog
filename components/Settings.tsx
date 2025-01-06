@@ -87,6 +87,15 @@ export default function Settings({
     }
   }
 
+  async function handleBack() {
+    // save settings and go back
+    setSettings(false);
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const update = await supabase.from("settings").upsert({ id: user?.id, duration: duration, short: short, long: long, shortToLong: shortToLong });
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -189,7 +198,7 @@ export default function Settings({
           <TouchableOpacity>
             <MaterialIcons
               onPress={() => {
-                setSettings(false);
+                handleBack();
               }}
               name="arrow-back"
               size={24}

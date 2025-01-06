@@ -49,6 +49,8 @@ Extra Features:
 
 ### Other Extras 
 - [ ] Statistics tab: how many hours studied, what topics learned, etc.
+- [ ] Zen mode: reduce visibility of timer through translucency or similar
+- [ ] Change of background during breaks(?)
 
 ### Design Decisions
 

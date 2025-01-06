@@ -49,6 +49,16 @@ export default function Timer() {
       const questions = await supabase.from("questions").select("*").eq("user_id", user?.id);
       if (questions.data) setQuestions(questions.data);
       // Possible to fetch answers here as well if we want later
+      const settings = await supabase.from("settings").select("*").eq("id", user?.id);
+      if (settings.data) {
+        setDuration(settings.data[0].duration);
+        setShort(settings.data[0].short);
+        setLong(settings.data[0].long);
+        setShortToLong(settings.data[0].shortToLong);
+      } else {
+        // initialize user settings
+        const { data, error } = await supabase.from("settings").insert({ id: user?.id });
+      }
     }
 
     fetchData().catch(console.error);
