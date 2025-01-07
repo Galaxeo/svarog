@@ -121,6 +121,18 @@ export default function Timer() {
     setTime(duration * 60);
     completedSessions.current = 0;
   }
+
+  function activeRecall() {
+    // 1. Check database for questions to pull up and put into recalling screens
+    // How do we want to pick questions to review? Correctness v.s. schedule?
+    // Create different repitition schedules for questions. Also will need to store in database
+    // SuperMemo by Piotr Wozniak: 1 -> 7 -> 16 -> 35 
+    // Probably offer a slightly shorter schedule: 1, 3, 7, 14
+    // But people will also have the option to review questions themselves if they choose
+    // 2. Pull up questions and answers in recalling screens, TODO: offer reasons behind grading of half-right answers
+    // 3. Update database with new answers
+  }
+
   // Use this to update settings
   const pan = Gesture.Pan().onUpdate((event) => {
     console.log(event.translationX, event.translationY);
