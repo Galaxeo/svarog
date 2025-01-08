@@ -44,7 +44,6 @@ export default function RecallingScreen({
 
   // Now need a place to show answers
   function showAnswers() {
-    // TODO: Add button that shows previous answers
     setShowing(!showing);
     if (!answers || answers.length === 0) {
       setShowing(false);
@@ -56,7 +55,7 @@ export default function RecallingScreen({
   return (
     <View style={[styles.container, { width }]}>
       <View style={{ display: 'flex', flexDirection: "row", gap: 10, alignItems: 'center', justifyContent: "center", maxWidth: "90%" }}>
-        <Text style={s.text}>{questionObj.question}</Text>
+        <Text style={s.text}>{questionObj.question}?</Text>
         <TouchableOpacity>
           {/* Consider changing the icons here to something that makes more sense? */}
           <MaterialIcons name={showing ? "keyboard-double-arrow-up" : "question-answer"} color={colors.text} size={18} onPress={showAnswers}></MaterialIcons>
@@ -64,7 +63,6 @@ export default function RecallingScreen({
       </View>
       {showing && answers && answers.length > 0 && answers.map((answer: any, index: number) => (
         <View key={index} style={{ display: 'flex', flexDirection: "row", gap: 5, alignItems: 'center', justifyContent: "center", maxWidth: "90%" }}>
-          {/* TODO: Add half-correct icon */}
           {answer.status == "C" && <MaterialIcons size={18} color={"aqua"} name={"check"} />}
           {answer.status == "H" && <MaterialIcons size={18} color={"yellow"} name={"question-mark"} />}
           {answer.status == "I" && <MaterialIcons size={18} color={colors.coralRed} name={"close"} />}

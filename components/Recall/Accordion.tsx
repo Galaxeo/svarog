@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
+import { questionType, sessionType, answerType } from "@/app/types";
 
 import Animated, {
   useSharedValue,
@@ -13,28 +14,6 @@ import Animated, {
   interpolate,
   Extrapolation,
 } from "react-native-reanimated";
-
-type sessionType = {
-  id: number;
-  date: string;
-  duration: number;
-  topic: string;
-};
-
-type questionType = {
-  id: number;
-  session_id: number;
-  user_id: string;
-  question: string;
-};
-
-type answerType = {
-  id: number;
-  question_id: number;
-  user_id: string;
-  status: string;
-  answer: string;
-};
 
 // Accordion component for selecting questions to review
 
