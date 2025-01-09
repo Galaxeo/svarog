@@ -6,6 +6,7 @@ import {
   View,
   useWindowDimensions,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
@@ -19,6 +20,12 @@ export default function FeedbackScreen(
   // Screen to allow people to input how easy the question was
   // If it was wrong: set interval back to 1
   // Right has three levels: hard, good, and easy. Will update interval as necessary
+  const [dummy, setDummy] = useState<any>("");
+  function displayQuestions() {
+    if (dummy == "") {
+      return <ActivityIndicator size="large" color={colors.text} />;
+    }
+  }
 
   return (
     <View>

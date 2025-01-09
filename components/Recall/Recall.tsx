@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import { s, colors } from "@/app/styles";
 import QuestionScreen from "./QuestionScreen";
 import RecallingScreen from "./RecallingScreen";
+import FeedbackScreen from "./FeedbackScreen";
 import { checkAnswer } from "@/openai";
 
 import { dummyAnswers, dummyQuestions, dummySessions } from "../dummy";
@@ -83,7 +84,6 @@ export default function Recall({
      */
 
     // Putting this up here makes the UI more responsive
-    setRecall(false);
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -108,6 +108,7 @@ export default function Recall({
         alert("Error submitting answer");
       }
     }
+    setState("feedback");
 
     // const { data, error } = await supabase
     //   .from("answers")
@@ -197,6 +198,9 @@ export default function Recall({
           </TouchableOpacity>
         </Animated.View>
       ) : null}
+      {state === "feedback" && (
+        <FeedbackScreen userAnswers={userAnswers} questions={selection} />
+      )}
     </View>
   );
 }
