@@ -27,7 +27,7 @@ export default function Recall({
   setRecall,
   sessions,
   questions,
-  answers
+  answers,
 }: {
   setRecall: any;
   sessions: any;
@@ -90,7 +90,8 @@ export default function Recall({
     const id = user?.id;
     for (let i in userAnswers) {
       const obj = JSON.parse(i);
-      const prompt = "Question: " + obj.question + ', Answer: ' + userAnswers[i];
+      const prompt =
+        "Question: " + obj.question + ", Answer: " + userAnswers[i];
       const correctStatus = await checkAnswer(prompt);
       // TODO: Implement this later on when answer status is implemented
       // GPT will probably be best used here again for grading of answers and to recieve a X/Y variable to insert for status.
@@ -199,7 +200,8 @@ export default function Recall({
         </Animated.View>
       ) : null}
       {state === "feedback" && (
-        <FeedbackScreen userAnswers={userAnswers} questions={selection} />
+        <FeedbackScreen
+        ></FeedbackScreen>
       )}
     </View>
   );

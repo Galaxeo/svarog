@@ -1,4 +1,3 @@
-
 import {
   Text,
   TextInput,
@@ -6,7 +5,7 @@ import {
   View,
   useWindowDimensions,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
@@ -14,24 +13,25 @@ import { supabase } from "@/supabase";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function FeedbackScreen(
-  userAnswers: any,
-  questions: any,
+  {
+    userAnswers,
+    questions,
+    setRecall
+  }: any
 ) {
   // Screen to allow people to input how easy the question was
   // If it was wrong: set interval back to 1
   // Right has three levels: hard, good, and easy. Will update interval as necessary
   const [dummy, setDummy] = useState<any>("");
+  // TODO: NEED TO ADD THE SETRECALL TO FALSE
   function displayQuestions() {
     if (dummy == "") {
       return <ActivityIndicator size="large" color={colors.text} />;
     }
+    setRecall(false);
   }
 
-  return (
-    <View>
-      <Text>Feedback Screen</Text>
-    </View>
-  )
+  return <ActivityIndicator size="large" color={colors.text} />;
 }
 const styles = StyleSheet.create({
   container: {
