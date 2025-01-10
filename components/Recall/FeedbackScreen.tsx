@@ -16,7 +16,8 @@ export default function FeedbackScreen(
   {
     userAnswers,
     questions,
-    setRecall
+    setRecall,
+    userFeedback,
   }: any
 ) {
   // Screen to allow people to input how easy the question was

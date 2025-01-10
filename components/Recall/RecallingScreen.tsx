@@ -13,13 +13,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 export default function RecallingScreen({
   fadeIn,
-  fadeOut,
   questionObj,
   userAnswers,
   handleUserAnswers,
 }: {
   fadeIn: any;
-  fadeOut: any;
   questionObj: any;
   userAnswers: any;
   handleUserAnswers: any;

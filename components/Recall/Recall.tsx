@@ -39,6 +39,7 @@ export default function Recall({
   // Consider moving userdata outside of recall component
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState<any>({});
+  const [userFeedback, setUserFeedback] = useState<any>({});
   const fadeInOpacity = useSharedValue(1);
   const fadeIn = () => {
     fadeInOpacity.value = withTiming(1, {
@@ -93,15 +94,14 @@ export default function Recall({
       const prompt =
         "Question: " + obj.question + ", Answer: " + userAnswers[i];
       const correctStatus = await checkAnswer(prompt);
-      // TODO: Implement this later on when answer status is implemented
-      // GPT will probably be best used here again for grading of answers and to recieve a X/Y variable to insert for status.
+      setUserFeedback({ ...userFeedback, [i]: correctStatus });
 
-      if (["C", "I", "H"].includes(correctStatus)) {
+      if (["C", "I", "H"].includes(correctStatus[0])) {
         const { data, error } = await supabase.from("answers").insert([
           {
             question_id: obj.id,
             answer: userAnswers[i],
-            status: correctStatus,
+            status: correctStatus[0],
             user_id: id,
           },
         ]);
@@ -140,7 +140,6 @@ export default function Recall({
                 renderItem={({ item }) => (
                   <RecallingScreen
                     fadeIn={fadeIn}
-                    fadeOut={fadeOut}
                     questionObj={item}
                     userAnswers={userAnswers}
                     handleUserAnswers={handleUserAnswers}
@@ -160,7 +159,6 @@ export default function Recall({
                 renderItem={({ item }) => (
                   <RecallingScreen
                     fadeIn={fadeIn}
-                    fadeOut={fadeOut}
                     questionObj={item}
                     userAnswers={userAnswers}
                     handleUserAnswers={handleUserAnswers}
@@ -200,8 +198,7 @@ export default function Recall({
         </Animated.View>
       ) : null}
       {state === "feedback" && (
-        <FeedbackScreen
-        ></FeedbackScreen>
+        <FeedbackScreen userAnswers={userAnswers} questions={selection} setRecall={setRecall} userFeedback={userFeedback} />
       )}
     </View>
   );
