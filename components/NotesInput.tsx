@@ -74,7 +74,7 @@ function DisplayNotes({
     const sessionId = sessionData?.id;
     const questions = Array.from(response.split("|Ð|"));
     if (sessionId != null) {
-      questions.forEach(async (question) => (await questionSubmitHelper(id, sessionId, question)));
+      questions.forEach(async (question) => (await questionSubmitHelper(id, sessionId, question.trim())));
     }
   }
   function displayResponse(str: string) {

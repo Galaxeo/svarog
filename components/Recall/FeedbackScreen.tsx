@@ -26,13 +26,42 @@ export default function FeedbackScreen(
   const [dummy, setDummy] = useState<any>("");
   // TODO: NEED TO ADD THE SETRECALL TO FALSE
   function displayQuestions() {
-    if (dummy == "") {
-      return <ActivityIndicator size="large" color={colors.text} />;
+    if (userFeedback == "") {
+      return (
+        <>
+          <ActivityIndicator size="large" color={colors.text} />;
+        </>)
+    } else {
+      // Adjust value to show something if the answer was correct
+      return (
+        <>
+          {Object.entries(userFeedback).map(([key, value]: [any, any]) => (
+            <>
+              <Text style={s.text} key={key}>{JSON.parse(key).question}</Text>
+              <Text style={s.text}>{value.slice(4)}</Text>
+            </>
+          ))}
+        </>
+      )
     }
-    setRecall(false);
+    // setRecall(false);
   }
 
-  return <ActivityIndicator size="large" color={colors.text} />;
+  return (
+    <>
+      {displayQuestions()}
+      <TouchableOpacity activeOpacity={0.5}>
+        <MaterialIcons
+          name="close"
+          onPress={() => {
+            setRecall(false);
+          }}
+          size={24}
+          color={colors.text}
+        />
+      </TouchableOpacity>
+    </>
+  )
 }
 const styles = StyleSheet.create({
   container: {

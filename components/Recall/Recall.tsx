@@ -94,20 +94,20 @@ export default function Recall({
       const prompt =
         "Question: " + obj.question + ", Answer: " + userAnswers[i];
       const correctStatus = await checkAnswer(prompt);
-      setUserFeedback({ ...userFeedback, [i]: correctStatus });
-
-      if (["C", "I", "H"].includes(correctStatus[0])) {
-        const { data, error } = await supabase.from("answers").insert([
-          {
-            question_id: obj.id,
-            answer: userAnswers[i],
-            status: correctStatus[0],
-            user_id: id,
-          },
-        ]);
-      } else {
-        alert("Error submitting answer");
-      }
+      setUserFeedback((prev: any) => ({ ...prev, [i]: correctStatus }));
+      // REENABLE WHEN DONE TESTING FEEDBACK SCREEN
+      // if (["C", "I", "H"].includes(correctStatus[0])) {
+      //   const { data, error } = await supabase.from("answers").insert([
+      //     {
+      //       question_id: obj.id,
+      //       answer: userAnswers[i],
+      //       status: correctStatus[0],
+      //       user_id: id,
+      //     },
+      //   ]);
+      // } else {
+      //   alert("Error submitting answer");
+      // }
     }
     setState("feedback");
 

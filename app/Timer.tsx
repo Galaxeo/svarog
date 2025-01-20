@@ -163,14 +163,24 @@ export default function Timer() {
         {completedSessions.current} completed sessions
       </Text>
       <TouchableOpacity style={styles.clockCont}>
-        <GestureDetector gesture={pan}>
+        {Platform.OS === "web" && (
           <Text style={styles.clock} onPress={pausePlayTimer}>
             {Math.floor(time / 60)
               .toString()
               .padStart(2, "0")}
             :{(time % 60).toString().padStart(2, "0")}
           </Text>
-        </GestureDetector>
+        )}
+        {Platform.OS === "ios" || Platform.OS === "android" && (
+          <GestureDetector gesture={pan}>
+            <Text style={styles.clock} onPress={pausePlayTimer}>
+              {Math.floor(time / 60)
+                .toString()
+                .padStart(2, "0")}
+              :{(time % 60).toString().padStart(2, "0")}
+            </Text>
+          </GestureDetector>
+        )}
       </TouchableOpacity>
       <View style={{ flexDirection: "row" }}>
         <Pressable onPress={pausePlayTimer}>
