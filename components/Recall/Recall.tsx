@@ -86,7 +86,9 @@ export default function Recall({
       const prompt =
         "Question: " + obj.question + ", Answer: " + userAnswers[i];
       setState("feedback");
-      const correctStatus = await checkAnswer(prompt);
+      // TODO: REENABLE after testing feedback screen
+      // const correctStatus = await checkAnswer(prompt);
+      const correctStatus = "C|Ð|aint that some bullsht";
       setUserFeedback((prev: any) => ({ ...prev, [i]: correctStatus }));
       // REENABLE WHEN DONE TESTING FEEDBACK SCREEN
       // if (["C", "I", "H"].includes(correctStatus[0])) {

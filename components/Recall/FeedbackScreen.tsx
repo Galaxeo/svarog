@@ -29,6 +29,7 @@ export default function FeedbackScreen(
   async function handleFeedbackSubmit(comfort: string) {
     console.log(comfort);
     // Get interval and change next date depending on comfort level
+    // Highlight comfort level so users know what they selected, then add to state varaible maybe
   }
   function displayQuestions() {
     const { width } = useWindowDimensions();

@@ -101,7 +101,7 @@ function DisplayNotes({
         </Text>
       </View>
       {/* <Text style={s.text}>{response}</Text> */}
-      {/* TODO: BlurView on Android testing, maybe just remove */}
+      {/* TODO: Think about possibly allowing for more than one input*/}
       <View style={styles.questionContainer}>
         {displayResponse(response)}
       </View>

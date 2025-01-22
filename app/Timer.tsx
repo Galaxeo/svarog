@@ -13,9 +13,9 @@ import { supabase } from "@/supabase";
 
 export default function Timer() {
   // Timer props
-  const [duration, setDuration] = useState(50);
-  const [short, setShort] = useState(10);
-  const [long, setLong] = useState(30);
+  const [duration, setDuration] = useState(25);
+  const [short, setShort] = useState(5);
+  const [long, setLong] = useState(10);
   const [shortToLong, setShortToLong] = useState(2);
   const [time, setTime] = useState(duration * 60);
 
@@ -75,17 +75,16 @@ export default function Timer() {
             // add a sound here or something to alert
 
             // set break time
-            // TODO: Test what we want to happen when shortToLong is changed
+            // TODO: Test what we want to happen when shortToLong is changed.
+            // TODO: Add sound when timer ends, something here is bugged with break
             // Thinking should just continue as if shortToLong was set like that the whole time
             if (!isBreak) {
               completedSessions.current += 1;
             }
-            if (completedSessions.current % shortToLong === 0) {
-              setTime(long * 60);
-            } else {
-              setTime(short * 60);
-            }
-            setBreak(!isBreak);
+            const newTime = isBreak ? duration * 60 : completedSessions.current % shortToLong === 0 ? long * 60 : short * 60;
+
+            setBreak((prevBreak) => !prevBreak);
+            setTime(newTime);
             return duration;
           }
           if (!isBreak) {
