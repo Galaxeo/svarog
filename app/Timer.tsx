@@ -10,11 +10,17 @@ import NotesInput from "@/components/NotesInput";
 import Recall from "@/components/Recall/Recall";
 import Settings from "@/components/Settings";
 import { supabase } from "@/supabase";
+import { useAudioPlayer } from 'expo-audio'
+
+const notificationSound = require("@/assets/notification.mp3");
 
 export default function Timer() {
+
+  const notiPlayer = useAudioPlayer(notificationSound);
+
   // Timer props
-  const [duration, setDuration] = useState(25);
-  const [short, setShort] = useState(5);
+  const [duration, setDuration] = useState(.1);
+  const [short, setShort] = useState(.05);
   const [long, setLong] = useState(10);
   const [shortToLong, setShortToLong] = useState(2);
   const [time, setTime] = useState(duration * 60);
@@ -51,10 +57,10 @@ export default function Timer() {
       // Possible to fetch answers here as well if we want later
       const settings = await supabase.from("settings").select("*").eq("id", user?.id);
       if (settings.data) {
-        setDuration(settings.data[0].duration);
-        setShort(settings.data[0].short);
-        setLong(settings.data[0].long);
-        setShortToLong(settings.data[0].shortToLong);
+        // setDuration(settings.data[0].duration);
+        // setShort(settings.data[0].short);
+        // setLong(settings.data[0].long);
+        // setShortToLong(settings.data[0].shortToLong);
       } else {
         // initialize user settings
         const { data, error } = await supabase.from("settings").insert({ id: user?.id });
@@ -71,12 +77,12 @@ export default function Timer() {
           if (prevTime === 0) {
             clearInterval(intervalRef.current!);
             setActive(false);
+            notiPlayer.play();
             console.log("Time's up!");
             // add a sound here or something to alert
 
             // set break time
-            // TODO: Test what we want to happen when shortToLong is changed.
-            // TODO: Add sound when timer ends, something here is bugged with break
+            // TODO: Add sound when timer ends
             // Thinking should just continue as if shortToLong was set like that the whole time
             if (!isBreak) {
               completedSessions.current += 1;
