@@ -26,6 +26,10 @@ export default function FeedbackScreen(
   // Right has three levels: hard, good, and easy. Will update interval as necessary
   // Can use keyboard-double-arrow for icons
   const [dummy, setDummy] = useState<any>("");
+  async function handleFeedbackSubmit(comfort: string) {
+    console.log(comfort);
+    // Get interval and change next date depending on comfort level
+  }
   function displayQuestions() {
     const { width } = useWindowDimensions();
     if (Object.keys(userFeedback).length === 0) {
@@ -51,6 +55,17 @@ export default function FeedbackScreen(
                 {value.charAt(0) == "C" && <MaterialIcons size={18} color={"aqua"} name={"check"} />}
                 {value.charAt(0) == "H" && <MaterialIcons size={18} color={"yellow"} name={"question-mark"} />}
                 {value.charAt(0) == "I" && <MaterialIcons size={18} color={colors.coralRed} name={"close"} />}
+                <View style={{ display: "flex", flexDirection: "row" }}>
+                  <TouchableOpacity onPress={() => { handleFeedbackSubmit('easy') }}>
+                    <MaterialIcons size={64} color={colors.coralRed} name={"square"} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => { handleFeedbackSubmit('good') }}>
+                    <MaterialIcons size={64} color={"yellow"} name={"square"} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => { handleFeedbackSubmit('hard') }}>
+                    <MaterialIcons size={64} color={"aqua"} name={"square"} />
+                  </TouchableOpacity>
+                </View>
               </View>
             )}
             viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
