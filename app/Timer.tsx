@@ -171,7 +171,7 @@ export default function Timer() {
             :{(time % 60).toString().padStart(2, "0")}
           </Text>
         )}
-        {Platform.OS === "ios" || Platform.OS === "android" && (
+        {(Platform.OS === "ios" || Platform.OS === "android") && (
           <GestureDetector gesture={pan}>
             <Text style={styles.clock} onPress={pausePlayTimer}>
               {Math.floor(time / 60)

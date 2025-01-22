@@ -50,6 +50,7 @@ export default function RecallingScreen({
   }
 
   const { width } = useWindowDimensions();
+  // const { width } = "50%";
   return (
     <View style={[styles.container, { width }]}>
       <View style={{ display: 'flex', flexDirection: "row", gap: 10, alignItems: 'center', justifyContent: "center", maxWidth: "90%" }}>
@@ -85,17 +86,9 @@ const styles = StyleSheet.create({
     zIndex: 2,
     elevation: 2,
   },
-  background: {
-    position: "absolute",
-    width: "100%",
-    height: "85%",
-    backgroundColor: colors.backgroundTransparent,
-    zIndex: 2,
-    elevation: 2,
-  },
   input: {
     color: colors.text,
-    height: 80,
+    height: 200,
     width: "90%",
     margin: 12,
     borderWidth: 1,

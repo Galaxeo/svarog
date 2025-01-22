@@ -75,14 +75,6 @@ export default function Recall({
     setUserAnswers(temp);
   }
   async function handleAnswerSubmit() {
-    /*
-     * Answers table schema:
-     * id
-     * question_id
-     * answer
-     * status
-     * user_id
-     */
 
     // Putting this up here makes the UI more responsive
     const {
@@ -93,6 +85,7 @@ export default function Recall({
       const obj = JSON.parse(i);
       const prompt =
         "Question: " + obj.question + ", Answer: " + userAnswers[i];
+      setState("feedback");
       const correctStatus = await checkAnswer(prompt);
       setUserFeedback((prev: any) => ({ ...prev, [i]: correctStatus }));
       // REENABLE WHEN DONE TESTING FEEDBACK SCREEN
@@ -109,7 +102,6 @@ export default function Recall({
       //   alert("Error submitting answer");
       // }
     }
-    setState("feedback");
 
     // const { data, error } = await supabase
     //   .from("answers")
@@ -134,7 +126,7 @@ export default function Recall({
       {state === "recalling" ? (
         <Animated.View style={[styles.container, animatedStyle]}>
           {Platform.OS === "web" && (
-            <View style={styles.container}>
+            <View>
               <FlatList
                 data={selection}
                 renderItem={({ item }) => (
@@ -149,9 +141,11 @@ export default function Recall({
               />
             </View>
           )}
+          {/* TODO: Better way to make sure that touch controls are more clear, or add actual buttons*/}
           {Platform.OS === "ios" && (
             <View style={styles.container}>
               <FlatList
+                style={{ height: "20%" }}
                 data={selection}
                 horizontal
                 pagingEnabled
@@ -176,25 +170,27 @@ export default function Recall({
               </Text>
             </View>
           )}
-          <TouchableOpacity>
-            <MaterialIcons
-              onPress={() => {
-                fadeOut();
-                setTimeout(() => setState("question"), 200);
-              }}
-              name="arrow-back"
-              size={24}
-              color={colors.text}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <MaterialIcons
-              onPress={handleAnswerSubmit}
-              name="check"
-              size={24}
-              color={colors.text}
-            />
-          </TouchableOpacity>
+          <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <TouchableOpacity>
+              <MaterialIcons
+                onPress={() => {
+                  fadeOut();
+                  setTimeout(() => setState("question"), 200);
+                }}
+                name="arrow-back"
+                size={48}
+                color={colors.text}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <MaterialIcons
+                onPress={handleAnswerSubmit}
+                name="check"
+                size={48}
+                color={colors.text}
+              />
+            </TouchableOpacity>
+          </View>
         </Animated.View>
       ) : null}
       {state === "feedback" && (

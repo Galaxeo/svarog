@@ -53,7 +53,7 @@ export default function QuestionScreen({
           <MaterialIcons
             name="arrow-forward"
             onPress={handleQuestionSubmit}
-            size={24}
+            size={48}
             color={colors.text}
           />
         </TouchableOpacity>
@@ -63,7 +63,7 @@ export default function QuestionScreen({
             onPress={() => {
               setRecall(false);
             }}
-            size={24}
+            size={48}
             color={colors.text}
           />
         </TouchableOpacity>
