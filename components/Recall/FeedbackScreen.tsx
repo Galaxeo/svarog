@@ -13,6 +13,38 @@ import { supabase } from "@/supabase";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FlatList } from "react-native-gesture-handler";
 
+function FeedbackRow({
+  question,
+  feedback,
+  setFeedback,
+}: any) {
+  const width = useWindowDimensions().width;
+  const handleFeedbackSubmit = (comfort: string) => {
+    // TODO: Change comfort
+    console.log(comfort);
+  }
+  return (
+    <View style={[{ display: 'flex', flexDirection: "column", gap: 10, alignItems: 'center', justifyContent: "center" }, { width }]}>
+      <Text style={styles.question}>{JSON.parse(question).question}</Text>
+      <Text style={styles.answer}>{feedback.slice(4)}</Text>
+      {feedback.charAt(0) == "C" && <MaterialIcons size={18} color={"aqua"} name={"check"} />}
+      {feedback.charAt(0) == "H" && <MaterialIcons size={18} color={"yellow"} name={"question-mark"} />}
+      {feedback.charAt(0) == "I" && <MaterialIcons size={18} color={colors.coralRed} name={"close"} />}
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        <TouchableOpacity onPress={() => { handleFeedbackSubmit('easy') }}>
+          <MaterialIcons size={64} color={colors.coralRed} name={"square"} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => { handleFeedbackSubmit('good') }}>
+          <MaterialIcons size={64} color={"yellow"} name={"square"} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => { handleFeedbackSubmit('hard') }}>
+          <MaterialIcons size={64} color={"aqua"} name={"square"} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
+}
+
 export default function FeedbackScreen(
   {
     userAnswers,
@@ -50,24 +82,7 @@ export default function FeedbackScreen(
             bounces={false}
             keyExtractor={([key, value]) => key}
             renderItem={({ item: [key, value] }: { item: [string, any] }) => (
-              <View style={[{ display: 'flex', flexDirection: "column", gap: 10, alignItems: 'center', justifyContent: "center" }, { width }]}>
-                <Text style={styles.question} key={key}>{JSON.parse(key).question}</Text>
-                <Text style={styles.answer}>{value.slice(4)}</Text>
-                {value.charAt(0) == "C" && <MaterialIcons size={18} color={"aqua"} name={"check"} />}
-                {value.charAt(0) == "H" && <MaterialIcons size={18} color={"yellow"} name={"question-mark"} />}
-                {value.charAt(0) == "I" && <MaterialIcons size={18} color={colors.coralRed} name={"close"} />}
-                <View style={{ display: "flex", flexDirection: "row" }}>
-                  <TouchableOpacity onPress={() => { handleFeedbackSubmit('easy') }}>
-                    <MaterialIcons size={64} color={colors.coralRed} name={"square"} />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => { handleFeedbackSubmit('good') }}>
-                    <MaterialIcons size={64} color={"yellow"} name={"square"} />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => { handleFeedbackSubmit('hard') }}>
-                    <MaterialIcons size={64} color={"aqua"} name={"square"} />
-                  </TouchableOpacity>
-                </View>
-              </View>
+              <FeedbackRow question={key} feedback={value} setFeedback={setDummy} />
             )}
             viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
           />

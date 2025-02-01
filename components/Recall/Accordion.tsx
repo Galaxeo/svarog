@@ -21,11 +21,9 @@ function QuestionRow({
   questionObj,
   selection,
   setSelection,
-}: {
-  questionObj: questionType;
-  selection: any[];
-  setSelection: any;
-}) {
+  handleCurrentQuestion,
+}: any
+) {
   const [textColor, setTextColor] = useState("grey");
   const toggleColor = () => {
     setTextColor(textColor === "grey" ? "aqua" : "grey");
@@ -40,11 +38,12 @@ function QuestionRow({
   }, []);
   function handleSetQuestions(questionObj: any) {
     // add question to setSelection array, remove if already in array
-    if (selection.includes(questionObj)) {
-      setSelection(selection.filter((q) => q !== questionObj));
-    } else {
-      setSelection([...selection, questionObj]);
-    }
+    // if (selection.includes(questionObj)) {
+    //   setSelection(selection.filter((q) => q !== questionObj));
+    // } else {
+    //   setSelection([...selection, questionObj]);
+    // }
+    handleCurrentQuestion(questionObj);
   }
   return (
     <TouchableOpacity
@@ -66,12 +65,9 @@ function SessionRow({
   questions,
   selection,
   setSelection, // is this scuffed to pass setquestions down through 2 million components
-}: {
-  session: sessionType;
-  questions: questionType[];
-  selection: any[];
-  setSelection: any;
-}) {
+  handleCurrentQuestion,
+}: any
+) {
   const listRef = useAnimatedRef<Animated.View>();
   const heightVal = useSharedValue(0);
   const open = useSharedValue(false);
@@ -115,6 +111,7 @@ function SessionRow({
               questionObj={question}
               selection={selection}
               setSelection={setSelection}
+              handleCurrentQuestion={handleCurrentQuestion}
             />
           ))}
         </Animated.View>
@@ -129,6 +126,7 @@ export default function Accordion({
   answers,
   selection,
   setSelection,
+  handleCurrentQuestion
 }: any) {
   function getQuestions(session_id: number) {
     if (questions === undefined) { return }
@@ -158,6 +156,7 @@ export default function Accordion({
     return sessionsArr.map(({ session, questions }) => (
       <SessionRow
         setSelection={setSelection}
+        handleCurrentQuestion={handleCurrentQuestion}
         key={session.id}
         session={session}
         questions={questions}

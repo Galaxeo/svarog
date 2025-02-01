@@ -16,12 +16,9 @@ export default function RecallingScreen({
   questionObj,
   userAnswers,
   handleUserAnswers,
-}: {
-  fadeIn: any;
-  questionObj: any;
-  userAnswers: any;
-  handleUserAnswers: any;
-}) {
+  handleNext,
+  handlePrev
+}: any) {
   const [answers, setAnswers] = useState<any>();
   const [showing, setShowing] = useState(false);
 
@@ -67,19 +64,22 @@ export default function RecallingScreen({
           {answer.status == "I" && <MaterialIcons size={18} color={colors.coralRed} name={"close"} />}
           <Text style={{ color: colors.text }}>{answer.answer}</Text>
         </View>))}
-      <TextInput
-        defaultValue={userAnswers[questionObj.id]}
-        style={styles.input}
-        onChangeText={(text) => handleUserAnswers(questionObj, text)}
-        multiline
-        numberOfLines={8}
-      />
+      <View style={{ width: "80%", display: 'flex', flexDirection: 'row', justifyContent: "center", alignItems: 'center', }}>
+        <TextInput
+          defaultValue={userAnswers[questionObj.id]}
+          style={styles.input}
+          onChangeText={(text) => handleUserAnswers(questionObj, text)}
+          multiline
+          numberOfLines={8}
+        />
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: 'auto',
     gap: 15,
     justifyContent: "center",
     alignItems: "center",
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
   },
   input: {
     color: colors.text,
-    height: 200,
-    width: "90%",
+    height: 100,
+    width: '90%',
     margin: 12,
     borderWidth: 1,
     borderColor: colors.text,

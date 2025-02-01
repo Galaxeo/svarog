@@ -14,11 +14,11 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
-import QuestionScreen from "./QuestionScreen";
-import RecallingScreen from "./RecallingScreen";
+import Accordion from "./Accordion";
 import FeedbackScreen from "./FeedbackScreen";
+import Review from "./Review";
 import { checkAnswer } from "@/openai";
 
 import { dummyAnswers, dummyQuestions, dummySessions } from "../dummy";
@@ -37,9 +37,10 @@ export default function Recall({
   const [selection, setSelection] = useState([]);
   const [state, setState] = useState("question");
   // Consider moving userdata outside of recall component
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState<any>({});
   const [userAnswers, setUserAnswers] = useState<any>({});
   const [userFeedback, setUserFeedback] = useState<any>({});
+  const flatListRef = useRef<FlatList>(null);
   const fadeInOpacity = useSharedValue(1);
   const fadeIn = () => {
     fadeInOpacity.value = withTiming(1, {
@@ -67,13 +68,6 @@ export default function Recall({
       setTimeout(() => setState("recalling"), 200);
     }
   }
-  // Handling the change of user answers
-  function handleUserAnswers(i: any, answer: string) {
-    // change index of userAnswers to answer
-    const temp: any = userAnswers;
-    temp[JSON.stringify(i)] = answer;
-    setUserAnswers(temp);
-  }
   async function handleAnswerSubmit() {
 
     // Putting this up here makes the UI more responsive
@@ -88,7 +82,7 @@ export default function Recall({
       setState("feedback");
       // TODO: REENABLE after testing feedback screen
       // const correctStatus = await checkAnswer(prompt);
-      const correctStatus = "C|Ð|aint that some bullsht";
+      const correctStatus = "C|Ð|test feedback";
       setUserFeedback((prev: any) => ({ ...prev, [i]: correctStatus }));
       // REENABLE WHEN DONE TESTING FEEDBACK SCREEN
       // if (["C", "I", "H"].includes(correctStatus[0])) {
@@ -109,85 +103,45 @@ export default function Recall({
     //   .from("answers")
     //   .insert([{ user_id: id, answers: userAnswers }]);
   }
+  function handleCurrentQuestion(question: any) {
+    setState("recalling")
+    setCurrentQuestion(question)
+  }
   return (
     <View style={styles.background}>
+      {/* TODO: REWORK COMPLETELY! One question at a time (inbox style). In the future, figure out how to */}
+      {/* Step 1: Rework question screen (set selection)*/}
       {state === "question" && questions != undefined ? (
-        <QuestionScreen
-          sessions={sessions}
-          questions={questions}
-          answers={answers}
-          setRecall={setRecall}
-          animatedStyle={animatedStyle}
-          selection={selection}
-          setSelection={setSelection}
-          handleQuestionSubmit={handleQuestionSubmit}
-          fadeIn={fadeIn}
-          fadeOut={fadeOut}
-        />
-      ) : null}
-      {state === "recalling" ? (
         <Animated.View style={[styles.container, animatedStyle]}>
-          {Platform.OS === "web" && (
-            <View>
-              <FlatList
-                data={selection}
-                renderItem={({ item }) => (
-                  <RecallingScreen
-                    fadeIn={fadeIn}
-                    questionObj={item}
-                    userAnswers={userAnswers}
-                    handleUserAnswers={handleUserAnswers}
-                  />
-                )}
-                keyExtractor={(item, i) => i.toString()}
-              />
-            </View>
-          )}
-          {/* TODO: Better way to make sure that touch controls are more clear, or add actual buttons*/}
-          {Platform.OS === "ios" && (
-            <View style={styles.container}>
-              <FlatList
-                style={{ height: "20%" }}
-                data={selection}
-                horizontal
-                pagingEnabled
-                bounces={false}
-                renderItem={({ item }) => (
-                  <RecallingScreen
-                    fadeIn={fadeIn}
-                    questionObj={item}
-                    userAnswers={userAnswers}
-                    handleUserAnswers={handleUserAnswers}
-                  />
-                )}
-                onViewableItemsChanged={(viewableItems) => {
-                  if (viewableItems.changed[0].index !== null) {
-                    setCurrentQuestion(viewableItems.changed[0].index);
-                  }
-                }}
-                viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
-              />
-              <Text style={[s.text, { fontSize: 16 }]}>
-                {currentQuestion + 1}/{selection.length}
-              </Text>
-            </View>
-          )}
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <TouchableOpacity>
+          <Text style={s.text}>What are we reviewing today?</Text>
+          {selection.map((question: any, i: any) => (
+            <Text key={i} style={s.text}>
+              {question.question}
+            </Text>
+          ))}
+          <Accordion
+            sessions={sessions}
+            questions={questions}
+            answers={answers}
+            selection={selection}
+            setSelection={setSelection}
+            handleCurrentQuestion={handleCurrentQuestion}
+          />
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            <TouchableOpacity activeOpacity={0.5}>
               <MaterialIcons
-                onPress={() => {
-                  fadeOut();
-                  setTimeout(() => setState("question"), 200);
-                }}
-                name="arrow-back"
+                name="arrow-forward"
+                onPress={handleQuestionSubmit}
                 size={48}
                 color={colors.text}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.5}>
               <MaterialIcons
-                onPress={handleAnswerSubmit}
-                name="check"
+                name="close"
+                onPress={() => {
+                  setRecall(false);
+                }}
                 size={48}
                 color={colors.text}
               />
@@ -195,10 +149,18 @@ export default function Recall({
           </View>
         </Animated.View>
       ) : null}
-      {state === "feedback" && (
-        <FeedbackScreen userAnswers={userAnswers} questions={selection} setRecall={setRecall} userFeedback={userFeedback} />
-      )}
-    </View>
+      {state === "recalling" ? (
+        <Animated.View style={[styles.container, animatedStyle]}>
+          <Review questionObj={currentQuestion} setState={setState} />
+          {/* This is where question would go one by one*/}
+        </Animated.View >
+      ) : null}
+      {
+        state === "feedback" && (
+          <FeedbackScreen userAnswers={userAnswers} questions={selection} setRecall={setRecall} userFeedback={userFeedback} />
+        )
+      }
+    </View >
   );
 }
 
@@ -228,4 +190,7 @@ const styles = StyleSheet.create({
     borderColor: colors.text,
     padding: 10,
   },
+  flatList: {
+    flexGrow: 0.5,
+  }
 });

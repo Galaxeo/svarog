@@ -15,6 +15,7 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 **Implementing active recall directly with timer**
 1. Do research on how to implement active recall (schedule)
 2. Implementation with timer
+3. Figure out key problem, maybe host Python backend
 
 ### Timer
 
