@@ -68,41 +68,6 @@ export default function Recall({
       setTimeout(() => setState("recalling"), 200);
     }
   }
-  async function handleAnswerSubmit() {
-
-    // Putting this up here makes the UI more responsive
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    const id = user?.id;
-    for (let i in userAnswers) {
-      const obj = JSON.parse(i);
-      const prompt =
-        "Question: " + obj.question + ", Answer: " + userAnswers[i];
-      setState("feedback");
-      // TODO: REENABLE after testing feedback screen
-      // const correctStatus = await checkAnswer(prompt);
-      const correctStatus = "C|Ð|test feedback";
-      setUserFeedback((prev: any) => ({ ...prev, [i]: correctStatus }));
-      // REENABLE WHEN DONE TESTING FEEDBACK SCREEN
-      // if (["C", "I", "H"].includes(correctStatus[0])) {
-      //   const { data, error } = await supabase.from("answers").insert([
-      //     {
-      //       question_id: obj.id,
-      //       answer: userAnswers[i],
-      //       status: correctStatus[0],
-      //       user_id: id,
-      //     },
-      //   ]);
-      // } else {
-      //   alert("Error submitting answer");
-      // }
-    }
-
-    // const { data, error } = await supabase
-    //   .from("answers")
-    //   .insert([{ user_id: id, answers: userAnswers }]);
-  }
   function handleCurrentQuestion(question: any) {
     setState("recalling")
     setCurrentQuestion(question)

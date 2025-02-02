@@ -10,25 +10,68 @@ import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
 import { supabase } from "@/supabase";
 import { MaterialIcons } from "@expo/vector-icons";
+import checkAnswer from "@/openai";
 export default function Review({
   questionObj,
   setState
 }: any) {
-  console.log(questionObj);
+  const [answer, setAnswer] = useState("");
+  async function handleAnswerSubmit(answer: any) {
+
+    // Putting this up here makes the UI more responsive
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const id = user?.id;
+    const prompt =
+      "Question: " + questionObj.question + ", Answer: " + answer;
+    // TODO: REENABLE after testing feedback screen
+    // const correctStatus = await checkAnswer(prompt);
+    const correctStatus = "C|Ð|test feedback";
+    // REENABLE WHEN DONE TESTING FEEDBACK SCREEN
+    // if (["C", "I", "H"].includes(correctStatus[0])) {
+    //   const { data, error } = await supabase.from("answers").insert([
+    //     {
+    //       question_id: obj.id,
+    //       answer: userAnswers[i],
+    //       status: correctStatus[0],
+    //       user_id: id,
+    //     },
+    //   ]);
+    // } else {
+    //   alert("Error submitting answer");
+    // }
+
+    // const { data, error } = await supabase
+    //   .from("answers")
+    //   .insert([{ user_id: id, answers: userAnswers }]);
+    return correctStatus;
+  }
   return (
     <>
-      <View>
+      <View style={styles.container}>
         <Text style={s.text}>{questionObj.question}</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setAnswer(text)}
+          multiline
+          numberOfLines={8}
+        />
       </View>
-      <TouchableOpacity>
-        <MaterialIcons name="arrow-back" color={colors.text} size={18} onPress={() => setState("question")}></MaterialIcons>
-      </TouchableOpacity>
+      <View style={s.buttonRow}>
+        <TouchableOpacity>
+          <MaterialIcons name="arrow-back" color={colors.text} size={18} onPress={() => setState("question")}></MaterialIcons>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <MaterialIcons name="arrow-forward" color={colors.text} size={18} onPress={() => handleAnswerSubmit(answer)}></MaterialIcons>
+        </TouchableOpacity>
+      </View>
     </>
   )
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
     height: 'auto',
     gap: 15,
     justifyContent: "center",

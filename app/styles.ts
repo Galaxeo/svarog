@@ -11,6 +11,10 @@ export const s = StyleSheet.create({
   text: {
     color: "#e1e1e1",
   },
+  buttonRow: {
+    display: "flex",
+    flexDirection: "row",
+  },
 });
 
 export const colors = {
@@ -21,5 +25,6 @@ export const colors = {
   backgroundTransparent: "rgba(32, 32, 35, .7)",
   backgroundTranslucent: "rgba(32, 32, 35, .9)",
 };
+
 
 export default s;
