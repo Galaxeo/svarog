@@ -31,7 +31,8 @@ export default function Timer() {
   const [isFinished, setFinished] = useState(false);
   const [isSettings, setSettings] = useState(false);
   const [isNotesInput, setNotesInput] = useState(false);
-  const [isRecall, setRecall] = useState(false);
+  const [isRecall, setRecall] = useState(true);
+  // const [isRecall, setRecall] = useState(false);
 
   // User Info
   const [totalTime, setTotalTime] = useState(0);

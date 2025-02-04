@@ -16,6 +16,8 @@ export default function Review({
   setState
 }: any) {
   const [answer, setAnswer] = useState("");
+  const [grade, setGrade] = useState("");
+  const [feedback, setFeedback] = useState("");
   async function handleAnswerSubmit(answer: any) {
 
     // Putting this up here makes the UI more responsive
@@ -36,7 +38,7 @@ export default function Review({
     //       answer: userAnswers[i],
     //       status: correctStatus[0],
     //       user_id: id,
-    //     },
+    //     }
     //   ]);
     // } else {
     //   alert("Error submitting answer");
@@ -45,27 +47,58 @@ export default function Review({
     // const { data, error } = await supabase
     //   .from("answers")
     //   .insert([{ user_id: id, answers: userAnswers }]);
+    setGrade(correctStatus.split("|")[0]);
+    setFeedback(correctStatus.split("|")[2]);
     return correctStatus;
+  }
+  async function handleFeedbackSubmit(comfort: string) {
   }
   return (
     <>
       <View style={styles.container}>
         <Text style={s.text}>{questionObj.question}</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setAnswer(text)}
-          multiline
-          numberOfLines={8}
-        />
+        {!feedback ?
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setAnswer(text)}
+            multiline
+            numberOfLines={8}
+          /> :
+          <>
+            <View style={[s.buttonRow, { gap: 15 }]}>
+              {grade == "C" && <MaterialIcons size={18} color={"aqua"} name={"check"} />}
+              {grade == "H" && <MaterialIcons size={18} color={"yellow"} name={"question-mark"} />}
+              {grade == "I" && <MaterialIcons size={18} color={colors.coralRed} name={"close"} />}
+              <Text style={s.text}>{feedback}</Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <TouchableOpacity onPress={() => { handleFeedbackSubmit('hard') }}>
+                <Text style={{ color: colors.coralRed, fontSize: 48 }}>😓</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { handleFeedbackSubmit('good') }}>
+                <Text style={{ color: "yellow", fontSize: 48 }}>😐</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { handleFeedbackSubmit('easy') }}>
+                <Text style={{ color: "aqua", fontSize: 48 }}>😄</Text>
+              </TouchableOpacity>
+            </View>
+          </>}
       </View>
-      <View style={s.buttonRow}>
-        <TouchableOpacity>
-          <MaterialIcons name="arrow-back" color={colors.text} size={18} onPress={() => setState("question")}></MaterialIcons>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <MaterialIcons name="arrow-forward" color={colors.text} size={18} onPress={() => handleAnswerSubmit(answer)}></MaterialIcons>
-        </TouchableOpacity>
-      </View>
+      {!feedback ?
+        <View style={s.buttonRow}>
+          <TouchableOpacity>
+            <MaterialIcons name="arrow-back" color={colors.text} size={18} onPress={() => setState("question")}></MaterialIcons>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <MaterialIcons name="arrow-forward" color={colors.text} size={18} onPress={() => handleAnswerSubmit(answer)}></MaterialIcons>
+          </TouchableOpacity>
+        </View> :
+        <View style={s.buttonRow}>
+          <TouchableOpacity>
+            <MaterialIcons name="arrow-forward" color={colors.text} size={18} onPress={() => setState("question")}></MaterialIcons>
+          </TouchableOpacity>
+        </View>
+      }
     </>
   )
 }
