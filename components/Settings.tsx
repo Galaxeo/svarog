@@ -38,7 +38,19 @@ export default function Settings({
   setShortToLong: any;
   setSettings: any;
 }) {
+  const [tempValue, setTempValue] = useState(0);
   // Functions to handle changing settings
+  function settingsTextChange(setter: any, newValue: string) {
+    if (newValue == "" || parseInt(newValue) <= 0) {
+      setter(0);
+    } else if (parseInt(newValue) > 99) {
+      alert("Value cannot be greater than 99!");
+      return;
+    }
+    else {
+      setter(parseInt(newValue));
+    }
+  }
   function durationChange(diff: number) {
     // maybe warning if duration is too high?
     if (duration + diff <= 0) {
@@ -46,6 +58,10 @@ export default function Settings({
         alert("Sessions cannot be shorter than 1 minute!");
       }
       setDuration(1);
+      return;
+    } else if (duration + diff > 99) {
+      alert("Value cannot be greater than 99!");
+      setDuration(99);
       return;
     } else {
       setDuration(duration + diff);
@@ -58,6 +74,10 @@ export default function Settings({
       }
       setShort(1);
       return;
+    } else if (short + diff > 99) {
+      alert("Value cannot be greater than 99!");
+      setShort(99);
+      return;
     } else {
       setShort(short + diff);
     }
@@ -69,7 +89,12 @@ export default function Settings({
       }
       setShortToLong(2);
       return;
-    } else {
+    } else if (shortToLong + diff > 99) {
+      alert("Value cannot be greater than 99!");
+      setShortToLong(99);
+      return;
+    }
+    else {
       setShortToLong(shortToLong + diff);
     }
   }
@@ -78,6 +103,10 @@ export default function Settings({
       if (long == 1) {
         alert("Breaks cannot be shorter than 1 minute")
       } setLong(1);
+      return;
+    } else if (long + diff > 99) {
+      alert("Value cannot be greater than 99!");
+      setLong(99);
       return;
     } else {
       if ((long + diff) <= short) {
@@ -113,9 +142,10 @@ export default function Settings({
               <Text style={styles.settingDecrement}>-1</Text>
             </TouchableOpacity>
             <TextInput
-              defaultValue={duration.toString()}
               style={styles.settingTextInput}
               keyboardType="numeric"
+              value={duration.toString()}
+              onChangeText={(text) => settingsTextChange(setDuration, text)}
             />
             <TouchableOpacity style={styles.settingButton} onPress={() => { durationChange(1) }}>
               <Text style={styles.settingIncrement}>+1</Text>
@@ -139,6 +169,7 @@ export default function Settings({
               defaultValue={short.toString()}
               style={styles.settingTextInput}
               keyboardType="numeric"
+              onChangeText={(text) => settingsTextChange(setShort, text)}
             />
             <TouchableOpacity style={styles.settingButton} onPress={() => { shortBreakChange(1) }}>
               <Text style={styles.settingIncrement}>+1</Text>
@@ -162,6 +193,7 @@ export default function Settings({
               defaultValue={shortToLong.toString()}
               style={styles.settingTextInput}
               keyboardType="numeric"
+              onChangeText={(text) => settingsTextChange(setShortToLong, text)}
             />
             <TouchableOpacity style={styles.settingButton} onPress={() => { shortToLongChange(1) }}>
               <Text style={styles.settingIncrement}>+1</Text>
@@ -185,6 +217,7 @@ export default function Settings({
               defaultValue={long.toString()}
               style={styles.settingTextInput}
               keyboardType="numeric"
+              onChangeText={(text) => settingsTextChange(setLong, text)}
             />
             <TouchableOpacity style={styles.settingButton} onPress={() => { longBreakChange(1) }}>
               <Text style={styles.settingIncrement}>+1</Text>
