@@ -14,9 +14,6 @@ import { s, colors } from "@/app/styles";
 import { supabase } from "@/supabase";
 
 
-// TODO: Sync settings with user data (supabase)
-// TODO: Fix values for lengths to change along with buttons and text input
-
 export default function Settings({
   duration,
   setDuration,

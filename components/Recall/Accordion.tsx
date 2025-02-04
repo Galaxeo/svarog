@@ -105,7 +105,7 @@ function SessionRow({
       </View>
       <Animated.View style={heightAnimationStyle}>
         <Animated.View ref={listRef} style={styles.questionRow}>
-          {questions.map((question) => (
+          {questions.map((question: any) => (
             <QuestionRow
               key={question.id}
               questionObj={question}
@@ -134,6 +134,7 @@ export default function Accordion({
       (question: questionType) => question.session_id === session_id
     );
   }
+  // TODO: Obtain questions that has a nextDate value equal to or prior to current date
   // This function probably won't have to use until we want to show previous answers (i.e. in statistics)
   function getAnswers(question_id: number) {
     return answers.filter(

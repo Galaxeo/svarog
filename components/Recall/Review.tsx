@@ -71,6 +71,7 @@ export default function Review({
               {grade == "I" && <MaterialIcons size={18} color={colors.coralRed} name={"close"} />}
               <Text style={s.text}>{feedback}</Text>
             </View>
+            <Text style={s.text}>Difficulty:</Text>
             <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
               <TouchableOpacity onPress={() => { handleFeedbackSubmit('hard') }}>
                 <Text style={{ color: colors.coralRed, fontSize: 48 }}>😓</Text>
@@ -111,6 +112,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 2,
     elevation: 2,
+    width: "80%"
   },
   input: {
     color: colors.text,
