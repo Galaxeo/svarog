@@ -79,6 +79,7 @@ export default function Recall({
       {state === "question" && questions != undefined ? (
         <Animated.View style={[styles.container, animatedStyle]}>
           <Text style={s.text}>What are we reviewing today?</Text>
+          {/* TODO: Create filler for what happens with no questions (empty questions)*/}
           {selection.map((question: any, i: any) => (
             <Text key={i} style={s.text}>
               {question.question}

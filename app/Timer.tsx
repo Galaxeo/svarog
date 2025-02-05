@@ -42,6 +42,9 @@ export default function Timer() {
   const completedSessions = useRef(0);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // TODO: Obtain questions that has a nextDate value equal to or prior to current date
+
   useEffect(() => {
     setTime(duration * 60);
   }, [duration]);
@@ -51,10 +54,16 @@ export default function Timer() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      const sessions = await supabase.from("sessions").select("*").eq("user_id", user?.id);
-      if (sessions.data) setSessions(sessions.data);
-      const questions = await supabase.from("questions").select("*").eq("user_id", user?.id);
-      if (questions.data) setQuestions(questions.data);
+      const now = new Date().toISOString();
+
+      const questions = await supabase.from("questions").select("*").lt("next_date", now).eq("user_id", user?.id);
+      if (questions.data) {
+        setQuestions(questions.data);
+        const sessionIds = questions.data.map(question => question.session_id);
+        const sessions = await supabase.from("sessions").select("*").in("id", sessionIds).eq("user_id", user?.id);
+        if (sessions.data) setSessions(sessions.data);
+      }
+      // Ensure that we only obtain sessions with questions due
       // Possible to fetch answers here as well if we want later
       const settings = await supabase.from("settings").select("*").eq("id", user?.id);
       if (settings.data) {

@@ -134,7 +134,6 @@ export default function Accordion({
       (question: questionType) => question.session_id === session_id
     );
   }
-  // TODO: Obtain questions that has a nextDate value equal to or prior to current date
   // This function probably won't have to use until we want to show previous answers (i.e. in statistics)
   function getAnswers(question_id: number) {
     return answers.filter(
@@ -145,13 +144,6 @@ export default function Accordion({
     const sessionsArr = [];
     for (let i in sessions) {
       const session = sessions[i];
-      // Code if we want to include answers
-      // const questions = getQuestions(session.id);
-      // for (let j in questions) {
-      //   const question = questions[j];
-      //   const answers = getAnswers(question.id);
-      //   questionsArr.push({ question, answers });
-      // }
       sessionsArr.push({ session, questions: getQuestions(session.id) });
     }
     return sessionsArr.map(({ session, questions }) => (

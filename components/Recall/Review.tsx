@@ -52,6 +52,7 @@ export default function Review({
     return correctStatus;
   }
   async function handleFeedbackSubmit(comfort: string) {
+    // Obtain ease factor, then based on comfort level, adjust next date
   }
   return (
     <>
