@@ -28,7 +28,7 @@ export async function checkAnswer(qaObj) {
     model: "gpt-4o-mini", messages: [
       {
         role: "system",
-        content: "Based on the question and answer, determine if the answer is correct, incorrect, or half correct. If the answer is correct, respond with 'C'. If the answer is incorrect, respond with 'I'. If the answer is half correct, respond with 'H'. After giving the grade, if the answer is not correct, explain to the person who submitted the question why you gave that grade, but separated with the string |Ð|. For example, 'I|Ð|Because 2+2 does not equal 4.",
+        content: "Based on the question and answer, determine if the answer is correct, incorrect, or half correct. If the answer is correct, respond with 'C|Ð|Correct!'. If the answer is incorrect, respond with 'I'. If the answer is half correct, respond with 'H'. After giving the grade, if the answer is not correct, explain to the person who submitted the question why you gave that grade, but separated with the string |Ð|. For example, 'I|Ð|Because 2+2 does not equal 4.",
       },
       {
         role: "user",

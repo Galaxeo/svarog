@@ -26,9 +26,6 @@ function QuestionRow({
 }: any
 ) {
   const [textColor, setTextColor] = useState("grey");
-  const toggleColor = () => {
-    setTextColor(textColor === "grey" ? "aqua" : "grey");
-  };
   // "Remembering" selection state
   useEffect(() => {
     if (questionObj.reviewed) {
@@ -37,22 +34,12 @@ function QuestionRow({
       setTextColor(colors.text);
     }
   }, []);
-  function handleSetQuestions(questionObj: any) {
-    // add question to setSelection array, remove if already in array
-    // if (selection.includes(questionObj)) {
-    //   setSelection(selection.filter((q) => q !== questionObj));
-    // } else {
-    //   setSelection([...selection, questionObj]);
-    // }
-    handleCurrentQuestion(questionObj);
-  }
   return (
     <TouchableOpacity
       key={questionObj.id}
       onPress={(e) => {
         e.stopPropagation();
-        toggleColor();
-        handleSetQuestions(questionObj);
+        handleCurrentQuestion(questionObj);
       }}
       style={{ margin: 5 }}
     >

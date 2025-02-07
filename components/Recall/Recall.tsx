@@ -17,7 +17,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
 import Accordion from "./Accordion";
-import FeedbackScreen from "./FeedbackScreen";
 import Review from "./Review";
 import { checkAnswer } from "@/openai";
 
@@ -73,6 +72,10 @@ export default function Recall({
     }
   }
   function handleCurrentQuestion(question: any) {
+    if (question.reviewed) {
+      alert("Already done!");
+      return;
+    }
     setState("recalling")
     setCurrentQuestion(question)
   }
@@ -125,11 +128,6 @@ export default function Recall({
           {/* This is where question would go one by one*/}
         </Animated.View >
       ) : null}
-      {
-        state === "feedback" && (
-          <FeedbackScreen userAnswers={userAnswers} questions={selection} setRecall={setRecall} userFeedback={userFeedback} />
-        )
-      }
     </View >
   );
 }

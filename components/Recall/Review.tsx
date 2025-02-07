@@ -10,7 +10,7 @@ import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
 import { supabase } from "@/supabase";
 import { MaterialIcons } from "@expo/vector-icons";
-import checkAnswer from "@/openai";
+import { checkAnswer } from "@/openai";
 export default function Review({
   questionObj,
   setState,
@@ -31,14 +31,15 @@ export default function Review({
     const prompt =
       "Question: " + questionObj.question + ", Answer: " + answer;
     // TODO: REENABLE after testing feedback screen
-    // const correctStatus = await checkAnswer(prompt);
-    const correctStatus = "C|Ð|test feedback";
-    // REENABLE WHEN DONE TESTING FEEDBACK SCREEN
+    const correctStatus = await checkAnswer(prompt);
+    // const correctStatus = "C|Ð|test feedback";
+
+    // Re-enable if we want to submit answers to database
     // if (["C", "I", "H"].includes(correctStatus[0])) {
     //   const { data, error } = await supabase.from("answers").insert([
     //     {
-    //       question_id: obj.id,
-    //       answer: userAnswers[i],
+    //       question_id: questionObj.id,
+    //       answer: answer,
     //       status: correctStatus[0],
     //       user_id: id,
     //     }
@@ -47,9 +48,6 @@ export default function Review({
     //   alert("Error submitting answer");
     // }
 
-    // const { data, error } = await supabase
-    //   .from("answers")
-    //   .insert([{ user_id: id, answers: userAnswers }]);
     setGrade(correctStatus.split("|")[0]);
     setFeedback(correctStatus.split("|")[2]);
     return correctStatus;

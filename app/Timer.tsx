@@ -92,7 +92,6 @@ export default function Timer() {
             // add a sound here or something to alert
 
             // set break time
-            // TODO: Add sound when timer ends
             // Thinking should just continue as if shortToLong was set like that the whole time
             if (!isBreak) {
               completedSessions.current += 1;
