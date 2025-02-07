@@ -13,7 +13,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import checkAnswer from "@/openai";
 export default function Review({
   questionObj,
-  setState
+  setState,
+  setSessions,
+  setQuestions,
 }: any) {
   const [answer, setAnswer] = useState("");
   const [grade, setGrade] = useState("");
@@ -30,7 +32,7 @@ export default function Review({
       "Question: " + questionObj.question + ", Answer: " + answer;
     // TODO: REENABLE after testing feedback screen
     // const correctStatus = await checkAnswer(prompt);
-    const correctStatus = "H|Ð|test feedback";
+    const correctStatus = "C|Ð|test feedback";
     // REENABLE WHEN DONE TESTING FEEDBACK SCREEN
     // if (["C", "I", "H"].includes(correctStatus[0])) {
     //   const { data, error } = await supabase.from("answers").insert([
@@ -55,35 +57,42 @@ export default function Review({
   async function handleFeedbackSubmit() {
     // Obtain ease factor, then based on comfort level, adjust interval then next date
     // Using supermemo algo
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     let newEf = questionObj.ease_factor;
     let newInterval = questionObj.interval;
-    if (grade == "I") {
-      newEf = Math.max(newEf - 0.2, 1.3);
-      newInterval = 1;
-      return;
-    }
-    if (comfort == "") {
+    if (comfort == "" && grade != "I") {
       alert("Please select a comfort level");
       return;
     }
-    if (grade == "H" || comfort == "hard") {
+    if (grade == "I") {
+      newEf = Math.max(newEf - 0.2, 1.3);
+      newInterval = 1;
+      setState('question');
+    } else if (grade == "H" || comfort == "Hard") {
       newEf = Math.max(newEf - .15, 1.3);
       newInterval = newInterval == 0 ? 1 : newInterval == 1 ? 6 : newInterval * newEf;
     } else {
       // if comfort is good, leave newEf same, otherwise if easy, bump up ease factor
-      newEf = comfort == "good" ? newEf : Math.min(newEf + 0.1, 3.0);
+      newEf = comfort == "Alright" ? newEf : Math.min(newEf + 0.1, 3.0);
       newInterval = newInterval == 0 ? 1 : newInterval == 1 ? 6 : newInterval * newEf;
     }
     // Add interval to current date to get next date
     const newDate = new Date()
     newDate.setDate(newDate.getDate() + newInterval);
+    // Add a "reviewed" attribute to the question
+    questionObj.reviewed = true;
+    setQuestions((prev: any) => prev.map((question: any) => question.id == questionObj.id ? questionObj : question));
     setState('question');
-    // TODO: Test
-    // const submitData = await supabase.from("questions").update({
-    //   ease_factor: newEf,
-    //   interval: newInterval,
-    //   next_date: newDate.toISOString()
-    // }).eq("id", questionObj.id);
+    const submitData = await supabase.from("questions").update({
+      ease_factor: newEf,
+      interval: newInterval,
+      next_date: newDate.toISOString()
+    }).eq("id", questionObj.id).eq("user_id", user?.id);
+    if (submitData.error) {
+      console.error(submitData.error);
+    }
   }
   return (
     <>
@@ -106,15 +115,15 @@ export default function Review({
             {/*TODO: Override half-correct option */}
             {grade != "I" &&
               <>
-                <Text style={s.text}>Difficulty:</Text>
+                <Text style={s.text}>Difficulty: {comfort}</Text>
                 <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-                  <TouchableOpacity onPress={() => { setComfort('hard') }}>
+                  <TouchableOpacity onPress={() => { setComfort('Hard') }}>
                     <Text style={{ color: colors.coralRed, fontSize: 48 }}>😓</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => { setComfort('good') }}>
+                  <TouchableOpacity onPress={() => { setComfort('Alright') }}>
                     <Text style={{ color: "yellow", fontSize: 48 }}>😐</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => { setComfort('easy') }}>
+                  <TouchableOpacity onPress={() => { setComfort('Easy') }}>
                     <Text style={{ color: "aqua", fontSize: 48 }}>😄</Text>
                   </TouchableOpacity>
                 </View>

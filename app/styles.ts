@@ -22,6 +22,7 @@ export const colors = {
   text: "#e1e1e1",
   coralRed: '#FF746C',
   aqua: "aqua",
+  lightGreen: "#88e788",
   backgroundTransparent: "rgba(32, 32, 35, .7)",
   backgroundTranslucent: "rgba(32, 32, 35, .9)",
 };

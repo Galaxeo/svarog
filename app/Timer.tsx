@@ -153,7 +153,9 @@ export default function Timer() {
         <Recall
           setRecall={setRecall}
           sessions={sessions}
+          setSessions={setSessions}
           questions={questions}
+          setQuestions={setQuestions}
           answers={answers}
         />
       )}

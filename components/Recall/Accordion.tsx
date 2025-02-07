@@ -2,6 +2,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
 import { questionType, sessionType, answerType } from "@/app/types";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import Animated, {
   useSharedValue,
@@ -30,10 +31,10 @@ function QuestionRow({
   };
   // "Remembering" selection state
   useEffect(() => {
-    if (selection.includes(questionObj)) {
-      setTextColor("aqua");
-    } else {
+    if (questionObj.reviewed) {
       setTextColor("grey");
+    } else {
+      setTextColor(colors.text);
     }
   }, []);
   function handleSetQuestions(questionObj: any) {
@@ -55,7 +56,8 @@ function QuestionRow({
       }}
       style={{ margin: 5 }}
     >
-      <Text style={{ color: textColor }}>{questionObj.question}</Text>
+      <Text style={{ color: textColor }}>{questionObj.reviewed ? <MaterialIcons name="check" size={12} color={colors.lightGreen} /> : <></>}
+        {questionObj.question}</Text>
     </TouchableOpacity>
   );
 }
@@ -178,6 +180,7 @@ const styles = StyleSheet.create({
   },
   sessionRow: {
     justifyContent: "space-between",
+    backgroundColor: colors.backgroundTransparent,
     borderRadius: 10,
     gap: 5,
     borderWidth: 1,

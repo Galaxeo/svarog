@@ -26,12 +26,16 @@ import { dummyAnswers, dummyQuestions, dummySessions } from "../dummy";
 export default function Recall({
   setRecall,
   sessions,
+  setSessions,
   questions,
+  setQuestions,
   answers,
 }: {
   setRecall: any;
   sessions: any;
+  setSessions: any;
   questions: any;
+  setQuestions: any;
   answers: any;
 }) {
   const [selection, setSelection] = useState([]);
@@ -117,7 +121,7 @@ export default function Recall({
       ) : null}
       {state === "recalling" ? (
         <Animated.View style={[styles.container, animatedStyle]}>
-          <Review questionObj={currentQuestion} setState={setState} />
+          <Review questionObj={currentQuestion} setState={setState} setSessions={setSessions} setQuestions={setQuestions} />
           {/* This is where question would go one by one*/}
         </Animated.View >
       ) : null}
