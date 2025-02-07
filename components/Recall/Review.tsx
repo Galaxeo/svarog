@@ -10,7 +10,7 @@ import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
 import { supabase } from "@/supabase";
 import { MaterialIcons } from "@expo/vector-icons";
-import { checkAnswer } from "@/openai";
+import { checkAnswer } from "@/openaiWeb";
 export default function Review({
   questionObj,
   setState,
@@ -31,7 +31,7 @@ export default function Review({
     const prompt =
       "Question: " + questionObj.question + ", Answer: " + answer;
     // TODO: REENABLE after testing feedback screen
-    const correctStatus = await checkAnswer(prompt);
+    const correctStatus: any = await checkAnswer(prompt);
     // const correctStatus = "C|Ð|test feedback";
 
     // Re-enable if we want to submit answers to database
@@ -83,14 +83,14 @@ export default function Review({
     questionObj.reviewed = true;
     setQuestions((prev: any) => prev.map((question: any) => question.id == questionObj.id ? questionObj : question));
     setState('question');
-    const submitData = await supabase.from("questions").update({
-      ease_factor: newEf,
-      interval: newInterval,
-      next_date: newDate.toISOString()
-    }).eq("id", questionObj.id).eq("user_id", user?.id);
-    if (submitData.error) {
-      console.error(submitData.error);
-    }
+    // const submitData = await supabase.from("questions").update({
+    //   ease_factor: newEf,
+    //   interval: newInterval,
+    //   next_date: newDate.toISOString()
+    // }).eq("id", questionObj.id).eq("user_id", user?.id);
+    // if (submitData.error) {
+    //   console.error(submitData.error);
+    // }
   }
   return (
     <>
