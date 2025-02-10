@@ -31,7 +31,7 @@ export default function Timer() {
   const [isFinished, setFinished] = useState(false);
   const [isSettings, setSettings] = useState(false);
   const [isNotesInput, setNotesInput] = useState(false);
-  const [isRecall, setRecall] = useState(true);
+  const [isRecall, setRecall] = useState(false);
   // const [isRecall, setRecall] = useState(false);
 
   // User Info
@@ -40,6 +40,8 @@ export default function Timer() {
   const [questions, setQuestions] = useState<any>();
   const [answers, setAnswers] = useState();
   const completedSessions = useRef(0);
+
+  const [zenMode, setZenMode] = useState(true);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -72,6 +74,7 @@ export default function Timer() {
         setLong(settings.data[0].long);
         setShortToLong(settings.data[0].shortToLong);
       } else {
+        // TODO: What to do if supabase not responding/server down?
         // initialize user settings
         const { data, error } = await supabase.from("settings").insert({ id: user?.id });
       }
@@ -87,6 +90,7 @@ export default function Timer() {
           if (prevTime === 0) {
             clearInterval(intervalRef.current!);
             setActive(false);
+            notiPlayer.seekTo(0);
             notiPlayer.play();
             console.log("Time's up!");
             // add a sound here or something to alert
@@ -147,7 +151,6 @@ export default function Timer() {
       {isNotesInput && (
         <NotesInput totalTime={totalTime} setNotesInput={setNotesInput} />
       )}
-      {/* <NotesInput handleNotesInput={handleNotesInput} /> */}
       {isRecall && (
         <Recall
           setRecall={setRecall}
@@ -168,46 +171,58 @@ export default function Timer() {
           setLong={setLong}
           shortToLong={shortToLong}
           setShortToLong={setShortToLong}
+          zen={zenMode}
+          setZen={setZenMode}
           setSettings={setSettings}
         />
       )}
-      {/* <Recall /> */}
       <Text style={[{ color: colors.text }, styles.header]}>
         {isBreak ? "Break" : "Work"} Time
       </Text>
       <Text style={{ color: colors.text }}>
         {completedSessions.current} completed sessions
       </Text>
-      <TouchableOpacity style={styles.clockCont}>
-        <GestureDetector gesture={pan}>
-          <Text style={styles.clock} onPress={pausePlayTimer}>
-            {Math.floor(time / 60)
-              .toString()
-              .padStart(2, "0")}
-            :{(time % 60).toString().padStart(2, "0")}
-          </Text>
-        </GestureDetector>
-      </TouchableOpacity>
+      {zenMode ?
+        <TouchableOpacity style={styles.clockCont}>
+          <GestureDetector gesture={pan}>
+            <Text style={[styles.clock, { color: isActive ? colors.text : 'gray' }]} onPress={pausePlayTimer}>
+              {Math.floor(time / 60)
+                .toString()
+                .padStart(2, "0")}:XX
+            </Text>
+          </GestureDetector>
+        </TouchableOpacity> :
+        <TouchableOpacity style={styles.clockCont}>
+          <GestureDetector gesture={pan}>
+            <Text style={[styles.clock, { color: isActive ? colors.text : 'gray' }]} onPress={pausePlayTimer}>
+              {Math.floor(time / 60)
+                .toString()
+                .padStart(2, "0")}
+              :{(time % 60).toString().padStart(2, "0")}
+            </Text>
+          </GestureDetector>
+        </TouchableOpacity>
+      }
       <View style={{ flexDirection: "row" }}>
-        <Pressable onPress={pausePlayTimer}>
+        <TouchableOpacity onPress={pausePlayTimer}>
           <MaterialIcons
             name={isActive ? "pause" : "play-arrow"}
             size={48}
             color={colors.text}
           />
-        </Pressable>
-        <Pressable onPress={resetTimer}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={resetTimer}>
           <MaterialIcons name="replay" size={48} color={colors.text} />
-        </Pressable>
-        <Pressable onPress={finishSession}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={finishSession}>
           <MaterialIcons name="stop" size={48} color={colors.text} />
-        </Pressable>
-        <Pressable onPress={() => setSettings(true)}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setSettings(true)}>
           <MaterialIcons name="settings" size={48} color={colors.text} />
-        </Pressable>
-        <Pressable onPress={() => setRecall(true)}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setRecall(true)}>
           <MaterialIcons name="assignment" size={48} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -235,7 +250,6 @@ const styles = StyleSheet.create({
   },
   clock: {
     margin: 50,
-    color: colors.text,
     fontSize: 100,
   },
   header: {

@@ -48,11 +48,14 @@ function DisplayNotes({
     sessionId: string,
     question: string,
   ) {
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     const { data, error } = await supabase.from("questions").insert([
       {
         session_id: sessionId,
         user_id: userId,
         question: question,
+        next_date: tomorrow.toISOString(),
       },
     ]);
     if (error) {

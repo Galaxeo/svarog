@@ -24,16 +24,20 @@ export default function Settings({
   shortToLong,
   setShortToLong,
   setSettings,
+  zen,
+  setZen,
 }: {
   duration: number;
   setDuration: any;
   short: number;
   setShort: any;
   long: number;
-  setLong: any;
   shortToLong: number;
+  setLong: any;
   setShortToLong: any;
   setSettings: any;
+  zen: boolean;
+  setZen: any;
 }) {
   const [tempValue, setTempValue] = useState(0);
   // Functions to handle changing settings
@@ -223,6 +227,11 @@ export default function Settings({
               <Text style={styles.settingIncrement}>+5</Text>
             </TouchableOpacity>
           </View>
+        </View>
+        <View style={styles.settingRow}>
+          <TouchableOpacity onPress={() => { setZen(!zen) }}>
+            <Text style={{ color: zen ? colors.text : "gray", fontSize: 18 }}>Zen Mode (hide seconds)</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={{ display: "flex", flexDirection: "row" }}>
