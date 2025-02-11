@@ -3,8 +3,8 @@ import {
   TextInput,
   StyleSheet,
   View,
-  useWindowDimensions,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
@@ -30,10 +30,8 @@ export default function Review({
     const id = user?.id;
     const prompt =
       "Question: " + questionObj.question + ", Answer: " + answer;
-    // TODO: REENABLE after testing feedback screen
+    setFeedback("Checking");
     const correctStatus: any = await checkAnswer(prompt);
-    // const correctStatus = "C|Ð|test feedback";
-
     // Re-enable if we want to submit answers to database
     // if (["C", "I", "H"].includes(correctStatus[0])) {
     //   const { data, error } = await supabase.from("answers").insert([
@@ -96,7 +94,7 @@ export default function Review({
     <>
       <View style={styles.container}>
         <Text style={s.text}>{questionObj.question}</Text>
-        {!feedback ?
+        {!feedback || feedback == "Checking" ?
           <TextInput
             style={styles.input}
             onChangeText={(text) => setAnswer(text)}
@@ -129,15 +127,18 @@ export default function Review({
             }
           </>}
       </View >
-      {!feedback ?
-        <View style={s.buttonRow}>
-          <TouchableOpacity>
-            <MaterialIcons name="arrow-back" color={colors.text} size={18} onPress={() => setState("question")}></MaterialIcons>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <MaterialIcons name="arrow-forward" color={colors.text} size={18} onPress={() => handleAnswerSubmit(answer)}></MaterialIcons>
-          </TouchableOpacity>
-        </View> :
+      {!feedback || feedback == "Checking" ?
+        <>
+          {feedback == "Checking" && <ActivityIndicator size="large" color={colors.text} />}
+          <View style={s.buttonRow}>
+            <TouchableOpacity>
+              <MaterialIcons name="arrow-back" color={colors.text} size={18} onPress={() => setState("question")}></MaterialIcons>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <MaterialIcons name="arrow-forward" color={colors.text} size={18} onPress={() => handleAnswerSubmit(answer)}></MaterialIcons>
+            </TouchableOpacity>
+          </View>
+        </> :
         <View style={s.buttonRow}>
           <TouchableOpacity>
             <MaterialIcons name="arrow-forward" color={colors.text} size={18} onPress={() => handleFeedbackSubmit()}></MaterialIcons>

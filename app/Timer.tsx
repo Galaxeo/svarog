@@ -58,7 +58,7 @@ export default function Timer() {
       } = await supabase.auth.getUser();
       const now = new Date().toISOString();
 
-      const questions = await supabase.from("questions").select("*").lt("next_date", now).eq("user_id", user?.id);
+      const questions = await supabase.from("questions").select("*").lte("next_date", now).eq("user_id", user?.id);
       if (questions.data) {
         setQuestions(questions.data);
         const sessionIds = questions.data.map(question => question.session_id);

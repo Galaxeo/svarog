@@ -55,6 +55,8 @@ function SessionRow({
   selection,
   setSelection, // is this scuffed to pass setquestions down through 2 million components
   handleCurrentQuestion,
+  activeSession,
+  setActiveSession,
 }: any
 ) {
   const listRef = useAnimatedRef<Animated.View>();
@@ -71,6 +73,7 @@ function SessionRow({
       Extrapolation.CLAMP
     ),
   }));
+
   function revealQuestions() {
     if (heightVal.value === 0) {
       runOnUI(() => {
@@ -78,7 +81,15 @@ function SessionRow({
       })();
     }
     open.value = !open.value;
+    if (open.value) {
+      setActiveSession(session.id);
+    }
   }
+  useEffect(() => {
+    if (activeSession != session.id && open.value) {
+      revealQuestions();
+    }
+  })
   return (
     <TouchableOpacity
       style={styles.sessionRow}
@@ -117,6 +128,7 @@ export default function Accordion({
   setSelection,
   handleCurrentQuestion
 }: any) {
+  const [activeSession, setActiveSession] = useState();
   function getQuestions(session_id: number) {
     if (questions === undefined) { return }
     return questions.filter(
@@ -124,11 +136,11 @@ export default function Accordion({
     );
   }
   // This function probably won't have to use until we want to show previous answers (i.e. in statistics)
-  function getAnswers(question_id: number) {
-    return answers.filter(
-      (answer: answerType) => answer.question_id === question_id
-    );
-  }
+  // function getAnswers(question_id: number) {
+  //   return answers.filter(
+  //     (answer: answerType) => answer.question_id === question_id
+  //   );
+  // }
   function createSessionRows(sessions: sessionType[]) {
     const sessionsArr = [];
     for (let i in sessions) {
@@ -143,10 +155,12 @@ export default function Accordion({
         session={session}
         questions={questions}
         selection={selection}
+        activeSession={activeSession}
+        setActiveSession={setActiveSession}
       />
     ));
   }
-  return <View>{createSessionRows(sessions)}</View>;
+  return <View style={{ width: "25%" }}>{createSessionRows(sessions)}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -173,6 +187,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.text,
     padding: 10,
+    width: "100%",
     margin: 5,
     overflow: "hidden",
   },

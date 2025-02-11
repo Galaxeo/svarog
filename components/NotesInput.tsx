@@ -188,16 +188,16 @@ export default function NotesInput({
           <View style={{ display: 'flex', flexDirection: 'row' }}>
             <TouchableOpacity>
               <MaterialIcons
-                onPress={handleGenerateText}
-                name="check"
+                onPress={() => setNotesInput(false)}
+                name="close"
                 size={24}
                 color={colors.text}
               />
             </TouchableOpacity>
             <TouchableOpacity>
               <MaterialIcons
-                onPress={() => setNotesInput(false)}
-                name="close"
+                onPress={handleGenerateText}
+                name="check"
                 size={24}
                 color={colors.text}
               />
