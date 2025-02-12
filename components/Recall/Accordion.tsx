@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { s, colors } from "@/app/styles";
 import { questionType, sessionType, answerType } from "@/app/types";
@@ -99,9 +99,9 @@ function SessionRow({
       }}
     >
       <View style={styles.sessionContent}>
-        <Text style={s.text}>{session.date}</Text>
-        <Text style={s.text}>{String((session.duration / 60).toFixed(1))}</Text>
-        <Text style={s.text}>{session.topic}</Text>
+        <Text style={styles.sessionInfo}>{session.date}</Text>
+        <Text style={styles.sessionInfo}>{String((session.duration / 60).toFixed(1))}</Text>
+        <Text style={styles.sessionInfo}>{session.topic}</Text>
       </View>
       <Animated.View style={heightAnimationStyle}>
         <Animated.View ref={listRef} style={styles.questionRow}>
@@ -160,7 +160,7 @@ export default function Accordion({
       />
     ));
   }
-  return <View style={{ width: "25%" }}>{createSessionRows(sessions)}</View>;
+  return <View style={styles.accordion}>{createSessionRows(sessions)}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -187,12 +187,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.text,
     padding: 10,
-    width: "100%",
+    width: "auto",
     margin: 5,
     overflow: "hidden",
   },
   sessionContent: {
     display: "flex",
+    width: "100%",
     flexDirection: "row",
     gap: 10,
   },
@@ -200,4 +201,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     padding: 10,
   },
+  sessionInfo: {
+    color: colors.text,
+    textOverflow: "ellipsis",
+  },
+  accordion: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 'auto',
+    maxWidth: "80%",
+  }
 });

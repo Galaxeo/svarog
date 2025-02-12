@@ -12,10 +12,10 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 
 ### Current Schedule:
 
-**Implementing active recall directly with timer**
-1. Do research on how to implement active recall (schedule)
-2. Implementation with timer
-3. Figure out key problem, maybe host Python backend
+1. Testing timer functionality
+2. Statistics tab
+3. UI/UX Cleanup
+4. Notes processing and review question quality for math/repeated questions(?)
 
 ### Timer
 
@@ -37,21 +37,21 @@ Basic Functionality:
 - [X] Input after each session is completed
 - [X] Saving questions and answers into DB 
 - [X] GPT implementation to generate study questions
-- [ ] Implementation with timer (input form appears after completed sessions, questions asked after new sessions are started based on time/answer correctness)
+- [X] Implementation with timer (input form appears after completed sessions, questions asked after new sessions are started based on time/answer correctness)
 
 Extra Features:
-- [ ] Amount of questions slowly going away depending on date/accuracy of questions
+- [X] Amount of questions slowly going away depending on date/accuracy of questions
 - [ ] Styling
 
 ### Backend/DB
 
 - [x] Create DB tables: users, sessions, questions, etc.
 - [X] Answer accuracy for each user related to each session
-- [ ] Login functionality
+- [X] Login functionality
 
 ### Other Extras 
 - [ ] Statistics tab: how many hours studied, what topics learned, etc.
-- [ ] Zen mode: reduce visibility of timer through translucency or similar
+- [X] Zen mode: currently hides seconds, think about hiding timer
 - [ ] Change of background during breaks(?)
 
 ### Design Decisions

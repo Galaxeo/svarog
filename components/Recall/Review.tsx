@@ -33,18 +33,18 @@ export default function Review({
     setFeedback("Checking");
     const correctStatus: any = await checkAnswer(prompt);
     // Re-enable if we want to submit answers to database
-    // if (["C", "I", "H"].includes(correctStatus[0])) {
-    //   const { data, error } = await supabase.from("answers").insert([
-    //     {
-    //       question_id: questionObj.id,
-    //       answer: answer,
-    //       status: correctStatus[0],
-    //       user_id: id,
-    //     }
-    //   ]);
-    // } else {
-    //   alert("Error submitting answer");
-    // }
+    if (["C", "I", "H"].includes(correctStatus[0])) {
+      const { data, error } = await supabase.from("answers").insert([
+        {
+          question_id: questionObj.id,
+          answer: answer,
+          status: correctStatus[0],
+          user_id: id,
+        }
+      ]);
+    } else {
+      alert("Error submitting answer");
+    }
 
     setGrade(correctStatus.split("|")[0]);
     setFeedback(correctStatus.split("|")[2]);
@@ -81,14 +81,14 @@ export default function Review({
     questionObj.reviewed = true;
     setQuestions((prev: any) => prev.map((question: any) => question.id == questionObj.id ? questionObj : question));
     setState('question');
-    // const submitData = await supabase.from("questions").update({
-    //   ease_factor: newEf,
-    //   interval: newInterval,
-    //   next_date: newDate.toISOString()
-    // }).eq("id", questionObj.id).eq("user_id", user?.id);
-    // if (submitData.error) {
-    //   console.error(submitData.error);
-    // }
+    const submitData = await supabase.from("questions").update({
+      ease_factor: newEf,
+      interval: newInterval,
+      next_date: newDate.toISOString()
+    }).eq("id", questionObj.id).eq("user_id", user?.id);
+    if (submitData.error) {
+      console.error(submitData.error);
+    }
   }
   return (
     <>
