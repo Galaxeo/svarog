@@ -24,19 +24,12 @@ import { dummyAnswers, dummyQuestions, dummySessions } from "../dummy";
 
 export default function Recall({
   setRecall,
-  sessions,
+  allSessions,
   setSessions,
   questions,
   setQuestions,
   answers,
-}: {
-  setRecall: any;
-  sessions: any;
-  setSessions: any;
-  questions: any;
-  setQuestions: any;
-  answers: any;
-}) {
+}: any) {
   const [selection, setSelection] = useState([]);
   const [state, setState] = useState("question");
   // Consider moving userdata outside of recall component
@@ -45,6 +38,10 @@ export default function Recall({
   const [userFeedback, setUserFeedback] = useState<any>({});
   const flatListRef = useRef<FlatList>(null);
   const fadeInOpacity = useSharedValue(1);
+
+  const sessionIds = questions.map((question: any) => question.session_id);
+  const sessions = allSessions.filter((session: any) => sessionIds.includes(session.id));
+
   const fadeIn = () => {
     fadeInOpacity.value = withTiming(1, {
       duration: 100,

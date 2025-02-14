@@ -33,7 +33,7 @@ export default function Timer() {
   const [isSettings, setSettings] = useState(false);
   const [isNotesInput, setNotesInput] = useState(false);
   const [isRecall, setRecall] = useState(false);
-  const [isStatistics, setStatistics] = useState(true);
+  const [isStatistics, setStatistics] = useState(false);
   // const [isRecall, setRecall] = useState(false);
 
   // User Info
@@ -63,8 +63,7 @@ export default function Timer() {
       const questions = await supabase.from("questions").select("*").lte("next_date", now).eq("user_id", user?.id);
       if (questions.data) {
         setQuestions(questions.data);
-        const sessionIds = questions.data.map(question => question.session_id);
-        const sessions = await supabase.from("sessions").select("*").in("id", sessionIds).eq("user_id", user?.id);
+        const sessions = await supabase.from("sessions").select("*").eq("user_id", user?.id);
         if (sessions.data) setSessions(sessions.data);
       }
       // Ensure that we only obtain sessions with questions due
@@ -156,7 +155,7 @@ export default function Timer() {
       {isRecall && (
         <Recall
           setRecall={setRecall}
-          sessions={sessions}
+          allSessions={sessions}
           setSessions={setSessions}
           questions={questions}
           setQuestions={setQuestions}
@@ -179,7 +178,7 @@ export default function Timer() {
         />
       )}
       {isStatistics && (
-        <Statistics />
+        <Statistics sessions={sessions} />
       )
       }
       <Text style={[{ color: colors.text }, styles.header]}>
