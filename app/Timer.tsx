@@ -9,6 +9,7 @@ import { Platform, TouchableOpacity } from "react-native";
 import NotesInput from "@/components/NotesInput";
 import Recall from "@/components/Recall/Recall";
 import Settings from "@/components/Settings";
+import Statistics from "@/components/Statistics";
 import { supabase } from "@/supabase";
 import { useAudioPlayer } from 'expo-audio'
 
@@ -32,6 +33,7 @@ export default function Timer() {
   const [isSettings, setSettings] = useState(false);
   const [isNotesInput, setNotesInput] = useState(false);
   const [isRecall, setRecall] = useState(false);
+  const [isStatistics, setStatistics] = useState(true);
   // const [isRecall, setRecall] = useState(false);
 
   // User Info
@@ -176,6 +178,10 @@ export default function Timer() {
           setSettings={setSettings}
         />
       )}
+      {isStatistics && (
+        <Statistics />
+      )
+      }
       <Text style={[{ color: colors.text }, styles.header]}>
         {isBreak ? "Break" : "Work"} Time
       </Text>
