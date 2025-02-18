@@ -9,7 +9,9 @@ To build: eas build -p ios --profile development-simulator --local
 To incorporate two study tactics (Pomodoro and active recall) into one web app, as well as give access to statistics like what topics were learned in the past and how many hours of studying have been done.
 
 ## Todo List
-- [ ] group questions together based off topic and how relevant these questions are to each other (tags (many - to - many))
+- [ ] group questions together based off topic and how relevant these questions are to each other (tags (many - to - many)), think about reworking notes input
+- [ ] optimize database
+- [ ] adaptive timer
 
 ### Current Schedule:
 

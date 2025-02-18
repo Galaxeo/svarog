@@ -8,6 +8,7 @@ import { Platform } from "react-native";
 
 import { s, colors } from "@/app/styles";
 import generateText from "@/openai";
+// TODO: Rework this to allow topics to be more tied to each other, rework database as well
 
 function DisplayNotes({
   topic,
