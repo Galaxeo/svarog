@@ -1,13 +1,21 @@
-import { Text, View, StyleSheet, TextInput, ActivityIndicator } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { BlurView } from "expo-blur";
 import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { supabase } from "@/supabase";
 import { Platform } from "react-native";
-
+import * as DocumentPicker from "expo-document-picker";
 import { s, colors } from "@/app/styles";
 import generateText from "@/openai";
+import { extractTextFromPDF } from "@/openaiWeb"; // Import the new function
+
 // TODO: Rework this to allow topics to be more tied to each other, rework database as well
 
 function DisplayNotes({
@@ -47,7 +55,7 @@ function DisplayNotes({
   async function questionSubmitHelper(
     userId: string | undefined,
     sessionId: string,
-    question: string,
+    question: string
   ) {
     let tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -78,20 +86,21 @@ function DisplayNotes({
     const sessionId = sessionData?.id;
     const questions = Array.from(response.split("|Ð|"));
     if (sessionId != null) {
-      questions.forEach(async (question) => (await questionSubmitHelper(id, sessionId, question.trim())));
+      questions.forEach(
+        async (question) =>
+          await questionSubmitHelper(id, sessionId, question.trim())
+      );
     }
   }
   function displayResponse(str: string) {
     if (str === "") {
-      return (
-        <ActivityIndicator size="small" color={colors.text} />
-      )
+      return <ActivityIndicator size="small" color={colors.text} />;
     } else {
       // Response string has questions separated by comma
       const questions = Array.from(str.split("|Ð|"));
       return questions.map((question) => (
         <Text style={[s.text, styles.question]}>{question.trim()}</Text>
-      ))
+      ));
     }
   }
   return (
@@ -101,15 +110,14 @@ function DisplayNotes({
         <Text style={[s.text, styles.studiedMessage]}>
           You studied {topic} for {totalTime / 60} minutes!
         </Text>
-        <Text style={[s.text, styles.studiedMessage]}>Here are the questions we have for you next time:
+        <Text style={[s.text, styles.studiedMessage]}>
+          Here are the questions we have for you next time:
         </Text>
       </View>
       {/* <Text style={s.text}>{response}</Text> */}
       {/* TODO: Think about possibly allowing for more than one input*/}
-      <View style={styles.questionContainer}>
-        {displayResponse(response)}
-      </View>
-      <View style={{ display: 'flex', flexDirection: 'row' }}>
+      <View style={styles.questionContainer}>{displayResponse(response)}</View>
+      <View style={{ display: "flex", flexDirection: "row" }}>
         <MaterialIcons
           onPress={() => setPage(0)}
           name="edit"
@@ -117,7 +125,9 @@ function DisplayNotes({
           color={colors.text}
         />
         <MaterialIcons
-          onPress={() => { handleNotesSubmit(response) }}
+          onPress={() => {
+            handleNotesSubmit(response);
+          }}
           name="check"
           size={24}
           color={colors.text}
@@ -145,12 +155,33 @@ export default function NotesInput({
   //   // setNotesInput(false);
   //   setPage(1);
   // }
+
+  const handleFileUpload = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: "application/pdf",
+      });
+
+      if (!result.canceled) {
+        const file = result.assets[0];
+
+        try {
+          const extractedText = await extractTextFromPDF(file.uri, file.name);
+          setPrompt(extractedText);
+        } catch (error) {
+          alert("Error: Failed to extract text from PDF.");
+        }
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("Error: Failed to upload the document.");
+    }
+  };
   const handleGenerateText = async () => {
     if (topicName === "") {
       alert("Please enter a topic name!");
       return;
-    }
-    else if (prompt === "") {
+    } else if (prompt === "") {
       alert("Please enter some notes!");
       return;
     }
@@ -186,7 +217,7 @@ export default function NotesInput({
             placeholderTextColor={"gray"}
             onChangeText={(text) => setPrompt(text)}
           />
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <View style={{ display: "flex", flexDirection: "row" }}>
             <TouchableOpacity>
               <MaterialIcons
                 onPress={() => setNotesInput(false)}
@@ -199,6 +230,14 @@ export default function NotesInput({
               <MaterialIcons
                 onPress={handleGenerateText}
                 name="check"
+                size={24}
+                color={colors.text}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <MaterialIcons
+                onPress={handleFileUpload}
+                name="upload-file"
                 size={24}
                 color={colors.text}
               />
@@ -259,20 +298,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.text,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     gap: 10,
     padding: 10,
     margin: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
     width: Platform.OS === "web" ? "50%" : "80%",
   },
-  question: {
-  },
+  question: {},
   studiedMessageCont: {
     width: Platform.OS === "web" ? "50%" : "80%",
   },
   studiedMessage: {
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
