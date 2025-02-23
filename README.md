@@ -4,6 +4,10 @@ Used as a tool to help me study and retain more information
 
 To build: eas build -p ios --profile development-simulator --local
 
+## How to use:
+
+Currently there is no onboarding, however the app is currently split into its core components as the integration of them all is still in development. You can choose to use the Pomodoro timer and change the duration of breaks and study durations as you please (dynamic duration WIP). After you finish studying, you can press the square "Stop" button, which will prompt a screen that allows you to copy paste your notes (physical notes to be implemented at a later date) and active recall questions will be generated to quiz you in a future date. On the bottom right with the clipboard button is an inbox of all of the active recall questions that are "due", which you can choose to answer. These questions are then graded, and based on your correctness and comfort, the question will be rescheduled to recalled at a later date.
+
 ## Purpose
 
 To incorporate two study tactics (Pomodoro and active recall) into one web app, as well as give access to statistics like what topics were learned in the past and how many hours of studying have been done.
@@ -15,7 +19,7 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 
 ### Current Schedule:
 
-1. Testing timer functionality
+1. Dynamic timer
 2. Statistics tab
 3. UI/UX Cleanup
 4. Notes processing and review question quality for math/repeated questions(?)

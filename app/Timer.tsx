@@ -83,6 +83,7 @@ export default function Timer() {
 
     fetchData().catch(console.error);
   }, [isFinished])
+
   function startTimer() {
     if (!isActive) {
       setActive(true);
@@ -121,6 +122,7 @@ export default function Timer() {
     setTime(duration * 60);
     setActive(false);
   }
+
   function pausePlayTimer() {
     if (isActive) {
       clearInterval(intervalRef.current!);
@@ -129,6 +131,7 @@ export default function Timer() {
       startTimer();
     }
   }
+
   function finishSession() {
     // Stop timer
     clearInterval(intervalRef.current!);
