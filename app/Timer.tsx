@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { s, colors } from "@/app/styles";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Pressable } from "react-native-gesture-handler";
 import { Platform, TouchableOpacity } from "react-native";
 import NotesInput from "@/components/NotesInput";
 import Recall from "@/components/Recall/Recall";
 import Settings from "@/components/Settings";
 import Statistics from "@/components/Statistics";
+import DynamicAssist from "@/components/dynamicAssist";
 import { supabase } from "@/supabase";
 import { useAudioPlayer } from 'expo-audio'
 
@@ -34,6 +34,7 @@ export default function Timer() {
   const [isNotesInput, setNotesInput] = useState(false);
   const [isRecall, setRecall] = useState(false);
   const [isStatistics, setStatistics] = useState(false);
+  const [isDynamicAssist, setDynamicAssist] = useState(true);
   // const [isRecall, setRecall] = useState(false);
 
   // User Info
@@ -43,11 +44,10 @@ export default function Timer() {
   const [answers, setAnswers] = useState();
   const completedSessions = useRef(0);
 
-  const [zenMode, setZenMode] = useState(true);
+  const [zenMode, setZenMode] = useState(false);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // TODO: Obtain questions that has a nextDate value equal to or prior to current date
 
   useEffect(() => {
     setTime(duration * 60);
@@ -144,7 +144,6 @@ export default function Timer() {
     completedSessions.current = 0;
   }
 
-
   // Use this to update settings
   const pan = Gesture.Pan().onUpdate((event) => {
     console.log(event.translationX, event.translationY);
@@ -184,6 +183,9 @@ export default function Timer() {
         <Statistics sessions={sessions} />
       )
       }
+      {isDynamicAssist && (
+        <DynamicAssist />
+      )}
       <Text style={[{ color: colors.text }, styles.header]}>
         {isBreak ? "Break" : "Work"} Time
       </Text>

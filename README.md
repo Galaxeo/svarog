@@ -60,8 +60,4 @@ Extra Features:
 - [ ] Statistics tab: how many hours studied, what topics learned, etc.
 - [X] Zen mode: currently hides seconds, think about hiding timer
 - [ ] Change of background during breaks(?)
-
-### Design Decisions
-
-- Consider renaming sessions: is there a better name to not confuse overall study session vs individual pomodoros?
-- How do we want to categorize sessions that last past midnight? Likely categorize on the day that started
+- [ ] Freestyle: no pomodoro, just a stopwatch that keeps track of how long studying. Can also add easy toggle for breaks.
