@@ -44,8 +44,8 @@ export default function Settings({
   function settingsTextChange(setter: any, newValue: string) {
     if (newValue == "" || parseInt(newValue) <= 0) {
       setter(0);
-    } else if (parseInt(newValue) > 99) {
-      alert("Value cannot be greater than 99!");
+    } else if (parseInt(newValue) > 999) {
+      alert("Value cannot be greater than 999!");
       return;
     }
     else {
@@ -60,9 +60,9 @@ export default function Settings({
       }
       setDuration(1);
       return;
-    } else if (duration + diff > 99) {
-      alert("Value cannot be greater than 99!");
-      setDuration(99);
+    } else if (duration + diff > 999) {
+      alert("Value cannot be greater than 999!");
+      setDuration(999);
       return;
     } else {
       setDuration(duration + diff);
@@ -75,9 +75,9 @@ export default function Settings({
       }
       setShort(1);
       return;
-    } else if (short + diff > 99) {
-      alert("Value cannot be greater than 99!");
-      setShort(99);
+    } else if (short + diff > 999) {
+      alert("Value cannot be greater than 999!");
+      setShort(999);
       return;
     } else {
       setShort(short + diff);
@@ -90,9 +90,9 @@ export default function Settings({
       }
       setShortToLong(2);
       return;
-    } else if (shortToLong + diff > 99) {
-      alert("Value cannot be greater than 99!");
-      setShortToLong(99);
+    } else if (shortToLong + diff > 999) {
+      alert("Value cannot be greater than 999!");
+      setShortToLong(999);
       return;
     }
     else {
@@ -105,9 +105,9 @@ export default function Settings({
         alert("Breaks cannot be shorter than 1 minute")
       } setLong(1);
       return;
-    } else if (long + diff > 99) {
-      alert("Value cannot be greater than 99!");
-      setLong(99);
+    } else if (long + diff > 999) {
+      alert("Value cannot be greater than 999!");
+      setLong(999);
       return;
     } else {
       if ((long + diff) <= short) {
