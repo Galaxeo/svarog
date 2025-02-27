@@ -15,7 +15,9 @@ export default function DynamicAssist({
 }: any) {
 
   const [comfort, setComfort] = useState("");
+  const [pace, setPace] = useState("");
   const [goal, setGoal] = useState(0);
+  const [current, setCurrent] = useState(0);
   const [prelim, setPrelim] = useState(0);
   const [screen, setScreen] = useState(0);
 
@@ -32,6 +34,7 @@ export default function DynamicAssist({
   }
 
   function dynamicTimeIntro(pace: string) {
+    // give an estimate of how long it will take to reach that goal
     if (pace == "fast") {
       setInterval(7);
     } else if (pace == "normal") {
@@ -73,6 +76,18 @@ export default function DynamicAssist({
           <View style={styles.dtaPrompts}>
             <TextInput keyboardType="numeric" placeholder={'how long currently?'} placeholderTextColor={colors.darkGray3} style={styles.prompt} />
             <TextInput keyboardType="numeric" placeholder={'goal?'} placeholderTextColor={colors.darkGray3} style={styles.prompt} />
+            <Text style={s.text}>On a {pace} pace, it will take {(goal - current) / interval} days to hit your goal!</Text>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <TouchableOpacity onPress={() => { dynamicTimeIntro('slow') }}>
+                <Text style={{ color: colors.coralRed, fontSize: 48 }}>😓</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { dynamicTimeIntro('normal') }}>
+                <Text style={{ color: "yellow", fontSize: 48 }}>😐</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { dynamicTimeIntro('fast') }}>
+                <Text style={{ color: "aqua", fontSize: 48 }}>😄</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <TouchableOpacity onPress={() => { setScreen(1) }}>
             <MaterialIcons name="arrow-forward" color={colors.text} size={32} />
