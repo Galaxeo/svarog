@@ -9,7 +9,7 @@ import NotesInput from "@/components/NotesInput";
 import Recall from "@/components/Recall/Recall";
 import Settings from "@/components/Settings";
 import Statistics from "@/components/Statistics";
-import DynamicAssist from "@/components/dynamicAssist";
+import DynamicAssist from "@/components/DynamicAssist";
 import { supabase } from "@/supabase";
 import { useAudioPlayer } from 'expo-audio'
 
@@ -34,7 +34,7 @@ export default function Timer() {
   const [isNotesInput, setNotesInput] = useState(false);
   const [isRecall, setRecall] = useState(false);
   const [isStatistics, setStatistics] = useState(false);
-  const [isDynamicAssist, setDynamicAssist] = useState(true);
+  const [isDynamicAssist, setDynamicAssist] = useState(false);
   // const [isRecall, setRecall] = useState(false);
 
   // User Info
@@ -68,8 +68,8 @@ export default function Timer() {
       }
       // Ensure that we only obtain sessions with questions due
       // Possible to fetch answers here as well if we want later
-      const settings = await supabase.from("settings").select("*").eq("id", user?.id);
-      if (settings.data) {
+      const settings = await supabase.from("pomodoro_settings").select("*").eq("id", user?.id);
+      if (settings.data && settings.data.length > 0) {
         setDuration(settings.data[0].duration);
         setShort(settings.data[0].short);
         setLong(settings.data[0].long);
@@ -77,7 +77,9 @@ export default function Timer() {
       } else {
         // TODO: What to do if supabase not responding/server down?
         // initialize user settings
-        const { data, error } = await supabase.from("settings").insert({ id: user?.id });
+        console.log("No settings found, initializing settings");
+        const { data, error } = await supabase.from("pomodoro_settings").insert({ id: user?.id, duration: 45, short: 15, long: 30, shortToLong: 2 });
+        console.log('Initialized')
       }
     }
 

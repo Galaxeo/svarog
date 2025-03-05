@@ -110,16 +110,16 @@ export default function Settings({
       setLong(999);
       return;
     } else {
-      if ((long + diff) <= short) {
-        alert("Keep your long breaks longer than your short breaks!")
-        return;
-      }
       setLong(long + diff);
     }
   }
 
   async function handleBack() {
     // save settings and go back
+    if (long <= short) {
+      alert("Keep your long breaks longer than your short breaks!")
+      return;
+    }
     setSettings(false);
     const {
       data: { user },
