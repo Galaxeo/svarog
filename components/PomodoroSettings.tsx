@@ -14,7 +14,7 @@ import { s, colors } from "@/app/styles";
 import { supabase } from "@/supabase";
 
 
-export default function Settings({
+export default function PomodoroSettings({
   duration,
   setDuration,
   short,

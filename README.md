@@ -13,16 +13,12 @@ Currently there is no onboarding, however the app is currently split into its co
 To incorporate two study tactics (Pomodoro and active recall) into one web app, as well as give access to statistics like what topics were learned in the past and how many hours of studying have been done.
 
 ## Todo List
-- [ ] group questions together based off topic and how relevant these questions are to each other (tags (many - to - many)), think about reworking notes input
-- [ ] optimize database
-- [ ] adaptive timer
-
-### Current Schedule:
-
-1. Dynamic timer
-2. Statistics tab
-3. UI/UX Cleanup
-4. Notes processing and review question quality for math/repeated questions(?)
+- Group questions together based off topic and how relevant these questions are to each other (tags (many - to - many)), think about reworking notes input
+- Free timer
+- Dynamic durations for pomodoro
+- Statistics tab
+- UI/UX Cleanup
+- Notes processing and review question quality for math/repeated questions(?)
 
 ### Timer
 

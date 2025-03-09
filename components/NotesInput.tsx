@@ -23,21 +23,25 @@ function DisplayNotes({
   response,
   setPage,
   setNotesInput,
-  totalTime,
+  studyTime,
+  breakTime,
 }: {
   topic: string;
   response: string;
   setPage: any;
   setNotesInput: any;
-  totalTime: number;
+  studyTime: number;
+  breakTime: number;
 }) {
+  const totalTime = studyTime + breakTime;
   async function sessionSubmitHelper(userId: string | undefined) {
     const { data, error } = await supabase
       .from("sessions")
       .insert([
         {
           user_id: userId,
-          duration: totalTime,
+          study_time: studyTime,
+          break_time: breakTime,
           date: new Date(),
           topic: topic,
         },
@@ -139,11 +143,14 @@ function DisplayNotes({
 
 export default function NotesInput({
   setNotesInput,
-  totalTime,
+  studyTime,
+  breakTime,
 }: {
   setNotesInput: any;
-  totalTime: number;
+  studyTime: number;
+  breakTime: number;
 }) {
+  const totalTime = studyTime + breakTime;
   const [prompt, setPrompt] = useState("");
   const [topicName, setTopicName] = useState("");
   const [response, setResponse] = useState("");
@@ -252,7 +259,8 @@ export default function NotesInput({
             response={response}
             setPage={setPage}
             setNotesInput={setNotesInput}
-            totalTime={totalTime}
+            studyTime={studyTime}
+            breakTime={breakTime}
           />
         </View>
       )}
