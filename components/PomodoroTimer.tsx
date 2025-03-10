@@ -20,9 +20,9 @@ export default function PomodoroTimer() {
   const notiPlayer = useAudioPlayer(notificationSound);
 
   // Timer props
-  const [duration, setDuration] = useState(.1);
+  const [duration, setDuration] = useState(.05);
   const [short, setShort] = useState(.05);
-  const [long, setLong] = useState(10);
+  const [long, setLong] = useState(.05);
   const [shortToLong, setShortToLong] = useState(2);
   const [time, setTime] = useState(duration * 60);
 
@@ -44,6 +44,8 @@ export default function PomodoroTimer() {
   const [questions, setQuestions] = useState<any>();
   const [answers, setAnswers] = useState();
   const completedSessions = useRef(0);
+  const currentCycle = useRef(0);
+  const completedCycles = useRef(0);
 
   const [zenMode, setZenMode] = useState(false);
 
@@ -71,10 +73,10 @@ export default function PomodoroTimer() {
       // Possible to fetch answers here as well if we want later
       const settings = await supabase.from("pomodoro_settings").select("*").eq("id", user?.id);
       if (settings.data && settings.data.length > 0) {
-        setDuration(settings.data[0].duration);
-        setShort(settings.data[0].short);
-        setLong(settings.data[0].long);
-        setShortToLong(settings.data[0].shortToLong);
+        // setDuration(settings.data[0].duration);
+        // setShort(settings.data[0].short);
+        // setLong(settings.data[0].long);
+        // setShortToLong(settings.data[0].shortToLong);
       } else {
         // TODO: What to do if supabase not responding/server down?
         // initialize user settings
@@ -104,6 +106,12 @@ export default function PomodoroTimer() {
             // Thinking should just continue as if shortToLong was set like that the whole time
             if (!isBreak) {
               completedSessions.current += 1;
+              currentCycle.current += 1;
+            } else {
+              if (currentCycle.current % shortToLong === 0) {
+                currentCycle.current = 0;
+                completedCycles.current += 1;
+              }
             }
             const newTime = isBreak ? duration * 60 : completedSessions.current % shortToLong === 0 ? long * 60 : short * 60;
 
@@ -149,6 +157,19 @@ export default function PomodoroTimer() {
     completedSessions.current = 0;
   }
 
+  function progressIndicator() {
+    return (
+      <View style={{ display: 'flex', flexDirection: 'row' }}>
+        {Array.from({ length: currentCycle.current }, (_, i) => (
+          <Text key={i} style={[styles.progressIndicator, { color: colors.text }]}>•</Text>
+        ))}
+        {Array.from({ length: shortToLong - currentCycle.current }, (_, i) => (
+          <Text key={i} style={styles.progressIndicator}>•</Text>
+        ))}
+      </View>
+    )
+  }
+
   // Use this to update settings
   const pan = Gesture.Pan().onUpdate((event) => {
     console.log(event.translationX, event.translationY);
@@ -156,8 +177,13 @@ export default function PomodoroTimer() {
 
   return (
     <View style={styles.timerCont}>
+      <View style={{ display: 'flex', flexDirection: 'row' }}>
+        {Array.from({ length: completedCycles.current }, (_, i) => (
+          <Text key={i} style={[styles.progressIndicator, { color: colors.text }]}>•</Text>
+        ))}
+      </View>
       {isNotesInput && (
-        <NotesInput studyTime={studyTime} setNotesInput={setNotesInput} />
+        <NotesInput studyTime={studyTime} breakTime={breakTime} setNotesInput={setNotesInput} />
       )}
       {isRecall && (
         <Recall
@@ -191,33 +217,29 @@ export default function PomodoroTimer() {
       {isDynamicAssist && (
         <DynamicAssist />
       )}
-      <Text style={[{ color: colors.text }, styles.header]}>
-        {isBreak ? "Break" : "Work"} Time
-      </Text>
-      <Text style={{ color: colors.text }}>
-        {completedSessions.current} completed sessions
-      </Text>
-      {zenMode ?
-        <TouchableOpacity style={styles.clockCont}>
-          <GestureDetector gesture={pan}>
-            <Text style={[styles.clock, { color: isActive ? colors.text : 'gray' }]} onPress={pausePlayTimer}>
-              {Math.floor(time / 60)
-                .toString()
-                .padStart(2, "0")}:XX
-            </Text>
-          </GestureDetector>
-        </TouchableOpacity> :
-        <TouchableOpacity style={styles.clockCont}>
-          <GestureDetector gesture={pan}>
-            <Text style={[styles.clock, { color: isActive ? colors.text : 'gray' }]} onPress={pausePlayTimer}>
-              {Math.floor(time / 60)
-                .toString()
-                .padStart(2, "0")}
-              :{(time % 60).toString().padStart(2, "0")}
-            </Text>
-          </GestureDetector>
-        </TouchableOpacity>
+      {// Clock
+        zenMode ?
+          <TouchableOpacity style={styles.clockCont}>
+            <GestureDetector gesture={pan}>
+              <Text style={[styles.clock, { color: isActive ? colors.text : 'gray' }]} onPress={pausePlayTimer}>
+                {Math.floor(time / 60)
+                  .toString()
+                  .padStart(2, "0")}:XX
+              </Text>
+            </GestureDetector>
+          </TouchableOpacity> :
+          <TouchableOpacity style={styles.clockCont}>
+            <GestureDetector gesture={pan}>
+              <Text style={[styles.clock, { color: isActive ? colors.text : 'gray' }]} onPress={pausePlayTimer}>
+                {Math.floor(time / 60)
+                  .toString()
+                  .padStart(2, "0")}
+                :{(time % 60).toString().padStart(2, "0")}
+              </Text>
+            </GestureDetector>
+          </TouchableOpacity>
       }
+      {progressIndicator()}
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity onPress={pausePlayTimer}>
           <MaterialIcons
@@ -264,10 +286,16 @@ const styles = StyleSheet.create({
     outline: '1rem solid red',
   },
   clock: {
-    margin: 50,
+    margin: 25,
     fontSize: 100,
   },
   header: {
-    fontSize: 30,
+    fontSize: 32,
+  },
+  progressIndicator: {
+    fontSize: 48,
+    padding: 0,
+    margin: 0,
+    color: colors.darkGray3
   }
 });

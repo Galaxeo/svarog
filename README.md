@@ -25,7 +25,6 @@ To incorporate two study tactics (Pomodoro and active recall) into one web app, 
 Basic Functionality:
 - [X] Start, stop, resume
 - [X] Break implementation (immediately prep short break timer after each phase as well as long timer after every X sessions)
-- [ ] Active recall implementation (see active recall section)
 
 Extra Features
 - [ ] Additional functionality (skip to next phase, restart current phase, swipe controls(?), ...)
