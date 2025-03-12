@@ -15,7 +15,7 @@ import { supabase } from "@/supabase";
 import { useAudioPlayer } from 'expo-audio'
 
 export default function Timer() {
-  const [timerType, setTimerType] = useState("pomodoro");
+  const [timerType, setTimerType] = useState("free");
   return (<>
     {timerType === "pomodoro" && <PomorodoTimer />}
     {timerType === "free" && <FreeTimer />}
