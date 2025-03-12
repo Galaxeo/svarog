@@ -73,10 +73,10 @@ export default function PomodoroTimer() {
       // Possible to fetch answers here as well if we want later
       const settings = await supabase.from("pomodoro_settings").select("*").eq("id", user?.id);
       if (settings.data && settings.data.length > 0) {
-        // setDuration(settings.data[0].duration);
-        // setShort(settings.data[0].short);
-        // setLong(settings.data[0].long);
-        // setShortToLong(settings.data[0].shortToLong);
+        setDuration(settings.data[0].duration);
+        setShort(settings.data[0].short);
+        setLong(settings.data[0].long);
+        setShortToLong(settings.data[0].shortToLong);
       } else {
         // TODO: What to do if supabase not responding/server down?
         // initialize user settings
@@ -258,7 +258,11 @@ export default function PomodoroTimer() {
           <MaterialIcons name="settings" size={48} color={colors.text} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setRecall(true)}>
-          <MaterialIcons name="assignment" size={48} color={colors.text} />
+          {/* {questions.length > 0 ? */}
+          {/*   <MaterialIcons name="mark-email-unread" size={48} color={colors.text} /> : */}
+          {/*   <MaterialIcons name="email" size={48} color={colors.text} /> */}
+          {/* } */}
+          <MaterialIcons name="mail-outline" size={48} color={colors.text} />
         </TouchableOpacity>
       </View>
     </View>

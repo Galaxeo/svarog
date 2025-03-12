@@ -8,6 +8,7 @@ import { Platform, TouchableOpacity } from "react-native";
 import NotesInput from "@/components/NotesInput";
 import Recall from "@/components/Recall/Recall";
 import PomorodoTimer from "@/components/PomodoroTimer";
+import FreeTimer from "@/components/FreeTimer";
 import Statistics from "@/components/Statistics";
 import DynamicAssist from "@/components/DynamicAssist";
 import { supabase } from "@/supabase";
@@ -17,6 +18,7 @@ export default function Timer() {
   const [timerType, setTimerType] = useState("pomodoro");
   return (<>
     {timerType === "pomodoro" && <PomorodoTimer />}
+    {timerType === "free" && <FreeTimer />}
   </>)
 
 }

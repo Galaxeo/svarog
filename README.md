@@ -44,6 +44,8 @@ Basic Functionality:
 Extra Features:
 - [X] Amount of questions slowly going away depending on date/accuracy of questions
 - [ ] Styling
+- [ ] Allow people to enter their own custom questions
+- [ ] Separate questions based on topic, + additional submissions per session
 
 ### Backend/DB
 
