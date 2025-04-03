@@ -70,10 +70,11 @@ export default function FreeTimer() {
   // TODO: Setup break to be toggled on/off while running regular time, and format time to be displayed well
   return (
     <View>
-      <CircularProgressBase {...baseProps} value={Math.floor(time / 60)} radius={100}>
-        <CircularProgressBase {...baseProps} value={time} radius={90}>
-        </CircularProgressBase>
-      </CircularProgressBase>
+      {/* This doesn't work with IOS at the moment */}
+      {/* <CircularProgressBase {...baseProps} value={Math.floor(time / 60)} radius={100}> */}
+      {/*   <CircularProgressBase {...baseProps} value={time} radius={90}> */}
+      {/*   </CircularProgressBase> */}
+      {/* </CircularProgressBase> */}
       <Text style={s.text}>{Math.floor(time / 60)}:{time % 60}</Text>
       {isActive ? (
         <TouchableOpacity onPress={pauseStopwatch}>
